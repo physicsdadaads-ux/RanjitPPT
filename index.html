@@ -1385,6 +1385,183 @@
         flex-wrap: wrap;
         margin-top: 0.5rem;
       }
+
+      /* ==========================================================================
+         Universal Notification Modal & Toast Styles
+         ========================================================================== */
+      .notif-modal-card {
+        max-width: 480px;
+        width: 90%;
+        text-align: center;
+        border-radius: 18px;
+        padding: 2rem 1.75rem 1.6rem;
+        animation: scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid var(--border-color);
+        background: #11111B;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .notif-icon-circle {
+        width: 62px;
+        height: 62px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.25rem;
+        font-size: 1.8rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      }
+
+      .notif-type-error .notif-icon-circle {
+        background: linear-gradient(135deg, #EF4444, #B91C1C);
+        color: #FFFFFF;
+        box-shadow: 0 10px 28px rgba(239, 68, 68, 0.35);
+      }
+      .notif-type-error {
+        border-color: rgba(239, 68, 68, 0.4);
+      }
+
+      .notif-type-success .notif-icon-circle {
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: #FFFFFF;
+        box-shadow: 0 10px 28px rgba(16, 185, 129, 0.35);
+      }
+      .notif-type-success {
+        border-color: rgba(16, 185, 129, 0.4);
+      }
+
+      .notif-type-warning .notif-icon-circle {
+        background: linear-gradient(135deg, #F59E0B, #D97706);
+        color: #0A0A0F;
+        box-shadow: 0 10px 28px rgba(245, 158, 11, 0.35);
+      }
+      .notif-type-warning {
+        border-color: rgba(245, 158, 11, 0.4);
+      }
+
+      .notif-type-info .notif-icon-circle {
+        background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+        color: #FFFFFF;
+        box-shadow: 0 10px 28px rgba(59, 130, 246, 0.35);
+      }
+      .notif-type-info {
+        border-color: rgba(59, 130, 246, 0.4);
+      }
+
+      .notif-title {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #F8FAFC;
+        margin-bottom: 0.5rem;
+        line-height: 1.35;
+      }
+
+      .notif-message {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.55;
+        margin-bottom: 1.25rem;
+        word-break: break-word;
+      }
+
+      .notif-details-box {
+        background: #09090F;
+        border: 1px solid #222234;
+        border-radius: 8px;
+        padding: 0.6rem 0.8rem;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.72rem;
+        color: #F87171;
+        max-height: 120px;
+        overflow-y: auto;
+        text-align: left;
+        margin-bottom: 1.25rem;
+        word-break: break-all;
+      }
+
+      .notif-actions {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .btn-notif-confirm {
+        padding: 0.65rem 1.6rem;
+        font-size: 0.88rem;
+        font-weight: 700;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #FACC15, #EAB308);
+        color: #0A0A0F;
+        transition: all 0.2s;
+      }
+      .btn-notif-confirm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(250, 204, 21, 0.4);
+      }
+
+      /* Floating Toast Container */
+      #toastContainer {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+      }
+
+      .toast-item {
+        pointer-events: auto;
+        min-width: 280px;
+        max-width: 400px;
+        padding: 0.75rem 1rem;
+        border-radius: 10px;
+        background: #151522;
+        border: 1px solid var(--border-color);
+        color: #F8FAFC;
+        font-size: 0.82rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.25s, transform 0.25s;
+      }
+
+      @keyframes toastSlideIn {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .toast-item.toast-error {
+        border-color: rgba(239, 68, 68, 0.5);
+        background: #1C1014;
+      }
+      .toast-item.toast-success {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: #0E1A16;
+      }
+      .toast-item.toast-warning {
+        border-color: rgba(245, 158, 11, 0.5);
+        background: #1C1810;
+      }
+      .toast-item.toast-info {
+        border-color: rgba(59, 130, 246, 0.5);
+        background: #101624;
+      }
     </style>
   </head>
   <body>    <!-- ==========================================================================
@@ -1476,12 +1653,15 @@
             <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); padding:0.4rem 0.6rem; border-radius:8px; border:1px solid var(--border-color);">
               <span style="font-size:0.75rem; color:var(--accent-yellow); white-space:nowrap; font-weight:700;">⚡ Model:</span>
               <select id="selectModel" class="form-select" style="font-size:0.8rem; font-weight:600; background-color:#161626; border:1px solid #334155; width:100%; border-radius:6px; color:#F8FAFC;">
-                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 5 / 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
                 <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
-                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Flash Lite 2.0)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (High Reasoning Flash)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Flash Lite 3.1)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Complex Math)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
+                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
+                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
               </select>
             </div>
           </div>
@@ -1784,12 +1964,15 @@
             <div class="form-group">
               <label class="form-label">Gemini OCR Model</label>
               <select id="selectModelStudio" class="form-select" onchange="if(dom.selectModel) dom.selectModel.value = this.value">
-                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 5 / 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
                 <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
-                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Flash Lite 2.0)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (High Reasoning Flash)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Flash Lite 3.1)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Complex Math)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
+                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
+                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
               </select>
             </div>
 
@@ -2210,6 +2393,28 @@
       </div>
     </div>
 
+    <!-- ==========================================================================
+         POPUP 3: GENERAL NOTIFICATION / ALERT MODAL (ERROR, WARNING, SUCCESS, INFO)
+         ========================================================================== -->
+    <div id="modalNotification" class="modal-backdrop" style="display: none;">
+      <div id="notifModalCard" class="modal-card notif-modal-card notif-type-error">
+        <div id="notifIconCircle" class="notif-icon-circle">
+          <span id="notifIconText">⚠️</span>
+        </div>
+        <h3 id="notifTitle" class="notif-title">বিজ্ঞপ্তি</h3>
+        <p id="notifMessage" class="notif-message">একটি নোটিফিকেশন বার্তা রয়েছে।</p>
+        <div id="notifDetailsBox" class="notif-details-box" style="display: none;"></div>
+        <div class="notif-actions">
+          <button type="button" id="btnNotifClose" class="btn-notif-confirm">
+            ঠিক আছে (OK)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Toasts Container -->
+    <div id="toastContainer"></div>
+
     <!-- Single File Application Script -->
     <script>
       (function() {
@@ -2332,6 +2537,15 @@
           celebFileSize: document.getElementById('celebFileSize'),
           btnCelebDownloadAgain: document.getElementById('btnCelebDownloadAgain'),
           btnCelebClose: document.getElementById('btnCelebClose'),
+          // Universal Notification Modal elements
+          modalNotification: document.getElementById('modalNotification'),
+          notifModalCard: document.getElementById('notifModalCard'),
+          notifIconCircle: document.getElementById('notifIconCircle'),
+          notifIconText: document.getElementById('notifIconText'),
+          notifTitle: document.getElementById('notifTitle'),
+          notifMessage: document.getElementById('notifMessage'),
+          notifDetailsBox: document.getElementById('notifDetailsBox'),
+          btnNotifClose: document.getElementById('btnNotifClose'),
           // Right panel tabs
           tabBtnAi: document.getElementById('tabBtnAi'),
           tabBtnMaster: document.getElementById('tabBtnMaster'),
@@ -2615,23 +2829,33 @@
               dom.welcomeApiError.style.display = 'block';
               dom.welcomeApiError.innerText = '⚠️ OCR শুরু করার পূর্বে অনুগ্রহ করে আপনার Google Gemini API Key দিন।';
             }
+            showNotification({
+              title: 'API Key প্রয়োজন',
+              message: 'OCR শুরু করার পূর্বে অনুগ্রহ করে আপনার Google Gemini API Key প্রদান করুন।',
+              type: 'warning',
+              onConfirm: openWelcomePopup
+            });
             return;
           }
 
           if (state.images.length === 0) {
-            alert('অনুগ্রহ করে অন্তত ১টি প্রশ্নপত্র ছবি আপলোড করুন অথবা "নমুনা প্রশ্ন" বাটনে ক্লিক করুন।');
+            showNotification({
+              title: 'প্রশ্নপত্র ছবি আপলোড করুন',
+              message: 'অনুগ্রহ করে অন্তত ১টি প্রশ্নপত্রের ছবি আপলোড করুন অথবা "নমুনা প্রশ্ন" বাটনে ক্লিক করে ডেমো প্রশ্ন দিয়ে শুরু করুন।',
+              type: 'warning'
+            });
             return;
           }
 
           dom.btnStartOcr.disabled = true;
           document.querySelectorAll('.btn-large-ocr').forEach(btn => btn.disabled = true);
 
-          const model = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
+          let selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
           const shouldEnhance = dom.chkEnhanceQuality ? dom.chkEnhanceQuality.checked : true;
           const totalImages = state.images.length;
           let completedCount = 0;
 
-          showProgress(`Google Flash OCR (${model})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
+          showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
 
           const promptText = `
 You are an expert educational OCR engine for Physics, Mathematics, Chemistry, Bengali, and English exams.
@@ -2680,13 +2904,12 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                 { text: promptText }
               ];
 
-              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+              let currentModelToUse = selectedModel;
+              let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-              const response = await fetch(apiUrl, {
+              let response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   contents: [{ parts: parts }],
                   generationConfig: {
@@ -2697,10 +2920,29 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                 })
               });
 
+              // Smart fallback if newer experimental model name is not yet accessible in user's key tier
+              if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
+                console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
+                currentModelToUse = 'gemini-2.5-flash-lite';
+                apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                response = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    contents: [{ parts: parts }],
+                    generationConfig: {
+                      temperature: 0.1,
+                      maxOutputTokens: 2500,
+                      responseMimeType: 'application/json'
+                    }
+                  })
+                });
+              }
+
               if (!response.ok) {
                 const errData = await response.json().catch(() => ({}));
                 const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
-                throw new Error(`Google Gemini API Error on image #${currentNum} (${model}): ${errMsg}`);
+                throw new Error(`Google Gemini API Error on image #${currentNum} (${currentModelToUse}): ${errMsg}`);
               }
 
               const data = await response.json();
@@ -2735,16 +2977,31 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             const allDetectedSlides = results.flat();
 
             if (allDetectedSlides.length === 0) {
-              alert('কোনো প্রশ্ন শনাক্ত করা সম্ভব হয়নি। অনুগ্রহ করে পরিষ্কার প্রশ্নপত্রের ছবি আপলোড করুন।');
+              showNotification({
+                title: 'কোনো প্রশ্ন শনাক্ত হয়নি',
+                message: 'ছবিগুলো থেকে কোনো সুস্পষ্ট প্রশ্ন ও অপশন খুঁজে পাওয়া যায়নি। অনুগ্রহ করে পরিষ্কার ও ভালো আলোয় তোলা প্রশ্নপত্রের ছবি আপলোড করুন।',
+                type: 'warning'
+              });
             } else {
               state.slides = allDetectedSlides;
               state.activeSlideIndex = 0;
               showPage('studio');
-              alert(`⚡ Google Flash OCR সম্পন্ন হয়েছে! মোট ${allDetectedSlides.length} টি স্লাইড অত্যন্ত দ্রুত তৈরি করা হয়েছে।`);
+              showNotification({
+                title: 'Google Flash OCR সম্পন্ন! ⚡',
+                message: `মোট ${allDetectedSlides.length} টি প্রশ্নপত্র স্লাইড অতি দ্রুত ও নির্ভুলভাবে তৈরি করা হয়েছে। আপনি এখন প্রতিটি স্লাইড প্রিভিউ, ড্র্যাগ বা এডিট করতে পারেন।`,
+                type: 'success'
+              });
+              showToast(`⚡ ${allDetectedSlides.length} slides generated successfully!`, 'success');
             }
           } catch (error) {
             console.error('OCR Process failed:', error);
-            alert(`OCR ত্রুটি: ${error.message}`);
+            showNotification({
+              title: 'OCR প্রক্রিয়াকরণে ত্রুটি',
+              message: `Gemini OCR প্রক্রিয়াকরণের সময় একটি সমস্যা দেখা দিয়েছে। অনুগ্রহ করে আপনার এপিআই কী ও ইন্টারনেট সংযোগ চেক করুন।`,
+              type: 'error',
+              details: error.message || String(error)
+            });
+            showToast(`OCR Error: ${error.message}`, 'error', 5000);
           } finally {
             hideProgress();
             if (dom.btnStartOcr) dom.btnStartOcr.disabled = false;
@@ -3389,12 +3646,20 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
            ========================================================================== */
         async function exportPresentation() {
           if (typeof PptxGenJS === 'undefined') {
-            alert('PptxGenJS library is still loading or failed to load. Please check your internet connection and try again.');
+            showNotification({
+              title: 'লাইব্রেরি লোডিং সমস্যা',
+              message: 'PptxGenJS লাইব্রেরি লোড হচ্ছে অথবা ইন্টারনেট বিচ্ছিন্ন রয়েছে। অনুগ্রহ করে কয়েক সেকেন্ড পর আবার চেষ্টা করুন।',
+              type: 'warning'
+            });
             return;
           }
 
           if (state.slides.length === 0) {
-            alert('No slides to export! Please run OCR or load sample questions first.');
+            showNotification({
+              title: 'কোনো স্লাইড নেই',
+              message: 'এক্সপোর্ট করার মতো কোনো স্লাইড পাওয়া যায়নি! আগে প্রশ্নপত্রের ছবি দিয়ে OCR রান করুন অথবা নমুনা প্রশ্ন লোড করুন।',
+              type: 'warning'
+            });
             return;
           }
 
@@ -3563,7 +3828,13 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             openCelebrationPopup(state.slides.length, fileSizeStr, blobUrl, downloadLink.download);
           } catch (error) {
             console.error('PPTX Export failed:', error);
-            alert(`PPTX Export Failed: ${error.message}`);
+            showNotification({
+              title: 'PPTX এক্সপোর্ট ব্যর্থ',
+              message: 'পাওয়ারপয়েন্ট ফাইল তৈরির সময় ত্রুটি হয়েছে। অনুগ্রহ করে স্লাইডের ডেটা চেক করুন।',
+              type: 'error',
+              details: error.message || String(error)
+            });
+            showToast(`Export Error: ${error.message}`, 'error');
           } finally {
             hideProgress();
             dom.btnExportPpt.disabled = false;
@@ -3805,7 +4076,12 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
           state.activeSlideIndex = 0;
           showPage('studio');
-          alert('Loaded 4 rich sample question slides (Physics, Mathematics, Bengali). Ready to preview and export to PPTX!');
+          showNotification({
+            title: 'নমুনা প্রশ্ন লোড সম্পন্ন! 📚',
+            message: '৪টি সমৃদ্ধ Physics, Math এবং Bengali MCQ নমুনা স্লাইড সফলভাবে লোড করা হয়েছে। আপনি এখন প্রতিটি স্লাইড প্রিভিউ, মাস্টার লেআউটে ড্র্যাগ-অ্যান্ড-ড্রপ অথবা সরাসরি PPTX এক্সপোর্ট করতে পারবেন!',
+            type: 'success'
+          });
+          showToast('Loaded 4 sample slides ready for edit & export', 'success');
         }
 
         /* ==========================================================================
@@ -3905,6 +4181,105 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             dom.modalCelebration.classList.remove('modal-closing');
           }, 220);
         }
+
+        // ==========================================================================
+        // UNIVERSAL NOTIFICATION & ERROR POPUP MODAL SYSTEM
+        // ==========================================================================
+        let currentNotifCallback = null;
+
+        function showNotification({ title = '', message = '', type = 'info', details = '', onConfirm = null }) {
+          currentNotifCallback = onConfirm;
+          const modal = dom.modalNotification || document.getElementById('modalNotification');
+          if (!modal) {
+            window.nativeAlert ? window.nativeAlert(message) : console.log(message);
+            return;
+          }
+
+          const notifCard = dom.notifModalCard || document.getElementById('notifModalCard');
+          const iconText = dom.notifIconText || document.getElementById('notifIconText');
+          const titleEl = dom.notifTitle || document.getElementById('notifTitle');
+          const msgEl = dom.notifMessage || document.getElementById('notifMessage');
+          const detailsEl = dom.notifDetailsBox || document.getElementById('notifDetailsBox');
+          const btnClose = dom.btnNotifClose || document.getElementById('btnNotifClose');
+
+          if (notifCard) {
+            notifCard.className = `modal-card notif-modal-card notif-type-${type}`;
+          }
+
+          if (type === 'error') {
+            if (iconText) iconText.innerText = '❌';
+            if (titleEl) titleEl.innerText = title || 'ত্রুটি (Error)';
+          } else if (type === 'success') {
+            if (iconText) iconText.innerText = '✅';
+            if (titleEl) titleEl.innerText = title || 'সফল হয়েছে! (Success)';
+          } else if (type === 'warning') {
+            if (iconText) iconText.innerText = '⚠️';
+            if (titleEl) titleEl.innerText = title || 'সতর্কতা (Notice)';
+          } else {
+            if (iconText) iconText.innerText = 'ℹ️';
+            if (titleEl) titleEl.innerText = title || 'বিজ্ঞপ্তি (Notification)';
+          }
+
+          if (msgEl) msgEl.innerText = message || '';
+
+          if (details && String(details).trim()) {
+            if (detailsEl) {
+              detailsEl.innerText = String(details).trim();
+              detailsEl.style.display = 'block';
+            }
+          } else {
+            if (detailsEl) {
+              detailsEl.style.display = 'none';
+              detailsEl.innerText = '';
+            }
+          }
+
+          modal.classList.remove('modal-closing');
+          modal.style.display = 'flex';
+
+          if (btnClose) {
+            btnClose.focus();
+          }
+        }
+        window.showNotification = showNotification;
+
+        function closeNotificationPopup() {
+          const modal = dom.modalNotification || document.getElementById('modalNotification');
+          if (!modal) return;
+          modal.classList.add('modal-closing');
+          setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('modal-closing');
+            if (typeof currentNotifCallback === 'function') {
+              const cb = currentNotifCallback;
+              currentNotifCallback = null;
+              cb();
+            }
+          }, 200);
+        }
+        window.closeNotificationPopup = closeNotificationPopup;
+
+        function showToast(message, type = 'info', durationMs = 3500) {
+          const container = document.getElementById('toastContainer');
+          if (!container) return;
+
+          const toast = document.createElement('div');
+          toast.className = `toast-item toast-${type}`;
+          
+          const icon = type === 'error' ? '❌' : (type === 'success' ? '✅' : (type === 'warning' ? '⚠️' : 'ℹ️'));
+          toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+
+          container.appendChild(toast);
+
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(40px)';
+            setTimeout(() => {
+              if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 280);
+          }, durationMs);
+        }
+        window.showToast = showToast;
 
         /* ==========================================================================
            11. EVENT LISTENERS SETUP
@@ -4306,6 +4681,42 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           if (dom.btnCelebClose) {
             dom.btnCelebClose.onclick = closeCelebrationPopup;
           }
+
+          // 7. Universal Notification modal close handler
+          if (dom.btnNotifClose) {
+            dom.btnNotifClose.onclick = closeNotificationPopup;
+          }
+          if (dom.modalNotification) {
+            dom.modalNotification.addEventListener('click', (e) => {
+              if (e.target === dom.modalNotification) closeNotificationPopup();
+            });
+          }
+          if (dom.modalCelebration) {
+            dom.modalCelebration.addEventListener('click', (e) => {
+              if (e.target === dom.modalCelebration) closeCelebrationPopup();
+            });
+          }
+          if (dom.modalWelcome) {
+            dom.modalWelcome.addEventListener('click', (e) => {
+              if (e.target === dom.modalWelcome) {
+                // allow closing if already key is set or demo is started
+                if (localStorage.getItem('gemini_ocr_apikey') || state.slides.length > 0) {
+                  closeWelcomePopup();
+                }
+              }
+            });
+          }
+
+          // 8. Global Escape key closes modals
+          window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+              if (dom.modalNotification && dom.modalNotification.style.display !== 'none') {
+                closeNotificationPopup();
+              } else if (dom.modalCelebration && dom.modalCelebration.style.display !== 'none') {
+                closeCelebrationPopup();
+              }
+            }
+          });
         }
 
         // Initialize on load
