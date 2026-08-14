@@ -1,0 +1,6 @@
+{
+  "name": "Ranjit Smart PPT",
+  "description": "Smart Question to PowerPoint converter with Google Gemini OCR, Master 1:1 Layout, and Bengali/Math support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

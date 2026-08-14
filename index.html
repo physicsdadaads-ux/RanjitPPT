@@ -1,0 +1,4330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranjit Smart PPT — Smart Question to PowerPoint Converter</title>
+    <meta name="description" content="Ranjit Smart PPT: Convert question images to structured PowerPoint presentations using Google Gemini OCR with 1:1 master layout fidelity." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Merriweather:wght@400;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+
+    <!-- PptxGenJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
+    <style>
+      /* Cambria Math and Shonar Bangla font definitions */
+      @font-face {
+        font-family: 'Cambria Math';
+        src: local('Cambria Math'), local('CambriaMath'), local('Cambria'), local('Times New Roman');
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Shonar Bangla';
+        src: local('Shonar Bangla'), local('ShonarBangla'), local('Tiro Bangla'), local('Noto Sans Bengali');
+        font-style: normal;
+      }
+      :root {
+        --bg-main: #0A0A0F;
+        --bg-panel: #0F0F17;
+        --bg-panel-sub: #141420;
+        --bg-card: #161621;
+        --bg-stage: #050508;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(250, 204, 21, 0.4);
+        --accent-yellow: #FACC15;
+        --accent-yellow-light: #FDE047;
+        --accent-purple: #7C3AED;
+        --accent-purple-hover: #6D28D9;
+        --accent-cyan: #38BDF8;
+        --text-primary: #F8FAFC;
+        --text-secondary: #94A3B8;
+        --text-muted: #64748B;
+        --success: #10B981;
+        --danger: #EF4444;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+
+      /* Header */
+      header {
+        background: #0F0F17;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .logo-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 6px;
+        background: var(--accent-yellow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #0A0A0F;
+        box-shadow: 0 2px 10px rgba(250, 204, 21, 0.25);
+      }
+
+      .logo-text h1 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #FFFFFF;
+      }
+
+      .logo-text h1 span.arrow {
+        color: var(--accent-yellow);
+      }
+
+      .logo-tag {
+        font-size: 0.68rem;
+        background: rgba(250, 204, 21, 0.12);
+        color: var(--accent-yellow);
+        border: 1px solid rgba(250, 204, 21, 0.25);
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1rem;
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      .btn-primary {
+        background: var(--accent-yellow);
+        color: #0A0A0F;
+        box-shadow: 0 2px 8px rgba(250, 204, 21, 0.2);
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: var(--accent-yellow-light);
+        box-shadow: 0 4px 12px rgba(250, 204, 21, 0.35);
+      }
+
+      .btn-purple {
+        background: var(--accent-purple);
+        color: #FFFFFF;
+        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+      }
+
+      .btn-purple:hover:not(:disabled) {
+        background: var(--accent-purple-hover);
+      }
+
+      .btn-secondary {
+        background: var(--bg-card);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+
+      .btn-secondary:hover:not(:disabled) {
+        background: var(--bg-panel-sub);
+        border-color: var(--border-hover);
+      }
+
+      .btn-danger {
+        background: rgba(239, 68, 68, 0.12);
+        color: #F87171;
+        border: 1px solid rgba(239, 68, 68, 0.25);
+      }
+
+      .btn-danger:hover:not(:disabled) {
+        background: rgba(239, 68, 68, 0.22);
+        border-color: rgba(239, 68, 68, 0.4);
+      }
+
+      .btn-sm {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.76rem;
+        border-radius: 5px;
+      }
+
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      /* Main 3-Column Layout */
+      .app-layout {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 310px 1fr 340px;
+        min-height: calc(100vh - 60px);
+        background: var(--bg-main);
+      }
+
+      @media (max-width: 1200px) {
+        .app-layout {
+          grid-template-columns: 280px 1fr 320px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .app-layout {
+          grid-template-columns: 1fr 320px;
+        }
+        .left-col {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .app-layout {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      /* Panels */
+      .panel {
+        background: var(--bg-panel);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        max-height: calc(100vh - 60px);
+      }
+
+      .panel-right {
+        border-right: none;
+        border-left: 1px solid var(--border-color);
+      }
+
+      .panel-header {
+        padding: 0.85rem 1.15rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(15, 15, 23, 0.9);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .panel-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .panel-body {
+        padding: 1.15rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      /* Center Preview Area */
+      .center-area {
+        background: var(--bg-stage);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      .preview-toolbar {
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg-panel);
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .slide-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .view-modes {
+        display: flex;
+        background: var(--bg-card);
+        padding: 3px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+      }
+
+      .view-mode-btn {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.76rem;
+        font-weight: 700;
+        background: transparent;
+        color: var(--text-secondary);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .view-mode-btn.active {
+        background: var(--accent-yellow);
+        color: #0A0A0F;
+      }
+
+      /* Slide Stage & 16:9 Canvas */
+      .stage-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        min-height: 480px;
+        position: relative;
+      }
+
+      .stage-status-bar {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 8px var(--success);
+      }
+
+      .status-text {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .slide-viewport {
+        width: 100%;
+        max-width: 920px;
+        aspect-ratio: 16 / 9;
+        position: relative;
+        background: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        user-select: none;
+      }
+
+      .slide-bg-layer {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        z-index: 1;
+      }
+
+      .slide-accent-bar {
+        position: absolute;
+        z-index: 2;
+      }
+
+      .slide-watermark {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 3;
+        opacity: 0.65;
+        letter-spacing: 0.05em;
+      }
+
+      /* Master Interactive Box Layer */
+      .slide-box {
+        position: absolute;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.15s;
+      }
+
+      .slide-box.draggable-mode {
+        cursor: move;
+        border-style: dashed !important;
+      }
+
+      .slide-box.draggable-mode:hover {
+        box-shadow: 0 0 0 2px var(--accent-yellow) !important;
+      }
+
+      .slide-box.draggable-mode.selected {
+        box-shadow: 0 0 0 3px var(--accent-yellow) !important;
+      }
+
+      .box-label-badge {
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background: var(--accent-yellow);
+        color: #0A0A0F;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 1px 6px;
+        border-radius: 4px;
+        pointer-events: none;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .box-inner-content {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        word-break: break-word;
+        line-height: 1.45;
+      }
+
+      /* Resize Handles for Master Drag Mode */
+      .resize-handle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--accent-yellow);
+        border: 1px solid #0A0A0F;
+        border-radius: 2px;
+        z-index: 12;
+      }
+      .resize-handle.br { bottom: -5px; right: -5px; cursor: nwse-resize; }
+      .resize-handle.bl { bottom: -5px; left: -5px; cursor: nesw-resize; }
+      .resize-handle.tr { top: -5px; right: -5px; cursor: nesw-resize; }
+      .resize-handle.tl { top: -5px; left: -5px; cursor: nwse-resize; }
+
+      /* Magnetic Snap Guidelines */
+      .snap-guide-v {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1.5px;
+        background: var(--accent-yellow);
+        box-shadow: 0 0 6px rgba(250, 204, 21, 0.8);
+        z-index: 25;
+        pointer-events: none;
+      }
+
+      .snap-guide-h {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: var(--accent-yellow);
+        box-shadow: 0 0 6px rgba(250, 204, 21, 0.8);
+        z-index: 25;
+        pointer-events: none;
+      }
+
+      /* Quick Align Layout Button Grid */
+      .quick-align-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+
+      .btn-align {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.74rem;
+        font-weight: 600;
+        padding: 0.45rem 0.6rem;
+        background: var(--bg-card);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      .btn-align:hover {
+        background: rgba(250, 204, 21, 0.1);
+        border-color: var(--accent-yellow);
+        color: var(--accent-yellow);
+      }
+
+      .btn-align svg {
+        flex-shrink: 0;
+      }
+
+      /* Live Coordinate Inspector Pill */
+      .coord-inspector-pill {
+        margin-top: 1.25rem;
+        background: #161621;
+        border: 1px solid var(--border-color);
+        border-radius: 9999px;
+        padding: 0.45rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        font-size: 0.72rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      }
+
+      .coord-item {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .coord-label {
+        color: var(--text-muted);
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .coord-val {
+        color: var(--accent-yellow);
+        font-family: 'Fira Code', monospace;
+        font-weight: 600;
+      }
+
+      /* Upload & Dropzone */
+      .dropzone {
+        border: 2px dashed #334155;
+        background: rgba(22, 22, 33, 0.5);
+        border-radius: 8px;
+        padding: 1.25rem 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .dropzone:hover, .dropzone.dragover {
+        border-color: var(--accent-yellow);
+        background: rgba(250, 204, 21, 0.05);
+      }
+
+      .dropzone-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        background: var(--bg-panel-sub);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-yellow);
+      }
+
+      .dropzone-text {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+      }
+
+      /* Image Item Cards */
+      .image-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .image-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        position: relative;
+      }
+
+      .image-thumb {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        object-fit: cover;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .image-meta {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .image-name {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .image-size {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      /* Slide Thumbnails List */
+      .slide-thumb-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .slide-thumb-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.65rem;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .slide-thumb-card:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: var(--bg-panel-sub);
+      }
+
+      .slide-thumb-card.active {
+        border-color: var(--accent-yellow);
+        background: rgba(250, 204, 21, 0.08);
+      }
+
+      .slide-thumb-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .slide-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--accent-yellow);
+      }
+
+      .slide-snippet {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.35;
+      }
+
+      /* Form controls */
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .form-label {
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .form-input, .form-select, .form-textarea {
+        background: #12121D;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.45rem 0.65rem;
+        color: #F8FAFC;
+        font-size: 0.82rem;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      .form-select {
+        background-color: #12121D;
+        color: #F8FAFC;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FACC15' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.65rem center;
+        background-size: 14px;
+        padding-right: 2rem !important;
+      }
+
+      .form-select option, select option {
+        background-color: #161626 !important;
+        color: #FFFFFF !important;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+      }
+
+      .form-select option:checked, select option:checked {
+        background-color: #262640 !important;
+        color: #FACC15 !important;
+        font-weight: 700;
+      }
+
+      .form-input:focus, .form-select:focus, .form-textarea:focus {
+        border-color: var(--accent-yellow);
+        box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.15);
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 60px;
+        line-height: 1.4;
+      }
+
+      input[type="range"] {
+        accent-color: var(--accent-yellow);
+        cursor: pointer;
+      }
+
+      .color-picker-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .color-box {
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        padding: 0;
+        background: transparent;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .checkbox-row input {
+        accent-color: var(--accent-yellow);
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+
+      /* Presets Grid */
+      .preset-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+      }
+
+      .preset-card {
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        transition: all 0.15s;
+      }
+
+      .preset-card:hover {
+        border-color: var(--accent-yellow);
+        transform: translateY(-1px);
+      }
+
+      .preset-preview-mini {
+        height: 28px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      .preset-title {
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      /* Progress Bar & Status Toast */
+      .progress-overlay {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        background: #0F0F17;
+        border: 1px solid var(--accent-yellow);
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        z-index: 100;
+        width: 320px;
+        animation: slideUp 0.2s ease-out;
+      }
+
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+
+      .progress-bar-bg {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-yellow), var(--accent-purple));
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .progress-status-text {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* Tabs inside right panel */
+      .tab-nav {
+        display: flex;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-panel-sub);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 0.65rem;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--text-secondary);
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .tab-btn.active {
+        color: var(--accent-yellow);
+        border-bottom-color: var(--accent-yellow);
+        background: var(--bg-panel);
+      }
+
+      /* Section Accordions */
+      .section-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+
+      .section-header-title {
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      /* 2-Page Workflow Styles */
+      .page-container {
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .step-tracker {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        padding: 0.25rem 0.65rem;
+        border-radius: 9999px;
+        font-size: 0.74rem;
+      }
+
+      .step-dot {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.2rem 0.65rem;
+        border-radius: 9999px;
+        color: var(--text-muted);
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+
+      .step-dot.active {
+        background: rgba(250, 204, 21, 0.15);
+        color: var(--accent-yellow);
+        border: 1px solid rgba(250, 204, 21, 0.3);
+      }
+
+      .step-arrow {
+        color: var(--text-muted);
+        font-size: 0.7rem;
+      }
+
+      .page-setup-wrapper {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 1.75rem 1.5rem 3rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .setup-hero {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 0 0.25rem 0;
+      }
+
+      .setup-hero h2 {
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+
+      .setup-hero p {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        max-width: 680px;
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .setup-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
+
+      @media (max-width: 860px) {
+        .setup-cards-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .setup-card {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .setup-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+      }
+
+      .setup-card-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .setup-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 9999px;
+        background: rgba(250, 204, 21, 0.12);
+        color: var(--accent-yellow);
+        border: 1px solid rgba(250, 204, 21, 0.3);
+      }
+
+      .setup-action-footer {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn-large-ocr {
+        padding: 0.85rem 1.75rem;
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        transition: all 0.2s;
+        box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+      }
+
+      .btn-large-ocr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(168, 85, 247, 0.6);
+      }
+
+      .btn-large-ocr:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Export modal / success banner */
+      .export-success-box {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 6px;
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      /* ==========================================================================
+         MODALS & INTERACTIVE POPUPS
+         ========================================================================== */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: rgba(5, 5, 10, 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        transition: opacity 0.25s ease;
+      }
+
+      .modal-card {
+        position: relative;
+        max-width: 520px;
+        width: 100%;
+        background: linear-gradient(155deg, #181828 0%, #0E0E18 100%);
+        border: 1px solid rgba(250, 204, 21, 0.35);
+        border-radius: 18px;
+        padding: 2.2rem 2rem;
+        box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8), 0 0 45px rgba(250, 204, 21, 0.12);
+        animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+      }
+
+      .modal-closing .modal-card {
+        animation: modalOut 0.22s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+      }
+
+      @keyframes modalIn {
+        0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+      }
+
+      @keyframes modalOut {
+        0% { opacity: 1; transform: scale(1) translateY(0); }
+        100% { opacity: 0; transform: scale(0.92) translateY(14px); }
+      }
+
+      @keyframes floatBadge {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-6px); }
+      }
+
+      @keyframes pulseGlow {
+        0%, 100% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.25); }
+        50% { box-shadow: 0 0 35px rgba(250, 204, 21, 0.6); }
+      }
+
+      @keyframes shakeInput {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+
+      .welcome-badge-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #FACC15, #F59E0B);
+        color: #0A0A0F;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: 0 8px 24px rgba(250, 204, 21, 0.4);
+        animation: floatBadge 3s ease-in-out infinite;
+      }
+
+      .welcome-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .welcome-title {
+        font-size: 1.55rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #FFFFFF;
+        margin: 0;
+      }
+
+      .welcome-subtitle {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--accent-yellow);
+        letter-spacing: 0.02em;
+      }
+
+      .welcome-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .welcome-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .welcome-input {
+        background: #090910 !important;
+        border: 1.5px solid rgba(250, 204, 21, 0.3) !important;
+        font-size: 0.88rem !important;
+        padding: 0.75rem 2.75rem 0.75rem 1rem !important;
+        border-radius: 8px !important;
+        transition: all 0.2s !important;
+      }
+
+      .welcome-input:focus {
+        border-color: var(--accent-yellow) !important;
+        box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.2) !important;
+      }
+
+      .btn-toggle-eye {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 0.95rem;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .welcome-error {
+        color: #F87171;
+        font-size: 0.76rem;
+        font-weight: 600;
+        margin-top: 0.35rem;
+        text-align: left;
+      }
+
+      .welcome-api-link {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .welcome-api-link a {
+        color: var(--accent-yellow);
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      .welcome-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 0.5rem;
+      }
+
+      .btn-welcome-next {
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #FACC15, #EAB308);
+        color: #0A0A0F;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+        box-shadow: 0 6px 20px rgba(250, 204, 21, 0.35);
+      }
+
+      .btn-welcome-next:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(250, 204, 21, 0.5);
+      }
+
+      .btn-welcome-demo {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-welcome-demo:hover {
+        background: var(--bg-panel-sub);
+        color: var(--text-primary);
+        border-color: var(--border-hover);
+      }
+
+      /* Celebration Modal Styles */
+      .celebration-card {
+        border-color: rgba(16, 185, 129, 0.4);
+        box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 50px rgba(16, 185, 129, 0.15);
+      }
+
+      .celebration-badge-icon {
+        position: relative;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: #FFFFFF;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        animation: floatBadge 3s ease-in-out infinite;
+      }
+
+      .celebration-stars {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        font-size: 1.2rem;
+      }
+
+      .celebration-title {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: #F8FAFC;
+        line-height: 1.35;
+      }
+
+      .celebration-desc {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .celebration-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.6rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 0.85rem;
+      }
+
+      .celebration-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        text-align: center;
+      }
+
+      .celebration-stat .stat-label {
+        font-size: 0.68rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .celebration-stat .stat-value {
+        font-size: 0.88rem;
+        color: var(--accent-yellow);
+        font-weight: 800;
+      }
+
+      .celebration-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>    <!-- ==========================================================================
+         PAGE 1: SETUP & UPLOAD (ইমেজ আপলোড)
+         ========================================================================== -->
+    <div id="pageSetup" class="page-container" style="display: block;">
+      <!-- Page 1 Header -->
+      <header>
+        <div class="logo-group">
+          <div class="logo-badge" style="background: linear-gradient(135deg, #FACC15, #EAB308);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
+          <div class="logo-text">
+            <h1>
+              Ranjit Smart PPT
+              <span class="logo-tag">Studio</span>
+            </h1>
+          </div>
+        </div>
+
+        <div class="step-tracker">
+          <span class="step-dot active">
+            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-yellow);"></span>
+            ১. ছবি আপলোড (Upload)
+          </span>
+          <span class="step-arrow">→</span>
+          <span class="step-dot" id="trackerStep2Badge">
+            ২. স্লাইড এডিটর ও PPTX (Studio)
+          </span>
+        </div>
+
+        <div class="header-actions">
+          <button id="btnLoadSample" class="btn btn-secondary btn-sm" title="Load sample physics & math questions">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            নমুনা প্রশ্ন (Demo)
+          </button>
+          <button id="btnGoToStudio" class="btn btn-primary btn-sm" style="display:none;" title="Go directly to Slide Studio">
+            স্লাইড এডিটরে যান →
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Setup Wrapper -->
+      <div class="page-setup-wrapper" style="max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem;">
+        <div class="setup-hero" style="text-align:center; margin-bottom:1.5rem;">
+          <h2 style="font-size:1.6rem; font-weight:800; color:#FFFFFF; margin-bottom:0.4rem; letter-spacing:-0.02em;">
+            MCQ to PowerPoint Converter
+          </h2>
+          <p style="font-size:0.88rem; color:var(--text-secondary); margin:0;">
+            প্রশ্নপত্রের ছবি আপলোড করুন এবং এক ক্লিকে এডিটেবল PPTX স্লাইড তৈরি করুন।
+          </p>
+        </div>
+
+        <!-- Clean Image Upload Card -->
+        <div class="setup-card" style="background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1.25rem;">
+          <div class="setup-card-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+            <div class="setup-card-title" style="font-size:0.95rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              প্রশ্নপত্রের ছবি (Images)
+            </div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span class="setup-badge" id="setupImageCountBadge" style="background:rgba(250,204,21,0.12); color:var(--accent-yellow); padding:3px 9px; border-radius:6px; font-size:0.75rem; font-weight:700;">0 টি ছবি</span>
+              <button id="btnClearImages" class="btn btn-danger btn-sm" style="padding:3px 9px;" title="Clear all images">Clear</button>
+            </div>
+          </div>
+
+          <!-- Dropzone -->
+          <div id="dropzone" class="dropzone" style="min-height:140px; justify-content:center; border:2px dashed var(--border-color); border-radius:10px; background:rgba(15,15,23,0.6); padding:1.5rem; text-align:center; cursor:pointer;">
+            <div class="dropzone-icon" style="margin-bottom:0.5rem; color:var(--accent-yellow);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="13" x2="12" y2="15"></line></svg>
+            </div>
+            <div class="dropzone-text" style="margin-bottom:0.75rem;">
+              <strong style="color:var(--text-primary); font-size:0.92rem;">এখানে প্রশ্ন ছবি ড্র্যাগ করুন অথবা ক্লিক করুন</strong><br>
+              <span style="font-size:0.75rem; color:var(--text-muted);">সাপোর্টেড ফরম্যাট: PNG, JPG, WEBP</span>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/png, image/jpeg, image/jpg, image/webp" style="display:none;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileInput').click()">
+              ছবি সিলেক্ট করুন (Browse Files)
+            </button>
+          </div>
+
+          <!-- Compact Quick Settings -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem; margin-top:1rem; align-items:center;">
+            <label class="checkbox-row" style="background:var(--bg-card); padding:0.6rem 0.8rem; border-radius:8px; border:1px solid var(--border-color); margin:0; display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+              <input type="checkbox" id="chkEnhanceQuality" checked>
+              <span style="font-size:0.78rem; font-weight:600; color:var(--text-primary);">2.5x Image Enhancement (শার্প ও ক্লিয়ার OCR)</span>
+            </label>
+
+            <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); padding:0.4rem 0.6rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span style="font-size:0.75rem; color:var(--accent-yellow); white-space:nowrap; font-weight:700;">⚡ Model:</span>
+              <select id="selectModel" class="form-select" style="font-size:0.8rem; font-weight:600; background-color:#161626; border:1px solid #334155; width:100%; border-radius:6px; color:#F8FAFC;">
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 5 / 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Flash Lite 2.0)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (High Reasoning Flash)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Flash Lite 3.1)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Complex Math)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Uploaded Images Thumbnails List -->
+          <div id="imageList" class="image-list" style="max-height: 200px; overflow-y: auto; margin-top: 1rem;"></div>
+        </div>
+
+        <!-- Clean Action Buttons Footer -->
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1.5rem; background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1rem 1.25rem; flex-wrap:wrap; gap:0.75rem;">
+          <div style="font-size:0.82rem; color:var(--text-muted);">
+            ছবি সিলেক্ট করার পর বাটন চাপলেই স্বয়ংক্রিয় স্লাইড তৈরি হবে।
+          </div>
+
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <button id="btnLoadSampleSetup" class="btn btn-secondary" title="Load sample questions">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              নমুনা প্রশ্ন (Sample)
+            </button>
+
+            <button id="btnStartOcr" class="btn btn-primary" style="padding:0.65rem 1.4rem; font-size:0.9rem; font-weight:800;" title="Run Google OCR and create slides">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              Run Google OCR → স্লাইড তৈরি করুন
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         PAGE 2: SLIDE STUDIO & EDITOR (স্লাইড এডিটর, মাস্টার লেআউট ও PPTX এক্সপোর্ট)
+         ========================================================================== -->
+    <div id="pageStudio" class="page-container" style="display: none; flex-direction: column; min-height: 100vh;">
+      <!-- Page 2 Header -->
+      <header>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <button id="btnBackToSetup" class="btn btn-secondary btn-sm" title="Back to image upload & setup">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            ← আপলোডে ফিরুন
+          </button>
+          <div class="logo-group">
+            <div class="logo-badge" style="width:28px; height:28px; background: linear-gradient(135deg, #FACC15, #EAB308);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
+            <div class="logo-text">
+              <h1 style="font-size:0.95rem;">
+                Ranjit Smart PPT <span class="logo-tag">Studio</span>
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide Navigation in Header -->
+        <div class="slide-nav">
+          <button id="btnPrevSlideHeader" class="btn btn-secondary btn-sm btn-prev-slide" title="Previous Slide">◀</button>
+          <span id="slideNavTextHeader" class="slide-nav-text" style="font-size:0.82rem; min-width:85px; text-align:center;">Slide 1 of 1</span>
+          <button id="btnNextSlideHeader" class="btn btn-secondary btn-sm btn-next-slide" title="Next Slide">▶</button>
+          <button id="btnAddSlideHeader" class="btn btn-secondary btn-sm btn-add-slide" title="Add blank slide">+ Slide</button>
+          <button id="btnDeleteSlideHeader" class="btn btn-danger btn-sm btn-delete-slide" title="Delete current slide">Delete</button>
+        </div>
+
+        <!-- Header Actions: View Mode + Export PPTX -->
+        <div class="header-actions">
+          <div class="view-modes">
+            <button id="modeLivePreviewHeader" class="view-mode-btn btn-mode-preview active" onclick="setViewMode('preview')">Live Slide Preview</button>
+            <button id="modeMasterDragHeader" class="view-mode-btn btn-mode-master" onclick="setViewMode('master')">Master Drag & Resize</button>
+          </div>
+
+          <button id="btnExportPpt" class="btn btn-primary" title="Export slides to Wide 16:9 PowerPoint">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export PPTX (16:9)
+          </button>
+        </div>
+      </header>
+
+      <!-- 3-Column Application Layout -->
+      <div class="app-layout" style="flex:1;">
+
+      <!-- LEFT COLUMN: Images & Slide List -->
+      <div class="panel left-col">
+        <div class="panel-header">
+          <span class="panel-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            Question Images
+          </span>
+          <button id="btnClearImages" class="btn btn-danger btn-sm" title="Clear all images">Clear</button>
+        </div>
+
+        <div class="panel-body">
+          <!-- Dropzone -->
+          <div id="dropzone" class="dropzone">
+            <div class="dropzone-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <div class="dropzone-text">
+              <strong style="color:var(--text-primary);">Drag & Drop Question Images</strong><br>
+              <span style="font-size:0.72rem; color:var(--text-muted);">PNG, JPG, JPEG, WEBP</span>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/png, image/jpeg, image/jpg, image/webp" style="display:none;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileInput').click()">
+              Choose Images
+            </button>
+          </div>
+
+          <!-- Enhancement Setting -->
+          <label class="checkbox-row" style="background:var(--bg-card); padding:0.55rem; border-radius:6px; border:1px solid var(--border-color);">
+            <input type="checkbox" id="chkEnhanceQuality" checked>
+            <div>
+              <strong style="color:var(--text-primary); font-size:0.78rem;">Enhance Low Quality Image</strong><br>
+              <span style="font-size:0.68rem; color:var(--text-muted);">2.5x upscale, contrast boost, sharpening & cross-check</span>
+            </div>
+          </label>
+
+          <!-- Uploaded Images Thumbnails -->
+          <div id="imageList" class="image-list"></div>
+
+          <!-- Slide Navigator Section -->
+          <div class="section-card" style="margin-top:0.5rem;">
+            <div class="slide-thumb-header">
+              <span class="section-header-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                Generated Slides (<span id="slideCountBadge">0</span>)
+              </span>
+              <button id="btnAddSlideSide" class="btn btn-secondary btn-sm btn-add-slide" title="Add blank slide">+ Slide</button>
+            </div>
+
+            <div id="slideThumbGrid" class="slide-thumb-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER COLUMN: 16:9 Live Preview & Master Drag Canvas -->
+      <div class="center-area">
+        <!-- Preview Toolbar -->
+        <div class="preview-toolbar">
+          <div class="slide-nav">
+            <button id="btnPrevSlide" class="btn btn-secondary btn-sm btn-prev-slide" title="Previous Slide">◀</button>
+            <span id="slideNavText" class="slide-nav-text">Slide 1 of 1</span>
+            <button id="btnNextSlide" class="btn btn-secondary btn-sm btn-next-slide" title="Next Slide">▶</button>
+            <button id="btnDeleteSlide" class="btn btn-danger btn-sm btn-delete-slide" title="Delete current slide" style="margin-left:0.5rem;">Delete</button>
+          </div>
+
+          <div class="view-modes">
+            <button id="modeLivePreview" class="view-mode-btn btn-mode-preview active" onclick="setViewMode('preview')">Live Slide Preview</button>
+            <button id="modeMasterDrag" class="view-mode-btn btn-mode-master" onclick="setViewMode('master')">Master Drag & Resize</button>
+          </div>
+        </div>
+
+        <!-- Stage Container -->
+        <div class="stage-container">
+          <!-- Live Preview Status Tag -->
+          <div class="stage-status-bar">
+            <span class="status-dot"></span>
+            <span class="status-text">Live Slide Preview (16:9)</span>
+          </div>
+
+          <!-- 16:9 Viewport matching PPT Wide Layout (13.333in x 7.5in) -->
+          <div id="slideViewport" class="slide-viewport">
+            <!-- Background Layer -->
+            <div id="slideBgLayer" class="slide-bg-layer"></div>
+
+            <!-- Accent Bar -->
+            <div id="slideAccentBar" class="slide-accent-bar"></div>
+
+            <!-- Watermark / Branding -->
+            <div id="slideWatermark" class="slide-watermark" style="display:none;"></div>
+
+            <!-- Magnetic Alignment Snap Guides -->
+            <div id="snapGuideV" class="snap-guide-v" style="display:none;"></div>
+            <div id="snapGuideH" class="snap-guide-h" style="display:none;"></div>
+
+            <!-- QUESTION BOX -->
+            <div id="boxQuestion" class="slide-box" data-box="question" onclick="selectMasterBox('question')">
+              <span class="box-label-badge" style="display:none;">Question</span>
+              <div class="box-inner-content" id="contentQuestion"></div>
+              <div class="resize-handle tl" data-handle="tl"></div>
+              <div class="resize-handle tr" data-handle="tr"></div>
+              <div class="resize-handle bl" data-handle="bl"></div>
+              <div class="resize-handle br" data-handle="br"></div>
+            </div>
+
+            <!-- OPTION A BOX -->
+            <div id="boxOptionA" class="slide-box" data-box="A" onclick="selectMasterBox('A')">
+              <span class="box-label-badge" style="display:none;">Option A</span>
+              <div class="box-inner-content" id="contentOptionA"></div>
+              <div class="resize-handle tl" data-handle="tl"></div>
+              <div class="resize-handle tr" data-handle="tr"></div>
+              <div class="resize-handle bl" data-handle="bl"></div>
+              <div class="resize-handle br" data-handle="br"></div>
+            </div>
+
+            <!-- OPTION B BOX -->
+            <div id="boxOptionB" class="slide-box" data-box="B" onclick="selectMasterBox('B')">
+              <span class="box-label-badge" style="display:none;">Option B</span>
+              <div class="box-inner-content" id="contentOptionB"></div>
+              <div class="resize-handle tl" data-handle="tl"></div>
+              <div class="resize-handle tr" data-handle="tr"></div>
+              <div class="resize-handle bl" data-handle="bl"></div>
+              <div class="resize-handle br" data-handle="br"></div>
+            </div>
+
+            <!-- OPTION C BOX -->
+            <div id="boxOptionC" class="slide-box" data-box="C" onclick="selectMasterBox('C')">
+              <span class="box-label-badge" style="display:none;">Option C</span>
+              <div class="box-inner-content" id="contentOptionC"></div>
+              <div class="resize-handle tl" data-handle="tl"></div>
+              <div class="resize-handle tr" data-handle="tr"></div>
+              <div class="resize-handle bl" data-handle="bl"></div>
+              <div class="resize-handle br" data-handle="br"></div>
+            </div>
+
+            <!-- OPTION D BOX -->
+            <div id="boxOptionD" class="slide-box" data-box="D" onclick="selectMasterBox('D')">
+              <span class="box-label-badge" style="display:none;">Option D</span>
+              <div class="box-inner-content" id="contentOptionD"></div>
+              <div class="resize-handle tl" data-handle="tl"></div>
+              <div class="resize-handle tr" data-handle="tr"></div>
+              <div class="resize-handle bl" data-handle="bl"></div>
+              <div class="resize-handle br" data-handle="br"></div>
+            </div>
+          </div>
+
+          <!-- Live Coordinate Inspector Bar -->
+          <div class="coord-inspector-pill" id="coordInspector">
+            <div class="coord-item">
+              <span class="coord-label">Target:</span>
+              <span class="coord-val" id="coordBoxKey">Question Box</span>
+            </div>
+            <div class="coord-item">
+              <span class="coord-label">X:</span>
+              <span class="coord-val" id="coordX">0.06</span>
+            </div>
+            <div class="coord-item">
+              <span class="coord-label">Y:</span>
+              <span class="coord-val" id="coordY">0.08</span>
+            </div>
+            <div class="coord-item">
+              <span class="coord-label">W:</span>
+              <span class="coord-val" id="coordW">0.88</span>
+            </div>
+            <div class="coord-item">
+              <span class="coord-label">H:</span>
+              <span class="coord-val" id="coordH">0.28</span>
+            </div>
+            <div class="coord-item" style="border-left:1px solid var(--border-color); padding-left:0.75rem;">
+              <span class="coord-label">Magnet:</span>
+              <span class="coord-val" id="coordMagnetStatus" style="color:var(--success);">ON</span>
+            </div>
+          </div>
+
+          <!-- Bottom Notice -->
+          <div style="margin-top:0.75rem; font-size:0.72rem; color:var(--text-muted); display:flex; align-items:center; gap:0.5rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Coordinates and styles map 1:1 directly to PptxGenJS Wide (16:9) output.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Gemini AI + Master Slide Editor -->
+      <div class="panel panel-right">
+        <!-- Tabs Header -->
+        <div class="tab-nav">
+          <button id="tabBtnAi" class="tab-btn active">AI & OCR</button>
+          <button id="tabBtnMaster" class="tab-btn">Master Layout</button>
+          <button id="tabBtnSlideEdit" class="tab-btn">Edit Text</button>
+        </div>
+
+        <!-- TAB 1: QUICK SETTINGS & EXPORT -->
+        <div id="tabContentAi" class="panel-body">
+          <div class="section-card">
+            <span class="section-header-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              PowerPoint Export
+            </span>
+
+            <button id="btnExportPptTab" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.75rem; font-size:0.9rem; font-weight:800; margin-bottom:0.75rem;" onclick="exportPresentation()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download PPTX (16:9 Widescreen)
+            </button>
+
+            <!-- PPTX Export Status Card -->
+            <div id="exportStatusCard" class="export-success-box" style="display:none; margin-top:0.5rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <strong style="color:#34d399; font-size:0.82rem;">PPTX Ready!</strong>
+                <span id="exportFileSize" style="font-size:0.7rem; color:var(--text-muted);"></span>
+              </div>
+              <a id="btnDownloadPptxBlob" class="btn btn-primary btn-sm" style="text-decoration:none; justify-content:center; margin-top:0.4rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Save PPTX to Disk
+              </a>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <span class="section-header-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              OCR Engine Settings
+            </span>
+
+            <div class="form-group">
+              <label class="form-label">Gemini OCR Model</label>
+              <select id="selectModelStudio" class="form-select" onchange="if(dom.selectModel) dom.selectModel.value = this.value">
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 5 / 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Flash Lite 2.0)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (High Reasoning Flash)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Flash Lite 3.1)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Complex Math)</option>
+              </select>
+            </div>
+
+            <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.75rem; color:var(--text-muted);">Gemini API Key:</span>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openWelcomePopup()" style="font-size:0.72rem; padding:2px 8px;">
+                Change API Key ⚙️
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: MASTER SLIDE & THEME STYLING -->
+        <div id="tabContentMaster" class="panel-body" style="display:none;">
+          <!-- Selected Box Position & Size Controls (বক্স পজিশন ও সাইজ ফাইন-টিউনিং) -->
+          <div class="section-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+              <span class="section-header-title" style="margin-bottom:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3z"></path><path d="M14 3h7v7h-7z"></path><path d="M14 14h7v7h-7z"></path><path d="M3 14h7v7H3z"></path></svg>
+                Active Box (টার্গেট বক্স ও মাপ)
+              </span>
+              <span id="badgeCurrentSelectedBox" style="font-size:0.7rem; background:var(--accent-yellow); color:#0A0A0F; padding:2px 7px; border-radius:4px; font-weight:800;">Question Box</span>
+            </div>
+
+            <!-- Target Box Selector Pills -->
+            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.3rem; margin-bottom:0.75rem;">
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn active" data-target="question" onclick="selectMasterBox('question')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">Q</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="A" onclick="selectMasterBox('A')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">A</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="B" onclick="selectMasterBox('B')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">B</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="C" onclick="selectMasterBox('C')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">C</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="D" onclick="selectMasterBox('D')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">D</button>
+            </div>
+
+            <!-- X, Y, Width, Height Numeric Inputs -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+              <div class="form-group">
+                <label class="form-label" style="font-size:0.7rem;">Position X (%)</label>
+                <input type="number" id="inputBoxX" class="form-input" min="0" max="95" step="0.5" oninput="setBoxCoordFromInput('x', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:0.7rem;">Position Y (%)</label>
+                <input type="number" id="inputBoxY" class="form-input" min="0" max="95" step="0.5" oninput="setBoxCoordFromInput('y', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:0.7rem;">Width W (%)</label>
+                <input type="number" id="inputBoxW" class="form-input" min="5" max="98" step="0.5" oninput="setBoxCoordFromInput('w', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:0.7rem;">Height H (%)</label>
+                <input type="number" id="inputBoxH" class="form-input" min="5" max="98" step="0.5" oninput="setBoxCoordFromInput('h', this.value)">
+              </div>
+            </div>
+
+            <!-- Nudge and Reset Buttons -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:0.6rem; gap:0.4rem;">
+              <div style="display:flex; gap:0.25rem;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="nudgeSelectedBox(-0.01, 0)" title="Nudge Left (বাম)">←</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="nudgeSelectedBox(0.01, 0)" title="Nudge Right (ডান)">→</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="nudgeSelectedBox(0, -0.01)" title="Nudge Up (উপরে)">↑</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="nudgeSelectedBox(0, 0.01)" title="Nudge Down (নিচে)">↓</button>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="resetMasterLayoutDefault()" style="font-size:0.7rem; color:var(--text-muted);" title="Reset back to default standard layout">
+                ↺ Reset All
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Row & Grid Layout Alignment (এক সারিতে সাজানো) -->
+          <div class="section-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+              <span class="section-header-title" style="margin-bottom:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                Quick Layout Alignment
+              </span>
+              <span style="font-size:0.68rem; color:var(--accent-yellow); font-weight:700;">1-Click</span>
+            </div>
+
+            <div class="quick-align-grid">
+              <button type="button" class="btn-align" onclick="alignOptionsSingleRow()" title="Arrange Option A, B, C, D in a single horizontal row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="10" width="4" height="6" rx="1"></rect><rect x="8" y="10" width="4" height="6" rx="1"></rect><rect x="14" y="10" width="4" height="6" rx="1"></rect><rect x="20" y="10" width="4" height="6" rx="1"></rect></svg>
+                ১ সারিতে (Single Row)
+              </button>
+
+              <button type="button" class="btn-align" onclick="alignOptionsGrid2x2()" title="Arrange Option A, B, C, D in a 2x2 grid">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg>
+                ২x২ গ্রিড (2x2 Grid)
+              </button>
+
+              <button type="button" class="btn-align" onclick="alignOptionsVertical1Col()" title="Arrange Option A, B, C, D in a single vertical column">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="3.5" rx="1"></rect><rect x="4" y="8" width="16" height="3.5" rx="1"></rect><rect x="4" y="14" width="16" height="3.5" rx="1"></rect><rect x="4" y="20" width="16" height="3.5" rx="1"></rect></svg>
+                ১ কলামে (Vertical)
+              </button>
+
+              <button type="button" class="btn-align" onclick="alignSelectedRowY()" title="Align all 4 options to the exact same horizontal baseline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="12" x2="22" y2="12"></line><polyline points="6 8 6 16"></polyline><polyline points="18 8 18 16"></polyline></svg>
+                সমান সারি (Align Y)
+              </button>
+
+              <button type="button" class="btn-align" onclick="makeOptionsEqualSize()" style="grid-column: span 2;" title="Make all option boxes have matching width and height">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="9" height="12" rx="1"></rect><rect x="13" y="6" width="9" height="12" rx="1"></rect></svg>
+                সমান আকার ও উচ্চতা (Equal Size)
+              </button>
+            </div>
+
+            <!-- Magnetic Snap Switch -->
+            <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid var(--border-color);">
+              <label class="checkbox-row">
+                <input type="checkbox" id="chkMagneticSnap" checked>
+                <span><strong>ম্যাগনেটিক স্ন্যাপ (Magnetic Snap Guide)</strong></span>
+              </label>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.25rem; margin-left:1.5rem;">
+                বক্সগুলো সরানোর সময় স্বয়ংক্রিয়ভাবে অন্য বক্স এবং মার্জিনের সাথে চুম্বকের মতো সারিবদ্ধ হয়ে স্ন্যাপ করবে।
+              </div>
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div class="section-card">
+            <span class="section-header-title">Design Presets</span>
+            <div class="preset-grid">
+              <div class="preset-card" onclick="applyPreset('cleanBorderless')">
+                <div class="preset-preview-mini" style="background:#ffffff; color:#0f172a; border:1px dashed #94a3b8;">Aa</div>
+                <div class="preset-title">Clean (No Box)</div>
+              </div>
+              <div class="preset-card" onclick="applyPreset('cleanWhite')">
+                <div class="preset-preview-mini" style="background:#ffffff; color:#0f172a; border:1px solid #cbd5e1;">Aa</div>
+                <div class="preset-title">Clean White</div>
+              </div>
+              <div class="preset-card" onclick="applyPreset('yellowPremium')">
+                <div class="preset-preview-mini" style="background:#0f172a; color:#fbbf24; border:1px solid #fbbf24;">Aa</div>
+                <div class="preset-title">Yellow Premium</div>
+              </div>
+              <div class="preset-card" onclick="applyPreset('blueClassroom')">
+                <div class="preset-preview-mini" style="background:#0284c7; color:#ffffff; border:1px solid #38bdf8;">Aa</div>
+                <div class="preset-title">Blue Classroom</div>
+              </div>
+              <div class="preset-card" onclick="applyPreset('darkPremium')">
+                <div class="preset-preview-mini" style="background:#090d16; color:#f8fafc; border:1px solid #334155;">Aa</div>
+                <div class="preset-title">Dark Premium</div>
+              </div>
+              <div class="preset-card" onclick="applyPreset('modernGlass')">
+                <div class="preset-preview-mini" style="background:#1e1b4b; color:#a5b4fc; border:1px solid #6366f1;">Aa</div>
+                <div class="preset-title">Modern Glass</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Typography -->
+          <div class="section-card">
+            <span class="section-header-title">Typography</span>
+            <div class="form-group">
+              <label class="form-label">Font Family</label>
+              <select id="fontFamilySelect" class="form-select">
+                <option value="'Cambria Math', 'Cambria', 'Times New Roman', serif">Cambria Math (Math & Physics Formulas)</option>
+                <option value="'Shonar Bangla', 'Tiro Bangla', 'Noto Sans Bengali', sans-serif">Shonar Bangla (সোনার বাংলা)</option>
+                <option value="'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif">Plus Jakarta Sans / Bengali</option>
+                <option value="'Noto Sans Bengali', sans-serif">Noto Sans Bengali</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Verdana, sans-serif">Verdana</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="'Fira Code', monospace">Fira Code (Monospace)</option>
+              </select>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+              <div class="form-group">
+                <label class="form-label">Question Size (pt)</label>
+                <input type="number" id="questionFontSizeInput" class="form-input" value="22" min="12" max="48">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Option Size (pt)</label>
+                <input type="number" id="optionFontSizeInput" class="form-input" value="18" min="10" max="36">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+              <div class="form-group">
+                <label class="form-label">Question Color</label>
+                <div class="color-picker-row">
+                  <input type="color" id="questionColorPicker" class="color-box" value="#0f172a">
+                  <input type="text" id="questionColorHex" class="form-input" style="width:80px;" value="#0F172A">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Option Color</label>
+                <div class="color-picker-row">
+                  <input type="color" id="optionColorPicker" class="color-box" value="#1e293b">
+                  <input type="text" id="optionColorHex" class="form-input" style="width:80px;" value="#1E293B">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Option Box Styling (With No Option Box option) -->
+          <div class="section-card">
+            <span class="section-header-title">Option Boxes Appearance</span>
+
+            <!-- No Option Box Toggle requested by user -->
+            <label class="checkbox-row" style="margin-bottom:0.75rem; background:rgba(250, 204, 21, 0.08); padding:0.5rem 0.75rem; border-radius:6px; border:1px solid rgba(250, 204, 21, 0.2);">
+              <input type="checkbox" id="chkNoOptionBox">
+              <span><strong>অপশন বক্স ছাড়া (Borderless / Plain Text)</strong></span>
+            </label>
+
+            <div id="optionBoxCustomControls">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Box Background</label>
+                  <div class="color-picker-row">
+                    <input type="color" id="boxBgColorPicker" class="color-box" value="#f8fafc">
+                    <input type="text" id="boxBgHex" class="form-input" style="width:80px;" value="#F8FAFC">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Border Color</label>
+                  <div class="color-picker-row">
+                    <input type="color" id="boxBorderColorPicker" class="color-box" value="#cbd5e1">
+                    <input type="text" id="boxBorderHex" class="form-input" style="width:80px;" value="#CBD5E1">
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Border Width (px)</label>
+                  <input type="number" id="boxBorderWidthInput" class="form-input" value="1.5" min="0" max="8" step="0.5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Corner Radius (px)</label>
+                  <input type="number" id="boxBorderRadiusInput" class="form-input" value="8" min="0" max="24">
+                </div>
+              </div>
+            </div>
+
+            <div id="noBoxActiveNotice" style="display:none; font-size:0.72rem; color:var(--accent-yellow); padding:0.4rem 0.6rem; background:rgba(250,204,21,0.06); border-radius:4px;">
+              ✓ অপশন বক্স এবং বর্ডার সম্পূর্ণ বন্ধ রয়েছে। স্লাইডে অপশনগুলো সরাসরি স্বচ্ছ টেক্সট হিসেবে প্রদর্শিত এবং এক্সপোর্ট হবে।
+            </div>
+          </div>
+
+          <!-- Slide Background & Accent -->
+          <div class="section-card">
+            <span class="section-header-title">Slide Background & Accent</span>
+            <div class="form-group">
+              <label class="form-label">Slide Background Color</label>
+              <div class="color-picker-row">
+                <input type="color" id="slideBgColorPicker" class="color-box" value="#ffffff">
+                <input type="text" id="slideBgHex" class="form-input" style="width:80px;" value="#FFFFFF">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Custom Background Image</label>
+              <input type="file" id="customBgInput" accept="image/*" style="display:none;">
+              <div style="display:flex; gap:0.5rem;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('customBgInput').click()">Upload Image</button>
+                <button type="button" id="btnRemoveCustomBg" class="btn btn-danger btn-sm">Remove</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Accent Bar</label>
+              <select id="accentBarSelect" class="form-select">
+                <option value="none">None</option>
+                <option value="top" selected>Top Bar (Accent)</option>
+                <option value="left">Left Border Strip</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Accent Color</label>
+              <div class="color-picker-row">
+                <input type="color" id="accentColorPicker" class="color-box" value="#f59e0b">
+                <input type="text" id="accentColorHex" class="form-input" style="width:80px;" value="#F59E0B">
+              </div>
+            </div>
+
+            <!-- Branding Watermark -->
+            <label class="checkbox-row" style="margin-top:0.25rem;">
+              <input type="checkbox" id="chkBrandingEnabled">
+              <span>Enable Custom Branding / Watermark</span>
+            </label>
+            <div id="brandingControls" style="display:none; flex-direction:column; gap:0.5rem; margin-top:0.35rem;">
+              <input type="text" id="inputBrandingText" class="form-input" placeholder="e.g. Physics Department • 2026" value="Physics Smart PPT">
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: CURRENT SLIDE TEXT EDITOR -->
+        <div id="tabContentSlideEdit" class="panel-body" style="display:none;">
+          <div class="section-card">
+            <span class="section-header-title">Active Slide Content</span>
+
+            <div class="form-group">
+              <label class="form-label">Question Text</label>
+              <textarea id="editQuestionText" class="form-textarea" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Option A</label>
+              <input type="text" id="editOptionAText" class="form-input">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Option B</label>
+              <input type="text" id="editOptionBText" class="form-input">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Option C</label>
+              <input type="text" id="editOptionCText" class="form-input">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Option D</label>
+              <input type="text" id="editOptionDText" class="form-input">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div> <!-- Close #pageStudio container -->
+
+    <!-- Progress Toast -->
+    <div id="progressOverlay" class="progress-overlay" style="display:none;">
+      <div class="progress-status-text">
+        <span id="progressLabel">Processing...</span>
+        <span id="progressStep">1/4</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBarFill" class="progress-bar-fill"></div>
+      </div>
+      <div id="progressDetail" style="font-size:0.7rem; color:var(--text-muted);">Starting OCR engine...</div>
+    </div>
+
+    <!-- ==========================================================================
+         POPUP 1: WELCOME MODAL (Wellcome to Ranjit Smart PPT)
+         ========================================================================== -->
+    <div id="modalWelcome" class="modal-backdrop" style="display: flex;">
+      <div class="modal-card welcome-card">
+        <div class="welcome-badge-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        </div>
+        
+        <div class="welcome-header">
+          <h2 class="welcome-title">Welcome to Ranjit Smart PPT</h2>
+          <div class="welcome-subtitle">Enter your API key to continue</div>
+          <p class="welcome-desc">পাওয়ারপয়েন্ট স্লাইড রূপান্তর শুরু করতে আপনার Google Gemini API Key প্রবেশ করান।</p>
+        </div>
+
+        <div class="welcome-form">
+          <div class="form-group" style="text-align: left; margin-bottom: 0;">
+            <label class="form-label" style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+              <span>Google Gemini API Key</span>
+              <span style="font-weight: normal; color: var(--accent-yellow); font-size: 0.7rem;">লোকাল মেমোরিতে সেভ থাকবে</span>
+            </label>
+            <div style="position: relative;">
+              <input type="password" id="inputWelcomeApiKey" class="form-input welcome-input" placeholder="AIzaSy... আপনার জেমিনি এপিআই কী দিন" autocomplete="off">
+              <button type="button" id="btnToggleWelcomeApiKey" class="btn-toggle-eye" title="Show/Hide API Key">👁</button>
+            </div>
+            <div id="welcomeApiError" class="welcome-error" style="display:none;">⚠️ অনুগ্রহ করে একটি সঠিক Google Gemini API Key দিন অথবা ডেমো বাটন চাপুন।</div>
+          </div>
+
+          <div class="welcome-api-link">
+            এপিআই কী নেই? <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio থেকে ফ্রি তৈরি করুন ↗</a>
+          </div>
+
+          <div class="welcome-actions">
+            <button type="button" id="btnWelcomeNext" class="btn-welcome-next">
+              Next (এগিয়ে যান) →
+            </button>
+            <button type="button" id="btnWelcomeDemo" class="btn-welcome-demo" title="Try demo questions without entering key immediately">
+              নমুনা প্রশ্ন দিয়ে শুরু করুন (Quick Demo)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         POPUP 2: EXPORT CELEBRATION MODAL (ধন্যবাদ Ranjit Smart PPT Tools use করার জন্য)
+         ========================================================================== -->
+    <div id="modalCelebration" class="modal-backdrop" style="display: none;">
+      <div class="modal-card celebration-card">
+        <div class="celebration-badge-icon">
+          <div class="celebration-stars">✨</div>
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+
+        <div class="celebration-header">
+          <h2 class="celebration-title">ধন্যবাদ Ranjit Smart PPT Tools use করার জন্য ।</h2>
+          <p class="celebration-desc">আপনার PowerPoint (16:9 Widescreen) প্রেজেন্টেশন ফাইলটি সফলভাবে তৈরি ও ডাউনলোড সম্পন্ন হয়েছে!</p>
+        </div>
+
+        <div class="celebration-details">
+          <div class="celebration-stat">
+            <span class="stat-label">ফরম্যাট</span>
+            <span class="stat-value">Wide 16:9 PPTX</span>
+          </div>
+          <div class="celebration-stat">
+            <span class="stat-label">মোট স্লাইড</span>
+            <span class="stat-value" id="celebSlideCount">0 স্লাইড</span>
+          </div>
+          <div class="celebration-stat">
+            <span class="stat-label">ফাইল সাইজ</span>
+            <span class="stat-value" id="celebFileSize">0 KB</span>
+          </div>
+        </div>
+
+        <div class="celebration-actions">
+          <a id="btnCelebDownloadAgain" href="#" class="btn btn-primary" style="padding: 0.75rem 1.4rem; font-size: 0.88rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            আবার ডাউনলোড করুন (Download Again)
+          </a>
+          <button type="button" id="btnCelebClose" class="btn btn-secondary" style="padding: 0.75rem 1.25rem; font-size: 0.88rem;">
+            স্লাইড এডিটিং চালিয়ে যান
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single File Application Script -->
+    <script>
+      (function() {
+        'use strict';
+
+        /* ==========================================================================
+           1. CORE STATE MANAGEMENT
+           ========================================================================== */
+        const state = {
+          currentPage: 'setup', // 'setup' | 'studio'
+          images: [],
+          slides: [],
+          activeSlideIndex: 0,
+          currentViewMode: 'preview', // 'preview' | 'master'
+          selectedBoxKey: null,
+          customBgDataUrl: null,
+          isDragging: false,
+          isResizing: false,
+          magneticSnapEnabled: true,
+          dragStart: { x: 0, y: 0, initialBox: null },
+          exportedBlob: null,
+
+          // Master normalized layout (0.0 to 1.0 relative coordinates in 16:9 widescreen)
+          masterLayout: {
+            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.28 },
+            options: {
+              A: { x: 0.06, y: 0.40, w: 0.42, h: 0.24 },
+              B: { x: 0.52, y: 0.40, w: 0.42, h: 0.24 },
+              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
+              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
+            }
+          },
+
+          // Master slide styling
+          masterStyle: {
+            fontFamily: "'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif",
+            questionFontSize: 22,
+            optionFontSize: 18,
+            questionColor: "#0F172A",
+            optionColor: "#1E293B",
+            noOptionBox: false, // User option: "ar option er box lagbe na"
+            boxBgColor: "#F8FAFC",
+            boxBorderColor: "#CBD5E1",
+            boxBorderWidth: 1.5,
+            boxBorderRadius: 8,
+            slideBgColor: "#FFFFFF",
+            accentBar: "top", // 'none' | 'top' | 'left'
+            accentColor: "#F59E0B",
+            brandingEnabled: false,
+            brandingText: "Google OCR • Smart PPT"
+          }
+        };
+
+        // DOM Element cache
+        const dom = {
+          pageSetup: document.getElementById('pageSetup'),
+          pageStudio: document.getElementById('pageStudio'),
+          btnBackToSetup: document.getElementById('btnBackToSetup'),
+          btnGoToStudio: document.getElementById('btnGoToStudio'),
+          btnLoadSampleSetup: document.getElementById('btnLoadSampleSetup'),
+          btnToggleApiKey: document.getElementById('btnToggleApiKey'),
+          setupImageCountBadge: document.getElementById('setupImageCountBadge'),
+          trackerStep2Badge: document.getElementById('trackerStep2Badge'),
+
+          fileInput: document.getElementById('fileInput'),
+          dropzone: document.getElementById('dropzone'),
+          imageList: document.getElementById('imageList'),
+          slideThumbGrid: document.getElementById('slideThumbGrid'),
+          slideCountBadge: document.getElementById('slideCountBadge'),
+          slideViewport: document.getElementById('slideViewport'),
+          slideBgLayer: document.getElementById('slideBgLayer'),
+          slideAccentBar: document.getElementById('slideAccentBar'),
+          slideWatermark: document.getElementById('slideWatermark'),
+          snapGuideV: document.getElementById('snapGuideV'),
+          snapGuideH: document.getElementById('snapGuideH'),
+          coordMagnetStatus: document.getElementById('coordMagnetStatus'),
+          boxQuestion: document.getElementById('boxQuestion'),
+          boxOptionA: document.getElementById('boxOptionA'),
+          boxOptionB: document.getElementById('boxOptionB'),
+          boxOptionC: document.getElementById('boxOptionC'),
+          boxOptionD: document.getElementById('boxOptionD'),
+          contentQuestion: document.getElementById('contentQuestion'),
+          contentOptionA: document.getElementById('contentOptionA'),
+          contentOptionB: document.getElementById('contentOptionB'),
+          contentOptionC: document.getElementById('contentOptionC'),
+          contentOptionD: document.getElementById('contentOptionD'),
+          btnStartOcr: document.getElementById('btnStartOcr'),
+          btnExportPpt: document.getElementById('btnExportPpt'),
+          btnLoadSample: document.getElementById('btnLoadSample'),
+          btnClearImages: document.getElementById('btnClearImages'),
+          btnAddSlide: document.getElementById('btnAddSlide'),
+          btnPrevSlide: document.getElementById('btnPrevSlide'),
+          btnNextSlide: document.getElementById('btnNextSlide'),
+          btnDeleteSlide: document.getElementById('btnDeleteSlide'),
+          slideNavText: document.getElementById('slideNavText'),
+          modeLivePreview: document.getElementById('modeLivePreview'),
+          modeMasterDrag: document.getElementById('modeMasterDrag'),
+          inputApiKey: document.getElementById('inputApiKey'),
+          selectModel: document.getElementById('selectModel'),
+          chkEnhanceQuality: document.getElementById('chkEnhanceQuality'),
+          progressOverlay: document.getElementById('progressOverlay'),
+          progressBarFill: document.getElementById('progressBarFill'),
+          progressLabel: document.getElementById('progressLabel'),
+          progressStep: document.getElementById('progressStep'),
+          progressDetail: document.getElementById('progressDetail'),
+          exportStatusCard: document.getElementById('exportStatusCard'),
+          btnDownloadPptxBlob: document.getElementById('btnDownloadPptxBlob'),
+          exportFileSize: document.getElementById('exportFileSize'),
+          // Welcome Modal & Celebration Modal elements
+          modalWelcome: document.getElementById('modalWelcome'),
+          inputWelcomeApiKey: document.getElementById('inputWelcomeApiKey'),
+          btnToggleWelcomeApiKey: document.getElementById('btnToggleWelcomeApiKey'),
+          welcomeApiError: document.getElementById('welcomeApiError'),
+          btnWelcomeNext: document.getElementById('btnWelcomeNext'),
+          btnWelcomeDemo: document.getElementById('btnWelcomeDemo'),
+          btnHeaderApiKey: document.getElementById('btnHeaderApiKey'),
+          btnHeaderApiKeyStudio: document.getElementById('btnHeaderApiKeyStudio'),
+          modalCelebration: document.getElementById('modalCelebration'),
+          celebSlideCount: document.getElementById('celebSlideCount'),
+          celebFileSize: document.getElementById('celebFileSize'),
+          btnCelebDownloadAgain: document.getElementById('btnCelebDownloadAgain'),
+          btnCelebClose: document.getElementById('btnCelebClose'),
+          // Right panel tabs
+          tabBtnAi: document.getElementById('tabBtnAi'),
+          tabBtnMaster: document.getElementById('tabBtnMaster'),
+          tabBtnSlideEdit: document.getElementById('tabBtnSlideEdit'),
+          tabContentAi: document.getElementById('tabContentAi'),
+          tabContentMaster: document.getElementById('tabContentMaster'),
+          tabContentSlideEdit: document.getElementById('tabContentSlideEdit'),
+          // Form inputs
+          chkMagneticSnap: document.getElementById('chkMagneticSnap'),
+          chkNoOptionBox: document.getElementById('chkNoOptionBox'),
+          optionBoxCustomControls: document.getElementById('optionBoxCustomControls'),
+          noBoxActiveNotice: document.getElementById('noBoxActiveNotice'),
+          fontFamilySelect: document.getElementById('fontFamilySelect'),
+          questionFontSizeInput: document.getElementById('questionFontSizeInput'),
+          optionFontSizeInput: document.getElementById('optionFontSizeInput'),
+          questionColorPicker: document.getElementById('questionColorPicker'),
+          questionColorHex: document.getElementById('questionColorHex'),
+          optionColorPicker: document.getElementById('optionColorPicker'),
+          optionColorHex: document.getElementById('optionColorHex'),
+          boxBgColorPicker: document.getElementById('boxBgColorPicker'),
+          boxBgHex: document.getElementById('boxBgHex'),
+          boxBorderColorPicker: document.getElementById('boxBorderColorPicker'),
+          boxBorderHex: document.getElementById('boxBorderHex'),
+          boxBorderWidthInput: document.getElementById('boxBorderWidthInput'),
+          boxBorderRadiusInput: document.getElementById('boxBorderRadiusInput'),
+          slideBgColorPicker: document.getElementById('slideBgColorPicker'),
+          slideBgHex: document.getElementById('slideBgHex'),
+          customBgInput: document.getElementById('customBgInput'),
+          btnRemoveCustomBg: document.getElementById('btnRemoveCustomBg'),
+          accentBarSelect: document.getElementById('accentBarSelect'),
+          accentColorPicker: document.getElementById('accentColorPicker'),
+          accentColorHex: document.getElementById('accentColorHex'),
+          chkBrandingEnabled: document.getElementById('chkBrandingEnabled'),
+          brandingControls: document.getElementById('brandingControls'),
+          inputBrandingText: document.getElementById('inputBrandingText'),
+          // Slide text editor fields
+          editQuestionText: document.getElementById('editQuestionText'),
+          editOptionAText: document.getElementById('editOptionAText'),
+          editOptionBText: document.getElementById('editOptionBText'),
+          editOptionCText: document.getElementById('editOptionCText'),
+          editOptionDText: document.getElementById('editOptionDText')
+        };
+
+        // Page Navigation Controller (2-Page Flow)
+        function showPage(pageKey) {
+          state.currentPage = pageKey;
+          if (pageKey === 'setup') {
+            if (dom.pageSetup) dom.pageSetup.style.display = 'block';
+            if (dom.pageStudio) dom.pageStudio.style.display = 'none';
+            if (dom.btnGoToStudio) {
+              dom.btnGoToStudio.style.display = state.slides.length > 0 ? 'inline-flex' : 'none';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            if (dom.pageSetup) dom.pageSetup.style.display = 'none';
+            if (dom.pageStudio) dom.pageStudio.style.display = 'flex';
+            if (dom.trackerStep2Badge) {
+              dom.trackerStep2Badge.classList.add('active');
+            }
+            renderSlideThumbnails();
+            renderActiveSlide();
+            updateEditorFields();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+        window.showPage = showPage;
+
+        /* ==========================================================================
+           2. UNICODE MATH & LATEX CONVERTER ENGINE (NO MATHJAX DEPENDENCY)
+           ========================================================================== */
+        const mathUnicodeMap = {
+          '\\alpha': 'α', '\\beta': 'β', '\\gamma': 'γ', '\\delta': 'δ', '\\epsilon': 'ε',
+          '\\zeta': 'ζ', '\\eta': 'η', '\\theta': 'θ', '\\iota': 'ι', '\\kappa': 'κ',
+          '\\lambda': 'λ', '\\mu': 'μ', '\\nu': 'ν', '\\xi': 'ξ', '\\pi': 'π',
+          '\\rho': 'ρ', '\\sigma': 'σ', '\\tau': 'τ', '\\upsilon': 'υ', '\\phi': 'φ',
+          '\\chi': 'χ', '\\psi': 'ψ', '\\omega': 'ω',
+          '\\Gamma': 'Γ', '\\Delta': 'Δ', '\\Theta': 'Θ', '\\Lambda': 'Λ', '\\Xi': 'Ξ',
+          '\\Pi': 'Π', '\\Sigma': 'Σ', '\\Upsilon': 'Υ', '\\Phi': 'Φ', '\\Psi': 'Ψ', '\\Omega': 'Ω',
+          '\\times': '×', '\\cdot': '·', '\\div': '÷', '\\pm': '±', '\\mp': '∓',
+          '\\leq': '≤', '\\le': '≤', '\\geq': '≥', '\\ge': '≥', '\\neq': '≠', '\\ne': '≠',
+          '\\approx': '≈', '\\equiv': '≡', '\\propto': '∝', '\\sim': '∼',
+          '\\infty': '∞', '\\int': '∫', '\\sum': '∑', '\\prod': '∏', '\\partial': '∂',
+          '\\nabla': '∇', '\\forall': '∀', '\\exists': '∃', '\\in': '∈', '\\notin': '∉',
+          '\\subset': '⊂', '\\subseteq': '⊆', '\\cup': '∪', '\\cap': '∩',
+          '\\rightarrow': '→', '\\to': '→', '\\leftarrow': '←', '\\Rightarrow': '⇒',
+          '\\leftrightarrow': '↔', '\\degree': '°', '\\circ': '°', '\\angle': '∠',
+          '\\perp': '⊥', '\\parallel': '∥'
+        };
+
+        const superscriptMap = {
+          '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+          '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹',
+          '+': '⁺', '-': '⁻', '=': '⁼', '(': '⁽', ')': '⁾',
+          'n': 'ⁿ', 'i': 'ⁱ', 'x': 'ˣ', 'y': 'ʸ'
+        };
+
+        const subscriptMap = {
+          '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄',
+          '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉',
+          '+': '₊', '-': '₋', '=': '₌', '(': '₍', ')': '₎',
+          'a': 'ₐ', 'e': 'ₑ', 'o': 'ₒ', 'x': 'ₓ', 'h': 'ₕ', 'k': 'ₖ', 'l': 'ₗ', 'm': 'ₘ', 'n': 'ₙ', 'p': 'ₚ', 's': 'ₛ', 't': 'ₜ'
+        };
+
+        function convertLatexToUnicode(str) {
+          if (!str || typeof str !== 'string') return '';
+          let s = str.trim();
+
+          // Strip math delimiters: $...$ or $$...$$ or \( ... \) or \[ ... \]
+          s = s.replace(/^\$\$([\s\S]*)\$\$$/, '$1');
+          s = s.replace(/^\$([\s\S]*)\$$/, '$1');
+          s = s.replace(/^\\\[([\s\S]*)\\\]$/, '$1');
+          s = s.replace(/^\\\(([\s\S]*)\\\)$/, '$1');
+
+          // Convert \vec{X} or \vec X -> X⃗ (using combining right arrow above U+20D7)
+          s = s.replace(/\\vec\s*\{([a-zA-Z0-9])\}/g, '$1⃗');
+          s = s.replace(/\\vec\s+([a-zA-Z0-9])/g, '$1⃗');
+          s = s.replace(/\\mathbf\s*\{([^}]+)\}/g, '$1');
+          s = s.replace(/\\hat\s*\{([a-zA-Z0-9])\}/g, '$1̂');
+
+          // Fractions: \frac{a}{b} -> (a/b) or simple numbers
+          s = s.replace(/\\frac\s*\{1\}\s*\{2\}/g, '½');
+          s = s.replace(/\\frac\s*\{1\}\s*\{3\}/g, '⅓');
+          s = s.replace(/\\frac\s*\{2\}\s*\{3\}/g, '⅔');
+          s = s.replace(/\\frac\s*\{1\}\s*\{4\}/g, '¼');
+          s = s.replace(/\\frac\s*\{3\}\s*\{4\}/g, '¾');
+          s = s.replace(/\\frac\s*\{([^}]+)\}\s*\{([^}]+)\}/g, '($1/$2)');
+
+          // Square roots: \sqrt{x} -> √x or √(x+y)
+          s = s.replace(/\\sqrt\s*\{([^}]+)\}/g, (match, p1) => {
+            return p1.length <= 2 ? `√${p1}` : `√(${p1})`;
+          });
+          s = s.replace(/\\sqrt\s+([a-zA-Z0-9])/g, '√$1');
+
+          // Replace Greek and math commands
+          for (const [cmd, sym] of Object.entries(mathUnicodeMap)) {
+            const regex = new RegExp(cmd.replace('\\', '\\\\') + '(?![a-zA-Z])', 'g');
+            s = s.replace(regex, sym);
+          }
+
+          // Superscripts: ^{12} or ^2
+          s = s.replace(/\^\s*\{([^}]+)\}/g, (match, p1) => {
+            return p1.split('').map(c => superscriptMap[c] || c).join('');
+          });
+          s = s.replace(/\^\s*([0-9a-zA-Z+-])/g, (match, p1) => superscriptMap[p1] || p1);
+
+          // Subscripts: _{12} or _0
+          s = s.replace(/_\s*\{([^}]+)\}/g, (match, p1) => {
+            return p1.split('').map(c => subscriptMap[c] || c).join('');
+          });
+          s = s.replace(/_\s*([0-9a-zA-Z+-])/g, (match, p1) => subscriptMap[p1] || p1);
+
+          // Units normalization (e.g., m/s -> m·s⁻¹, cm^2 -> cm², m^2/s^2 -> m²·s⁻²)
+          s = s.replace(/\bcm\^2\b/g, 'cm²');
+          s = s.replace(/\bm\^2\b/g, 'm²');
+          s = s.replace(/\bm\^3\b/g, 'm³');
+          s = s.replace(/\b10\^([0-9\-]+)\b/g, (match, p1) => {
+            return '10' + p1.split('').map(c => superscriptMap[c] || c).join('');
+          });
+
+          // Clean up leftover braces and multiple spaces
+          s = s.replace(/\\text\s*\{([^}]+)\}/g, '$1');
+          s = s.replace(/\\mathrm\s*\{([^}]+)\}/g, '$1');
+          s = s.replace(/[{}]/g, '');
+          s = s.replace(/\s+/g, ' ').trim();
+
+          return s;
+        }
+
+        // Duplicate prevention and text normalizer
+        function normalizeContent(text, equationsArray) {
+          let cleanText = convertLatexToUnicode(text || '');
+          if (!equationsArray || !Array.isArray(equationsArray) || equationsArray.length === 0) {
+            return cleanText;
+          }
+
+          // Filter equations that are already fully contained in cleanText
+          const uniqueEquations = [];
+          for (const eq of equationsArray) {
+            const cleanEq = convertLatexToUnicode(eq);
+            if (!cleanEq) continue;
+            // Normalize spaces for comparison
+            const normClean = cleanText.replace(/\s+/g, '');
+            const normEq = cleanEq.replace(/\s+/g, '');
+            if (normClean.includes(normEq)) {
+              continue; // Already present in main text!
+            }
+            if (!uniqueEquations.some(u => u.replace(/\s+/g, '') === normEq)) {
+              uniqueEquations.push(cleanEq);
+            }
+          }
+
+          if (uniqueEquations.length > 0) {
+            cleanText = cleanText + (cleanText ? '  ' : '') + uniqueEquations.join(' , ');
+          }
+
+          return cleanText;
+        }
+
+        /* ==========================================================================
+           3. IMAGE PREPROCESSING & ENHANCEMENT ENGINE (SMART SCALING + CONTRAST)
+           ========================================================================== */
+        async function enhanceImage(dataUrl) {
+          return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              // Smart resolution calculation: 1600px is the optical sweet spot for OCR
+              const maxDim = 1600;
+              let w = img.naturalWidth || 1000;
+              let h = img.naturalHeight || 1000;
+
+              if (w > maxDim || h > maxDim) {
+                if (w > h) {
+                  h = Math.round((h * maxDim) / w);
+                  w = maxDim;
+                } else {
+                  w = Math.round((w * maxDim) / h);
+                  h = maxDim;
+                }
+              } else if (w < 800 && h < 800) {
+                const scale = Math.min(2.0, maxDim / Math.max(w, h));
+                w = Math.round(w * scale);
+                h = Math.round(h * scale);
+              }
+
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+              ctx.imageSmoothingEnabled = true;
+              ctx.imageSmoothingQuality = 'high';
+              ctx.drawImage(img, 0, 0, w, h);
+
+              try {
+                const imgData = ctx.getImageData(0, 0, w, h);
+                const d = imgData.data;
+
+                // High-speed Contrast & Brightness Enhancement
+                const contrast = 32;
+                const factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+                for (let i = 0; i < d.length; i += 4) {
+                  let gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+                  gray = factor * (gray - 128) + 128;
+                  if (gray < 0) gray = 0;
+                  if (gray > 255) gray = 255;
+                  d[i] = gray;
+                  d[i + 1] = gray;
+                  d[i + 2] = gray;
+                }
+
+                ctx.putImageData(imgData, 0, 0);
+              } catch (err) {
+                console.warn('Canvas pixel processing skipped:', err);
+              }
+
+              resolve(canvas.toDataURL('image/jpeg', 0.86));
+            };
+            img.onerror = () => resolve(dataUrl);
+            img.src = dataUrl;
+          });
+        }
+
+        /* ==========================================================================
+           4. GOOGLE GEMINI OCR & STRUCTURED PARSER (ULTRA-FAST PARALLEL FLASH LITE)
+           ========================================================================== */
+        async function runGeminiOcrOnImages() {
+          let apiKey = '';
+          try {
+            apiKey = (localStorage.getItem('gemini_ocr_apikey') || '').trim();
+          } catch (e) {
+            console.warn('LocalStorage access warning:', e);
+          }
+          if (!apiKey && dom.inputWelcomeApiKey) {
+            apiKey = (dom.inputWelcomeApiKey.value || '').trim();
+          }
+
+          if (!apiKey) {
+            openWelcomePopup();
+            if (dom.welcomeApiError) {
+              dom.welcomeApiError.style.display = 'block';
+              dom.welcomeApiError.innerText = '⚠️ OCR শুরু করার পূর্বে অনুগ্রহ করে আপনার Google Gemini API Key দিন।';
+            }
+            return;
+          }
+
+          if (state.images.length === 0) {
+            alert('অনুগ্রহ করে অন্তত ১টি প্রশ্নপত্র ছবি আপলোড করুন অথবা "নমুনা প্রশ্ন" বাটনে ক্লিক করুন।');
+            return;
+          }
+
+          dom.btnStartOcr.disabled = true;
+          document.querySelectorAll('.btn-large-ocr').forEach(btn => btn.disabled = true);
+
+          const model = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
+          const shouldEnhance = dom.chkEnhanceQuality ? dom.chkEnhanceQuality.checked : true;
+          const totalImages = state.images.length;
+          let completedCount = 0;
+
+          showProgress(`Google Flash OCR (${model})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
+
+          const promptText = `
+You are an expert educational OCR engine for Physics, Mathematics, Chemistry, Bengali, and English exams.
+Analyze the provided question image.
+
+CRITICAL INSTRUCTIONS:
+1. DETECT EVERY SEPARATE QUESTION: Separate each individual question into its own distinct slide object.
+2. COMPLETE QUESTION TEXT: Capture full question text accurately including Bengali phrasing and equations.
+3. MCQ OPTIONS (A, B, C, D / ক, খ, গ, ঘ): Extract up to 4 options into the "options" array with option labels.
+4. UNICODE MATH ONLY (NO RAW LATEX):
+   - Convert equations, vectors, fractions, powers, subscripts, and Greek symbols into clean UNICODE plain text.
+   - Examples: \\vec{E} -> E⃗, x^2 -> x², 10^12 -> 10¹², v_0 -> v₀, \\frac{a}{b} -> (a/b), \\theta -> θ, \\Delta -> Δ, \\lambda -> λ, \\omega -> ω, m/s -> m·s⁻¹.
+   - DO NOT output $...$ LaTeX delimiters.
+
+RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
+{
+  "slides": [
+    {
+      "question": "Full question text in Unicode",
+      "options": [
+        { "text": "A) option A text with unicode math" },
+        { "text": "B) option B text with unicode math" },
+        { "text": "C) option C text with unicode math" },
+        { "text": "D) option D text with unicode math" }
+      ]
+    }
+  ]
+}
+`.trim();
+
+          try {
+            // Process images concurrently in parallel for blazing-fast performance
+            const ocrTasks = state.images.map(async (imgObj, idx) => {
+              const currentNum = idx + 1;
+              const targetDataUrl = (shouldEnhance && imgObj.enhancedDataUrl) ? imgObj.enhancedDataUrl : imgObj.originalDataUrl;
+              const base64Data = targetDataUrl.split(',')[1];
+              const mimeType = targetDataUrl.substring(targetDataUrl.indexOf(':') + 1, targetDataUrl.indexOf(';')) || 'image/jpeg';
+
+              const parts = [
+                {
+                  inlineData: {
+                    mimeType: mimeType,
+                    data: base64Data
+                  }
+                },
+                { text: promptText }
+              ];
+
+              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+              const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  contents: [{ parts: parts }],
+                  generationConfig: {
+                    temperature: 0.1,
+                    maxOutputTokens: 2500,
+                    responseMimeType: 'application/json'
+                  }
+                })
+              });
+
+              if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
+                throw new Error(`Google Gemini API Error on image #${currentNum} (${model}): ${errMsg}`);
+              }
+
+              const data = await response.json();
+              completedCount++;
+              showProgress(`Google Flash OCR: ${completedCount}/${totalImages}`, completedCount, totalImages, `Parsed image #${currentNum}`);
+
+              const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+              let cleanJson = textOutput.trim();
+              if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+              if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+              if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+              cleanJson = cleanJson.trim();
+
+              let parsed;
+              try {
+                parsed = JSON.parse(cleanJson);
+              } catch (jsonErr) {
+                console.error('Failed to parse Gemini JSON output:', cleanJson);
+                throw new Error(`Failed to parse OCR structured output for image #${currentNum}.`);
+              }
+
+              const slidesFromImage = [];
+              if (parsed && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
+                for (const rawSlide of parsed.slides) {
+                  slidesFromImage.push(normalizeSlideData(rawSlide));
+                }
+              }
+              return slidesFromImage;
+            });
+
+            const results = await Promise.all(ocrTasks);
+            const allDetectedSlides = results.flat();
+
+            if (allDetectedSlides.length === 0) {
+              alert('কোনো প্রশ্ন শনাক্ত করা সম্ভব হয়নি। অনুগ্রহ করে পরিষ্কার প্রশ্নপত্রের ছবি আপলোড করুন।');
+            } else {
+              state.slides = allDetectedSlides;
+              state.activeSlideIndex = 0;
+              showPage('studio');
+              alert(`⚡ Google Flash OCR সম্পন্ন হয়েছে! মোট ${allDetectedSlides.length} টি স্লাইড অত্যন্ত দ্রুত তৈরি করা হয়েছে।`);
+            }
+          } catch (error) {
+            console.error('OCR Process failed:', error);
+            alert(`OCR ত্রুটি: ${error.message}`);
+          } finally {
+            hideProgress();
+            if (dom.btnStartOcr) dom.btnStartOcr.disabled = false;
+            document.querySelectorAll('.btn-large-ocr').forEach(btn => btn.disabled = false);
+          }
+        }
+
+        // Normalize raw Gemini output into standardized slide model
+        function normalizeSlideData(raw) {
+          const questionText = normalizeContent(raw.question || '', raw.questionEquations || []);
+          const rawOptions = Array.isArray(raw.options) ? raw.options : [];
+
+          const options = [];
+          const labels = ['A', 'B', 'C', 'D'];
+
+          for (let i = 0; i < 4; i++) {
+            const opt = rawOptions[i] || {};
+            let optText = typeof opt === 'string' ? opt : (opt.text || '');
+            const optEqs = typeof opt === 'object' && Array.isArray(opt.equations) ? opt.equations : [];
+            const cleanOpt = normalizeContent(optText, optEqs);
+
+            options.push({
+              label: labels[i],
+              text: cleanOpt
+            });
+          }
+
+          return {
+            id: 'slide_' + Math.random().toString(36).substring(2, 9),
+            question: questionText,
+            options: options
+          };
+        }
+
+        /* ==========================================================================
+           5. MASTER SLIDE COORDINATES & 1:1 RENDERING MATH
+           ========================================================================== */
+        // Returns the normalized bounding rect { x, y, w, h } (0 to 1 relative to slide dimensions)
+        function getMasterRect(boxType) {
+          if (boxType === 'question') {
+            return state.masterLayout.question;
+          }
+          if (boxType === 'A' || boxType === 'B' || boxType === 'C' || boxType === 'D') {
+            return state.masterLayout.options[boxType];
+          }
+          return { x: 0.1, y: 0.1, w: 0.8, h: 0.2 };
+        }
+
+        // Live Render of Active Slide
+        function renderActiveSlide() {
+          if (state.slides.length === 0) {
+            // Placeholder empty slide
+            renderEmptyPlaceholder();
+            return;
+          }
+
+          const slide = state.slides[state.activeSlideIndex] || state.slides[0];
+          const style = state.masterStyle;
+
+          // 1. Background Layer
+          if (state.customBgDataUrl) {
+            dom.slideBgLayer.style.backgroundImage = `url(${state.customBgDataUrl})`;
+            dom.slideBgLayer.style.backgroundColor = 'transparent';
+          } else {
+            dom.slideBgLayer.style.backgroundImage = 'none';
+            dom.slideBgLayer.style.backgroundColor = style.slideBgColor;
+          }
+
+          // 2. Accent Bar
+          if (style.accentBar === 'top') {
+            dom.slideAccentBar.style.display = 'block';
+            dom.slideAccentBar.style.top = '0';
+            dom.slideAccentBar.style.left = '0';
+            dom.slideAccentBar.style.width = '100%';
+            dom.slideAccentBar.style.height = '6px';
+            dom.slideAccentBar.style.backgroundColor = style.accentColor;
+          } else if (style.accentBar === 'left') {
+            dom.slideAccentBar.style.display = 'block';
+            dom.slideAccentBar.style.top = '0';
+            dom.slideAccentBar.style.left = '0';
+            dom.slideAccentBar.style.width = '10px';
+            dom.slideAccentBar.style.height = '100%';
+            dom.slideAccentBar.style.backgroundColor = style.accentColor;
+          } else {
+            dom.slideAccentBar.style.display = 'none';
+          }
+
+          // 3. Watermark / Branding
+          if (style.brandingEnabled && style.brandingText) {
+            dom.slideWatermark.style.display = 'block';
+            dom.slideWatermark.innerText = style.brandingText;
+            dom.slideWatermark.style.color = style.questionColor;
+          } else {
+            dom.slideWatermark.style.display = 'none';
+          }
+
+          // 4. Render Boxes with Exact Coordinates & Styles
+          applyBoxTransform(dom.boxQuestion, getMasterRect('question'));
+          applyBoxTransform(dom.boxOptionA, getMasterRect('A'));
+          applyBoxTransform(dom.boxOptionB, getMasterRect('B'));
+          applyBoxTransform(dom.boxOptionC, getMasterRect('C'));
+          applyBoxTransform(dom.boxOptionD, getMasterRect('D'));
+
+          // Highlight current selected box
+          const currentSelected = state.selectedBoxKey || 'question';
+          updateCoordInspector(currentSelected, getMasterRect(currentSelected));
+
+          // Styling
+          const boxBorder = style.noOptionBox ? 'none' : `${style.boxBorderWidth}px solid ${style.boxBorderColor}`;
+          const boxRadius = style.noOptionBox ? '0px' : `${style.boxBorderRadius}px`;
+
+          // Question Content
+          dom.boxQuestion.style.backgroundColor = 'transparent';
+          dom.boxQuestion.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : 'none';
+          dom.contentQuestion.style.fontFamily = style.fontFamily;
+          dom.contentQuestion.style.fontSize = `${style.questionFontSize}px`;
+          dom.contentQuestion.style.color = style.questionColor;
+          dom.contentQuestion.style.fontWeight = '700';
+          dom.contentQuestion.innerText = slide.question || '(No Question Text Detected)';
+
+          // Options A, B, C, D
+          const optBoxes = [
+            { domBox: dom.boxOptionA, contentDom: dom.contentOptionA, opt: slide.options?.[0], defaultPrefix: 'A' },
+            { domBox: dom.boxOptionB, contentDom: dom.contentOptionB, opt: slide.options?.[1], defaultPrefix: 'B' },
+            { domBox: dom.boxOptionC, contentDom: dom.contentOptionC, opt: slide.options?.[2], defaultPrefix: 'C' },
+            { domBox: dom.boxOptionD, contentDom: dom.contentOptionD, opt: slide.options?.[3], defaultPrefix: 'D' }
+          ];
+
+          for (const item of optBoxes) {
+            item.domBox.style.backgroundColor = style.noOptionBox ? 'transparent' : style.boxBgColor;
+            item.domBox.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : boxBorder;
+            item.domBox.style.borderRadius = boxRadius;
+            item.domBox.style.boxShadow = style.noOptionBox ? 'none' : (state.currentViewMode === 'master' ? 'none' : '0 1px 3px rgba(0,0,0,0.05)');
+            item.domBox.style.padding = style.noOptionBox ? '0.35rem 0.5rem' : '0.65rem 0.85rem';
+
+            item.contentDom.style.fontFamily = style.fontFamily;
+            item.contentDom.style.fontSize = `${style.optionFontSize}px`;
+            item.contentDom.style.color = style.optionColor;
+            item.contentDom.style.fontWeight = '500';
+
+            const optText = item.opt?.text || '';
+            item.contentDom.innerText = optText ? optText : `${item.defaultPrefix}) —`;
+          }
+
+          // Toggle Draggable / Master visual indicators
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
+          for (const b of boxes) {
+            const badge = b.querySelector('.box-label-badge');
+            const handles = b.querySelectorAll('.resize-handle');
+            const boxKey = b.getAttribute('data-box');
+            const isSelected = boxKey === currentSelected;
+
+            if (state.currentViewMode === 'master') {
+              b.classList.add('draggable-mode');
+              b.classList.toggle('selected', isSelected);
+              if (badge) badge.style.display = 'block';
+              handles.forEach(h => h.style.display = isSelected ? 'block' : 'none');
+            } else {
+              b.classList.remove('draggable-mode', 'selected');
+              if (badge) badge.style.display = 'none';
+              handles.forEach(h => h.style.display = 'none');
+            }
+          }
+
+          // Update Navigation status text in all places
+          document.querySelectorAll('.slide-nav-text').forEach(el => {
+            el.innerText = `Slide ${state.activeSlideIndex + 1} of ${state.slides.length}`;
+          });
+          if (dom.slideCountBadge) dom.slideCountBadge.innerText = state.slides.length;
+        }
+
+        function selectMasterBox(boxKey) {
+          state.selectedBoxKey = boxKey;
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
+          boxes.forEach(b => {
+            if (b) {
+              const isSelected = b.getAttribute('data-box') === boxKey;
+              b.classList.toggle('selected', isSelected);
+              const handles = b.querySelectorAll('.resize-handle');
+              handles.forEach(h => h.style.display = (isSelected && state.currentViewMode === 'master') ? 'block' : 'none');
+            }
+          });
+          const rect = getMasterRect(boxKey);
+          updateCoordInspector(boxKey, rect);
+        }
+        window.selectMasterBox = selectMasterBox;
+
+        function updateCoordInspector(boxKey, rect) {
+          const labelMap = {
+            question: 'Question Box',
+            A: 'Option A',
+            B: 'Option B',
+            C: 'Option C',
+            D: 'Option D'
+          };
+          const keyName = labelMap[boxKey] || boxKey;
+          const keyEl = document.getElementById('coordBoxKey');
+          const xEl = document.getElementById('coordX');
+          const yEl = document.getElementById('coordY');
+          const wEl = document.getElementById('coordW');
+          const hEl = document.getElementById('coordH');
+          if (keyEl) keyEl.innerText = keyName;
+          if (xEl) xEl.innerText = rect.x.toFixed(2);
+          if (yEl) yEl.innerText = rect.y.toFixed(2);
+          if (wEl) wEl.innerText = rect.w.toFixed(2);
+          if (hEl) hEl.innerText = rect.h.toFixed(2);
+
+          // Sync sidebar inputs
+          const badgeCurrent = document.getElementById('badgeCurrentSelectedBox');
+          if (badgeCurrent) badgeCurrent.innerText = keyName;
+
+          const inputX = document.getElementById('inputBoxX');
+          if (inputX && document.activeElement !== inputX) inputX.value = (rect.x * 100).toFixed(1);
+          const inputY = document.getElementById('inputBoxY');
+          if (inputY && document.activeElement !== inputY) inputY.value = (rect.y * 100).toFixed(1);
+          const inputW = document.getElementById('inputBoxW');
+          if (inputW && document.activeElement !== inputW) inputW.value = (rect.w * 100).toFixed(1);
+          const inputH = document.getElementById('inputBoxH');
+          if (inputH && document.activeElement !== inputH) inputH.value = (rect.h * 100).toFixed(1);
+
+          // Highlight selector buttons in sidebar
+          document.querySelectorAll('.box-select-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-target') === boxKey);
+          });
+        }
+
+        function setBoxCoordFromInput(axis, value) {
+          const boxKey = state.selectedBoxKey || 'question';
+          const rect = getMasterRect(boxKey);
+          const num = parseFloat(value);
+          if (isNaN(num)) return;
+          const normalized = num / 100;
+          if (axis === 'x') rect.x = Math.max(0, Math.min(0.98 - rect.w, normalized));
+          if (axis === 'y') rect.y = Math.max(0, Math.min(0.98 - rect.h, normalized));
+          if (axis === 'w') rect.w = Math.max(0.05, Math.min(0.99 - rect.x, normalized));
+          if (axis === 'h') rect.h = Math.max(0.05, Math.min(0.99 - rect.y, normalized));
+          renderActiveSlide();
+        }
+        window.setBoxCoordFromInput = setBoxCoordFromInput;
+
+        function nudgeSelectedBox(dx, dy) {
+          const boxKey = state.selectedBoxKey || 'question';
+          const rect = getMasterRect(boxKey);
+          rect.x = Math.max(0, Math.min(0.95 - rect.w, rect.x + dx));
+          rect.y = Math.max(0, Math.min(0.95 - rect.h, rect.y + dy));
+          renderActiveSlide();
+        }
+        window.nudgeSelectedBox = nudgeSelectedBox;
+
+        function resetMasterLayoutDefault() {
+          state.masterLayout = {
+            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.28 },
+            options: {
+              A: { x: 0.06, y: 0.40, w: 0.42, h: 0.22 },
+              B: { x: 0.52, y: 0.40, w: 0.42, h: 0.22 },
+              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.22 },
+              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.22 }
+            }
+          };
+          renderActiveSlide();
+        }
+        window.resetMasterLayoutDefault = resetMasterLayoutDefault;
+
+        function setViewMode(mode) {
+          state.currentViewMode = mode;
+          document.querySelectorAll('.btn-mode-preview').forEach(b => b.classList.toggle('active', mode === 'preview'));
+          document.querySelectorAll('.btn-mode-master').forEach(b => b.classList.toggle('active', mode === 'master'));
+
+          const statusDot = document.querySelector('.stage-status-bar .status-dot');
+          const statusText = document.querySelector('.stage-status-bar .status-text');
+          if (statusText) {
+            statusText.innerText = mode === 'master' ? 'Master Slide Drag & Layout Mode' : 'Live Slide Preview (16:9)';
+          }
+          if (statusDot) {
+            statusDot.style.background = mode === 'master' ? 'var(--accent-yellow)' : '#34D399';
+            statusDot.style.boxShadow = mode === 'master' ? '0 0 8px rgba(250, 204, 21, 0.8)' : '0 0 8px rgba(52, 211, 153, 0.8)';
+          }
+          renderActiveSlide();
+        }
+        window.setViewMode = setViewMode;
+
+        function applyBoxTransform(boxElement, rect) {
+          if (!boxElement || !rect) return;
+          boxElement.style.left = `${(rect.x * 100).toFixed(2)}%`;
+          boxElement.style.top = `${(rect.y * 100).toFixed(2)}%`;
+          boxElement.style.width = `${(rect.w * 100).toFixed(2)}%`;
+          boxElement.style.height = `${(rect.h * 100).toFixed(2)}%`;
+        }
+
+        /* ==========================================================================
+           6. QUICK ROW & GRID ALIGNMENT METHODS (১ সারিতে সাজানো)
+           ========================================================================== */
+        // Arrange Option A, B, C, D in 1 single horizontal row
+        window.alignOptionsSingleRow = function() {
+          const margin = 0.06;
+          const gap = 0.02;
+          const availableWidth = 1.0 - (2 * margin); // 0.88
+          const boxW = parseFloat(((availableWidth - (3 * gap)) / 4).toFixed(3)); // ~0.205
+          const boxH = 0.22;
+          const boxY = 0.58;
+
+          // Expand question box height for single row layout
+          state.masterLayout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.44 };
+
+          state.masterLayout.options.A = { x: margin, y: boxY, w: boxW, h: boxH };
+          state.masterLayout.options.B = { x: parseFloat((margin + 1 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+          state.masterLayout.options.C = { x: parseFloat((margin + 2 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+          state.masterLayout.options.D = { x: parseFloat((margin + 3 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+
+          renderActiveSlide();
+        };
+
+        // Arrange Option A, B, C, D in 2x2 grid
+        window.alignOptionsGrid2x2 = function() {
+          state.masterLayout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.28 };
+          state.masterLayout.options.A = { x: 0.06, y: 0.40, w: 0.42, h: 0.24 };
+          state.masterLayout.options.B = { x: 0.52, y: 0.40, w: 0.42, h: 0.24 };
+          state.masterLayout.options.C = { x: 0.06, y: 0.68, w: 0.42, h: 0.24 };
+          state.masterLayout.options.D = { x: 0.52, y: 0.68, w: 0.42, h: 0.24 };
+          renderActiveSlide();
+        };
+
+        // Arrange Option A, B, C, D in 1 vertical column
+        window.alignOptionsVertical1Col = function() {
+          state.masterLayout.question = { x: 0.06, y: 0.06, w: 0.88, h: 0.24 };
+          state.masterLayout.options.A = { x: 0.06, y: 0.33, w: 0.88, h: 0.13 };
+          state.masterLayout.options.B = { x: 0.06, y: 0.49, w: 0.88, h: 0.13 };
+          state.masterLayout.options.C = { x: 0.06, y: 0.65, w: 0.88, h: 0.13 };
+          state.masterLayout.options.D = { x: 0.06, y: 0.81, w: 0.88, h: 0.13 };
+          renderActiveSlide();
+        };
+
+        // Align all option boxes to the exact same Y baseline (horizontal row level)
+        window.alignSelectedRowY = function() {
+          const targetY = state.masterLayout.options.A.y;
+          const targetH = state.masterLayout.options.A.h;
+          state.masterLayout.options.B.y = targetY;
+          state.masterLayout.options.B.h = targetH;
+          state.masterLayout.options.C.y = targetY;
+          state.masterLayout.options.C.h = targetH;
+          state.masterLayout.options.D.y = targetY;
+          state.masterLayout.options.D.h = targetH;
+          renderActiveSlide();
+        };
+
+        // Make all 4 option boxes have matching width and height
+        window.makeOptionsEqualSize = function() {
+          const targetW = state.masterLayout.options.A.w;
+          const targetH = state.masterLayout.options.A.h;
+          state.masterLayout.options.B.w = targetW;
+          state.masterLayout.options.B.h = targetH;
+          state.masterLayout.options.C.w = targetW;
+          state.masterLayout.options.C.h = targetH;
+          state.masterLayout.options.D.w = targetW;
+          state.masterLayout.options.D.h = targetH;
+          renderActiveSlide();
+        };
+
+        function renderEmptyPlaceholder() {
+          dom.contentQuestion.innerText = 'Upload question images and click "Run Google OCR" or click "Sample Questions" to begin.';
+          dom.contentQuestion.style.color = '#94a3b8';
+          dom.contentOptionA.innerText = 'A) Option preview';
+          dom.contentOptionB.innerText = 'B) Option preview';
+          dom.contentOptionC.innerText = 'C) Option preview';
+          dom.contentOptionD.innerText = 'D) Option preview';
+          document.querySelectorAll('.slide-nav-text').forEach(el => el.innerText = 'Slide 0 of 0');
+          if (dom.slideCountBadge) dom.slideCountBadge.innerText = '0';
+        }
+
+        // Render thumbnail list in left panel
+        function renderSlideThumbnails() {
+          dom.slideThumbGrid.innerHTML = '';
+          state.slides.forEach((slide, idx) => {
+            const card = document.createElement('div');
+            card.className = `slide-thumb-card ${idx === state.activeSlideIndex ? 'active' : ''}`;
+            card.onclick = () => {
+              state.activeSlideIndex = idx;
+              renderSlideThumbnails();
+              renderActiveSlide();
+              updateEditorFields();
+            };
+
+            const header = document.createElement('div');
+            header.className = 'slide-thumb-header';
+            header.innerHTML = `<span class="slide-badge">Slide ${idx + 1}</span>`;
+
+            const snippet = document.createElement('div');
+            snippet.className = 'slide-snippet';
+            snippet.innerText = slide.question || '(Empty question)';
+
+            card.appendChild(header);
+            card.appendChild(snippet);
+            dom.slideThumbGrid.appendChild(card);
+          });
+        }
+
+        function updateEditorFields() {
+          if (state.slides.length === 0) return;
+          const s = state.slides[state.activeSlideIndex];
+          dom.editQuestionText.value = s.question || '';
+          dom.editOptionAText.value = s.options?.[0]?.text || '';
+          dom.editOptionBText.value = s.options?.[1]?.text || '';
+          dom.editOptionCText.value = s.options?.[2]?.text || '';
+          dom.editOptionDText.value = s.options?.[3]?.text || '';
+        }
+
+        /* ==========================================================================
+           7. MASTER SLIDE MAGNETIC DRAG & RESIZE ENGINE (SYNCED 1:1 TO EXPORT)
+           ========================================================================== */
+        function initMasterDragEngine() {
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
+
+          boxes.forEach(box => {
+            if (!box) return;
+
+            box.addEventListener('pointerdown', (e) => {
+              if (state.currentViewMode !== 'master') return;
+
+              const boxKey = box.getAttribute('data-box');
+              selectMasterBox(boxKey);
+
+              // Check if any resize handle was clicked
+              const handleEl = e.target.closest('.resize-handle');
+              if (handleEl) {
+                state.isResizing = true;
+                state.isDragging = false;
+                state.resizeHandleType = handleEl.getAttribute('data-handle') || 'br';
+              } else {
+                state.isDragging = true;
+                state.isResizing = false;
+                state.resizeHandleType = null;
+              }
+
+              const vRect = dom.slideViewport.getBoundingClientRect();
+              const currentRect = getMasterRect(boxKey);
+
+              state.dragStart = {
+                pointerX: e.clientX,
+                pointerY: e.clientY,
+                viewportWidth: vRect.width || 800,
+                viewportHeight: vRect.height || 450,
+                initialBox: { ...currentRect }
+              };
+
+              try {
+                box.setPointerCapture(e.pointerId);
+              } catch (err) {}
+              e.stopPropagation();
+            });
+
+            box.addEventListener('pointermove', (e) => {
+              if (!state.isDragging && !state.isResizing) return;
+              if (state.currentViewMode !== 'master') return;
+
+              const boxKey = box.getAttribute('data-box');
+              const ds = state.dragStart;
+              if (!ds) return;
+
+              const deltaX = (e.clientX - ds.pointerX) / ds.viewportWidth;
+              const deltaY = (e.clientY - ds.pointerY) / ds.viewportHeight;
+
+              const targetRect = getMasterRect(boxKey);
+
+              if (state.isDragging) {
+                let rawX = Math.max(0.005, Math.min(0.99 - targetRect.w, ds.initialBox.x + deltaX));
+                let rawY = Math.max(0.005, Math.min(0.99 - targetRect.h, ds.initialBox.y + deltaY));
+
+                // MAGNETIC SNAPPING LOGIC
+                if (state.magneticSnapEnabled) {
+                  const SNAP_DIST = 0.016; // approx snapping distance
+                  let snappedV = false;
+                  let snappedH = false;
+                  let snapXCoord = null;
+                  let snapYCoord = null;
+
+                  // Candidate snap lines X (vertical guides)
+                  const vSnapCandidates = [0.06, 0.50, 0.94]; // margins & center
+                  // Candidate snap lines Y (horizontal guides)
+                  const hSnapCandidates = [0.08, 0.40, 0.50, 0.68, 0.92];
+
+                  // Add other boxes' bounds to candidate list
+                  const allKeys = ['question', 'A', 'B', 'C', 'D'];
+                  for (const otherKey of allKeys) {
+                    if (otherKey === boxKey) continue;
+                    const otherRect = getMasterRect(otherKey);
+                    // X edges
+                    vSnapCandidates.push(otherRect.x);
+                    vSnapCandidates.push(otherRect.x + otherRect.w / 2);
+                    vSnapCandidates.push(otherRect.x + otherRect.w);
+                    // Y edges
+                    hSnapCandidates.push(otherRect.y);
+                    hSnapCandidates.push(otherRect.y + otherRect.h / 2);
+                    hSnapCandidates.push(otherRect.y + otherRect.h);
+                  }
+
+                  // 1. Check Vertical Guide Snapping (X Axis)
+                  const myLeft = rawX;
+                  const myCenter = rawX + targetRect.w / 2;
+                  const myRight = rawX + targetRect.w;
+
+                  for (const cX of vSnapCandidates) {
+                    // Left edge snap
+                    if (Math.abs(myLeft - cX) < SNAP_DIST) {
+                      rawX = cX;
+                      snappedV = true;
+                      snapXCoord = cX;
+                      break;
+                    }
+                    // Center snap
+                    if (Math.abs(myCenter - cX) < SNAP_DIST) {
+                      rawX = cX - targetRect.w / 2;
+                      snappedV = true;
+                      snapXCoord = cX;
+                      break;
+                    }
+                    // Right edge snap
+                    if (Math.abs(myRight - cX) < SNAP_DIST) {
+                      rawX = cX - targetRect.w;
+                      snappedV = true;
+                      snapXCoord = cX;
+                      break;
+                    }
+                  }
+
+                  // 2. Check Horizontal Guide Snapping (Y Axis)
+                  const myTop = rawY;
+                  const myMiddle = rawY + targetRect.h / 2;
+                  const myBottom = rawY + targetRect.h;
+
+                  for (const cY of hSnapCandidates) {
+                    // Top edge snap
+                    if (Math.abs(myTop - cY) < SNAP_DIST) {
+                      rawY = cY;
+                      snappedH = true;
+                      snapYCoord = cY;
+                      break;
+                    }
+                    // Middle snap
+                    if (Math.abs(myMiddle - cY) < SNAP_DIST) {
+                      rawY = cY - targetRect.h / 2;
+                      snappedH = true;
+                      snapYCoord = cY;
+                      break;
+                    }
+                    // Bottom edge snap
+                    if (Math.abs(myBottom - cY) < SNAP_DIST) {
+                      rawY = cY - targetRect.h;
+                      snappedH = true;
+                      snapYCoord = cY;
+                      break;
+                    }
+                  }
+
+                  // Visual Guideline Display
+                  if (snappedV && snapXCoord !== null && dom.snapGuideV) {
+                    dom.snapGuideV.style.left = `${(snapXCoord * 100).toFixed(2)}%`;
+                    dom.snapGuideV.style.display = 'block';
+                  } else if (dom.snapGuideV) {
+                    dom.snapGuideV.style.display = 'none';
+                  }
+
+                  if (snappedH && snapYCoord !== null && dom.snapGuideH) {
+                    dom.snapGuideH.style.top = `${(snapYCoord * 100).toFixed(2)}%`;
+                    dom.snapGuideH.style.display = 'block';
+                  } else if (dom.snapGuideH) {
+                    dom.snapGuideH.style.display = 'none';
+                  }
+                } else {
+                  if (dom.snapGuideV) dom.snapGuideV.style.display = 'none';
+                  if (dom.snapGuideH) dom.snapGuideH.style.display = 'none';
+                }
+
+                targetRect.x = rawX;
+                targetRect.y = rawY;
+              } else if (state.isResizing) {
+                const handle = state.resizeHandleType || 'br';
+                const init = ds.initialBox;
+
+                if (handle === 'br') {
+                  targetRect.w = Math.max(0.08, Math.min(0.99 - targetRect.x, init.w + deltaX));
+                  targetRect.h = Math.max(0.05, Math.min(0.99 - targetRect.y, init.h + deltaY));
+                } else if (handle === 'bl') {
+                  const newW = Math.max(0.08, Math.min(init.x + init.w - 0.01, init.w - deltaX));
+                  targetRect.x = init.x + (init.w - newW);
+                  targetRect.w = newW;
+                  targetRect.h = Math.max(0.05, Math.min(0.99 - targetRect.y, init.h + deltaY));
+                } else if (handle === 'tr') {
+                  targetRect.w = Math.max(0.08, Math.min(0.99 - targetRect.x, init.w + deltaX));
+                  const newH = Math.max(0.05, Math.min(init.y + init.h - 0.01, init.h - deltaY));
+                  targetRect.y = init.y + (init.h - newH);
+                  targetRect.h = newH;
+                } else if (handle === 'tl') {
+                  const newW = Math.max(0.08, Math.min(init.x + init.w - 0.01, init.w - deltaX));
+                  const newH = Math.max(0.05, Math.min(init.y + init.h - 0.01, init.h - deltaY));
+                  targetRect.x = init.x + (init.w - newW);
+                  targetRect.y = init.y + (init.h - newH);
+                  targetRect.w = newW;
+                  targetRect.h = newH;
+                }
+              }
+
+              applyBoxTransform(box, targetRect);
+              updateCoordInspector(boxKey, targetRect);
+            });
+
+            const finishDrag = (e) => {
+              state.isDragging = false;
+              state.isResizing = false;
+              if (dom.snapGuideV) dom.snapGuideV.style.display = 'none';
+              if (dom.snapGuideH) dom.snapGuideH.style.display = 'none';
+              renderActiveSlide();
+            };
+
+            box.addEventListener('pointerup', finishDrag);
+            box.addEventListener('pointercancel', finishDrag);
+          });
+
+          // Keyboard navigation for precision nudge
+          window.addEventListener('keydown', (e) => {
+            if (state.currentViewMode !== 'master') return;
+            if (['input', 'textarea', 'select'].includes(document.activeElement?.tagName?.toLowerCase())) return;
+
+            const step = e.shiftKey ? 0.05 : 0.01;
+            if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              nudgeSelectedBox(-step, 0);
+            } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              nudgeSelectedBox(step, 0);
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              nudgeSelectedBox(0, -step);
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              nudgeSelectedBox(0, step);
+            }
+          });
+        }
+
+        /* ==========================================================================
+           8. 100% FAITHFUL POWERPOINT EXPORT ENGINE (PPTXGENJS)
+           ========================================================================== */
+        async function exportPresentation() {
+          if (typeof PptxGenJS === 'undefined') {
+            alert('PptxGenJS library is still loading or failed to load. Please check your internet connection and try again.');
+            return;
+          }
+
+          if (state.slides.length === 0) {
+            alert('No slides to export! Please run OCR or load sample questions first.');
+            return;
+          }
+
+          dom.btnExportPpt.disabled = true;
+          showProgress('Exporting PPTX...', 0, state.slides.length, 'Initializing 16:9 Wide presentation');
+
+          try {
+            const pptx = new PptxGenJS();
+            pptx.layout = 'LAYOUT_WIDE'; // Standard 16:9 Widescreen (13.333" x 7.5")
+            const WIDE_WIDTH_INCHES = 13.333;
+            const WIDE_HEIGHT_INCHES = 7.5;
+
+            const style = state.masterStyle;
+
+            // Helper to clean hex color (PptxGenJS expects 6 chars without #)
+            const cleanHex = (hex) => {
+              if (!hex) return '000000';
+              return hex.replace('#', '').trim();
+            };
+
+            const getPptFontFace = (fontFamilyStr) => {
+              if (!fontFamilyStr) return 'Calibri';
+              if (fontFamilyStr.includes('Cambria Math')) return 'Cambria Math';
+              if (fontFamilyStr.includes('Shonar Bangla')) return 'Shonar Bangla';
+              if (fontFamilyStr.includes('Noto Sans Bengali')) return 'Noto Sans Bengali';
+              if (fontFamilyStr.includes('Plus Jakarta Sans')) return 'Plus Jakarta Sans';
+              if (fontFamilyStr.includes('Times New Roman')) return 'Times New Roman';
+              if (fontFamilyStr.includes('Arial')) return 'Arial';
+              if (fontFamilyStr.includes('Verdana')) return 'Verdana';
+              if (fontFamilyStr.includes('Georgia')) return 'Georgia';
+              if (fontFamilyStr.includes('Fira Code')) return 'Fira Code';
+              return fontFamilyStr.split(',')[0].replace(/['"]/g, '').trim();
+            };
+
+            const chosenFontFace = getPptFontFace(style.fontFamily);
+
+            for (let i = 0; i < state.slides.length; i++) {
+              const slideData = state.slides[i];
+              showProgress(`Generating Slide ${i + 1}/${state.slides.length}`, i + 1, state.slides.length, 'Rendering geometry');
+
+              const pptSlide = pptx.addSlide();
+
+              // 1. Slide Background
+              if (state.customBgDataUrl) {
+                pptSlide.background = { data: state.customBgDataUrl };
+              } else {
+                pptSlide.background = { color: cleanHex(style.slideBgColor) };
+              }
+
+              // 2. Accent Bar
+              if (style.accentBar === 'top') {
+                pptSlide.addShape(pptx.ShapeType.rect, {
+                  x: 0,
+                  y: 0,
+                  w: WIDE_WIDTH_INCHES,
+                  h: 0.1,
+                  fill: { color: cleanHex(style.accentColor) },
+                  line: { color: cleanHex(style.accentColor), width: 0 }
+                });
+              } else if (style.accentBar === 'left') {
+                pptSlide.addShape(pptx.ShapeType.rect, {
+                  x: 0,
+                  y: 0,
+                  w: 0.15,
+                  h: WIDE_HEIGHT_INCHES,
+                  fill: { color: cleanHex(style.accentColor) },
+                  line: { color: cleanHex(style.accentColor), width: 0 }
+                });
+              }
+
+              // 3. Watermark / Branding
+              if (style.brandingEnabled && style.brandingText) {
+                pptSlide.addText(style.brandingText, {
+                  x: WIDE_WIDTH_INCHES - 4.5,
+                  y: WIDE_HEIGHT_INCHES - 0.5,
+                  w: 4.2,
+                  h: 0.35,
+                  fontFace: chosenFontFace,
+                  fontSize: 10,
+                  color: cleanHex(style.questionColor),
+                  align: 'right',
+                  valign: 'middle'
+                });
+              }
+
+              // 4. Question Box (1:1 with Master Layout)
+              const qRect = getMasterRect('question');
+              pptSlide.addText(slideData.question || '', {
+                x: qRect.x * WIDE_WIDTH_INCHES,
+                y: qRect.y * WIDE_HEIGHT_INCHES,
+                w: qRect.w * WIDE_WIDTH_INCHES,
+                h: qRect.h * WIDE_HEIGHT_INCHES,
+                fontFace: chosenFontFace,
+                fontSize: style.questionFontSize,
+                bold: true,
+                color: cleanHex(style.questionColor),
+                valign: 'top',
+                wrap: true
+              });
+
+              // 5. Options A, B, C, D (1:1 with Master Layout)
+              const optionKeys = ['A', 'B', 'C', 'D'];
+              for (let k = 0; k < 4; k++) {
+                const key = optionKeys[k];
+                const optRect = getMasterRect(key);
+                const optObj = slideData.options?.[k];
+                const optText = optObj?.text || `${key}) —`;
+
+                const textProps = {
+                  x: optRect.x * WIDE_WIDTH_INCHES,
+                  y: optRect.y * WIDE_HEIGHT_INCHES,
+                  w: optRect.w * WIDE_WIDTH_INCHES,
+                  h: optRect.h * WIDE_HEIGHT_INCHES,
+                  fontFace: chosenFontFace,
+                  fontSize: style.optionFontSize,
+                  bold: false,
+                  color: cleanHex(style.optionColor),
+                  valign: 'middle',
+                  wrap: true
+                };
+
+                if (style.noOptionBox) {
+                  // Borderless / Plain text options mode
+                  textProps.margin = [4, 6, 4, 6];
+                } else {
+                  // Standard styled option box with background and border
+                  textProps.fill = { color: cleanHex(style.boxBgColor) };
+                  textProps.line = {
+                    color: cleanHex(style.boxBorderColor),
+                    width: style.boxBorderWidth || 1
+                  };
+                  textProps.rectRadius = (style.boxBorderRadius || 8) / 20; // normalized radius
+                  textProps.margin = [6, 12, 6, 12];
+                }
+
+                pptSlide.addText(optText, textProps);
+              }
+            }
+
+            // Export Blob
+            const blob = await pptx.write({ outputType: 'blob' });
+            if (!blob || !blob.size) {
+              throw new Error('Generated PowerPoint file is empty.');
+            }
+
+            state.exportedBlob = blob;
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Auto-trigger download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = blobUrl;
+            downloadLink.download = `Google_OCR_Questions_${Date.now()}.pptx`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Update persistent download button in UI
+            dom.btnDownloadPptxBlob.href = blobUrl;
+            dom.btnDownloadPptxBlob.download = downloadLink.download;
+            const fileSizeStr = `${(blob.size / 1024).toFixed(1)}`;
+            dom.exportFileSize.innerText = `${fileSizeStr} KB`;
+            dom.exportStatusCard.style.display = 'flex';
+            switchTab('ai');
+
+            // Open animated Celebration Modal with the exact requested Bengali text
+            openCelebrationPopup(state.slides.length, fileSizeStr, blobUrl, downloadLink.download);
+          } catch (error) {
+            console.error('PPTX Export failed:', error);
+            alert(`PPTX Export Failed: ${error.message}`);
+          } finally {
+            hideProgress();
+            dom.btnExportPpt.disabled = false;
+          }
+        }
+
+        /* ==========================================================================
+           9. PRESETS, THEMES & FORM CONTROLS
+           ========================================================================== */
+        window.applyPreset = function(presetName) {
+          const presets = {
+            cleanBorderless: {
+              slideBgColor: "#FFFFFF",
+              questionColor: "#0F172A",
+              optionColor: "#1E293B",
+              noOptionBox: true,
+              boxBgColor: "#F8FAFC",
+              boxBorderColor: "#CBD5E1",
+              boxBorderWidth: 0,
+              accentColor: "#F59E0B",
+              accentBar: "top"
+            },
+            cleanWhite: {
+              slideBgColor: "#FFFFFF",
+              questionColor: "#0F172A",
+              optionColor: "#1E293B",
+              noOptionBox: false,
+              boxBgColor: "#F8FAFC",
+              boxBorderColor: "#CBD5E1",
+              boxBorderWidth: 1.5,
+              accentColor: "#F59E0B",
+              accentBar: "top"
+            },
+            yellowPremium: {
+              slideBgColor: "#0F172A",
+              questionColor: "#F8FAFC",
+              optionColor: "#FDE68A",
+              noOptionBox: false,
+              boxBgColor: "#1E293B",
+              boxBorderColor: "#F59E0B",
+              boxBorderWidth: 1.5,
+              accentColor: "#F59E0B",
+              accentBar: "top"
+            },
+            blueClassroom: {
+              slideBgColor: "#0369A1",
+              questionColor: "#FFFFFF",
+              optionColor: "#F0F9FF",
+              noOptionBox: false,
+              boxBgColor: "#0284C7",
+              boxBorderColor: "#38BDF8",
+              boxBorderWidth: 1.5,
+              accentColor: "#38BDF8",
+              accentBar: "left"
+            },
+            darkPremium: {
+              slideBgColor: "#090D16",
+              questionColor: "#F3F4F6",
+              optionColor: "#E5E7EB",
+              noOptionBox: false,
+              boxBgColor: "#131C2E",
+              boxBorderColor: "#2E3A52",
+              boxBorderWidth: 1.5,
+              accentColor: "#8B5CF6",
+              accentBar: "top"
+            },
+            modernGlass: {
+              slideBgColor: "#1E1B4B",
+              questionColor: "#EEF2FF",
+              optionColor: "#C7D2FE",
+              noOptionBox: false,
+              boxBgColor: "#312E81",
+              boxBorderColor: "#6366F1",
+              boxBorderWidth: 1.5,
+              accentColor: "#6366F1",
+              accentBar: "top"
+            }
+          };
+
+          const p = presets[presetName];
+          if (!p) return;
+
+          Object.assign(state.masterStyle, p);
+          syncControlsFromState();
+          renderActiveSlide();
+        };
+
+        function syncControlsFromState() {
+          const s = state.masterStyle;
+          dom.fontFamilySelect.value = s.fontFamily;
+          dom.questionFontSizeInput.value = s.questionFontSize;
+          dom.optionFontSizeInput.value = s.optionFontSize;
+          dom.questionColorPicker.value = s.questionColor;
+          dom.questionColorHex.value = s.questionColor.toUpperCase();
+          dom.optionColorPicker.value = s.optionColor;
+          dom.optionColorHex.value = s.optionColor.toUpperCase();
+          dom.boxBgColorPicker.value = s.boxBgColor;
+          dom.boxBgHex.value = s.boxBgColor.toUpperCase();
+          dom.boxBorderColorPicker.value = s.boxBorderColor;
+          dom.boxBorderHex.value = s.boxBorderColor.toUpperCase();
+          dom.boxBorderWidthInput.value = s.boxBorderWidth;
+          dom.boxBorderRadiusInput.value = s.boxBorderRadius;
+          dom.slideBgColorPicker.value = s.slideBgColor;
+          dom.slideBgHex.value = s.slideBgColor.toUpperCase();
+          dom.accentBarSelect.value = s.accentBar;
+          dom.accentColorPicker.value = s.accentColor;
+          dom.accentColorHex.value = s.accentColor.toUpperCase();
+          dom.chkBrandingEnabled.checked = s.brandingEnabled;
+          dom.brandingControls.style.display = s.brandingEnabled ? 'flex' : 'none';
+
+          // Magnetic snap & No Option Box
+          if (dom.chkMagneticSnap) {
+            dom.chkMagneticSnap.checked = state.magneticSnapEnabled;
+          }
+          if (dom.coordMagnetStatus) {
+            dom.coordMagnetStatus.innerText = state.magneticSnapEnabled ? 'ON' : 'OFF';
+            dom.coordMagnetStatus.style.color = state.magneticSnapEnabled ? 'var(--success)' : 'var(--text-muted)';
+          }
+          if (dom.chkNoOptionBox) {
+            dom.chkNoOptionBox.checked = !!s.noOptionBox;
+            if (dom.optionBoxCustomControls) {
+              dom.optionBoxCustomControls.style.opacity = s.noOptionBox ? '0.4' : '1';
+              dom.optionBoxCustomControls.style.pointerEvents = s.noOptionBox ? 'none' : 'auto';
+            }
+            if (dom.noBoxActiveNotice) {
+              dom.noBoxActiveNotice.style.display = s.noOptionBox ? 'block' : 'none';
+            }
+          }
+        }
+
+        /* ==========================================================================
+           10. IMAGE UPLOAD & SAMPLE QUESTIONS GENERATOR
+           ========================================================================== */
+        async function handleFiles(files) {
+          if (!files || files.length === 0) return;
+
+          showProgress('Loading Images...', 0, files.length, 'Reading and pre-processing');
+
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (!file.type.startsWith('image/')) continue;
+
+            const originalDataUrl = await readFileAsDataUrl(file);
+            const enhancedDataUrl = await enhanceImage(originalDataUrl);
+
+            state.images.push({
+              id: 'img_' + Math.random().toString(36).substring(2, 9),
+              file: file,
+              name: file.name,
+              sizeStr: (file.size / 1024).toFixed(1) + ' KB',
+              originalDataUrl: originalDataUrl,
+              enhancedDataUrl: enhancedDataUrl
+            });
+          }
+
+          hideProgress();
+          renderImageList();
+        }
+
+        function readFileAsDataUrl(file) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.readAsDataURL(file);
+          });
+        }
+
+        function renderImageList() {
+          if (dom.imageList) dom.imageList.innerHTML = '';
+          if (dom.setupImageCountBadge) {
+            dom.setupImageCountBadge.innerText = `${state.images.length} টি ছবি`;
+          }
+          state.images.forEach((img, idx) => {
+            const item = document.createElement('div');
+            item.className = 'image-item';
+
+            item.innerHTML = `
+              <img src="${img.originalDataUrl}" class="image-thumb" alt="thumb">
+              <div class="image-meta">
+                <div class="image-name">#${idx + 1} ${img.name}</div>
+                <div class="image-size">${img.sizeStr}</div>
+              </div>
+              <button class="btn btn-danger btn-sm" style="padding:2px 6px;" title="Remove image">✕</button>
+            `;
+
+            item.querySelector('button').onclick = () => {
+              state.images.splice(idx, 1);
+              renderImageList();
+            };
+
+            if (dom.imageList) dom.imageList.appendChild(item);
+          });
+        }
+
+        // Built-in Sample Questions
+        function loadSampleQuestions() {
+          state.slides = [
+            {
+              id: 'sample_1',
+              question: 'একটি তড়িৎক্ষেত্রে 2.5×10⁻³ C আধানের উপর 7.5 N বল ক্রিয়া করলে উক্ত বিন্দুতে তড়িৎক্ষেত্রের তীব্রতা E⃗ এর মান কত?',
+              options: [
+                { label: 'A', text: 'A) 3.0×10³ N·C⁻¹' },
+                { label: 'B', text: 'B) 1.8×10³ N·C⁻¹' },
+                { label: 'C', text: 'C) 5.2×10² N·C⁻¹' },
+                { label: 'D', text: 'D) 4.5×10⁴ N·C⁻¹' }
+              ]
+            },
+            {
+              id: 'sample_2',
+              question: 'For two vectors A⃗ and B⃗ perpendicular to each other, which of the following vector relationships is strictly correct?',
+              options: [
+                { label: 'A', text: 'A) A⃗ · B⃗ = 0' },
+                { label: 'B', text: 'B) A⃗ × B⃗ = 0' },
+                { label: 'C', text: 'C) |A⃗ + B⃗| = |A⃗ - B⃗|' },
+                { label: 'D', text: 'D) Both A and C' }
+              ]
+            },
+            {
+              id: 'sample_3',
+              question: 'যদি f(x) = √(x² - 9) হয়, তবে অপেক্ষকটির বাস্তব ডোমেন (Domain) কোনটি?',
+              options: [
+                { label: 'A', text: 'A) (-∞, -3] ∪ [3, ∞)' },
+                { label: 'B', text: 'B) [-3, 3]' },
+                { label: 'C', text: 'C) (-3, 3)' },
+                { label: 'D', text: 'D) [0, ∞)' }
+              ]
+            },
+            {
+              id: 'sample_4',
+              question: 'একটি আদর্শ গ্যাসের রুদ্ধতাপীয় (Adiabatic) প্রসারণ প্রক্রিয়ায় তাপমাত্রা ও আয়তনের সঠিক সম্পর্ক কোনটি?',
+              options: [
+                { label: 'A', text: 'A) T·V^(γ-1) = ধ্রুবক' },
+                { label: 'B', text: 'B) P·V^γ = ধ্রুবক' },
+                { label: 'C', text: 'C) T^γ·P^(1-γ) = ধ্রুবক' },
+                { label: 'D', text: 'D) উপরের সবকয়টি' }
+              ]
+            }
+          ];
+
+          state.activeSlideIndex = 0;
+          showPage('studio');
+          alert('Loaded 4 rich sample question slides (Physics, Mathematics, Bengali). Ready to preview and export to PPTX!');
+        }
+
+        /* ==========================================================================
+           10. PROGRESS & TAB NAVIGATION
+           ========================================================================== */
+        function showProgress(label, current, total, detail) {
+          dom.progressOverlay.style.display = 'flex';
+          dom.progressLabel.innerText = label;
+          dom.progressStep.innerText = total ? `${current}/${total}` : '';
+          const pct = total ? Math.round((current / total) * 100) : 50;
+          dom.progressBarFill.style.width = `${pct}%`;
+          dom.progressDetail.innerText = detail || '';
+        }
+
+        function hideProgress() {
+          dom.progressOverlay.style.display = 'none';
+        }
+
+        function showPage(pageName) {
+          const pageSetup = dom.pageSetup || document.getElementById('pageSetup');
+          const pageStudio = dom.pageStudio || document.getElementById('pageStudio');
+          const btnGoToStudio = dom.btnGoToStudio || document.getElementById('btnGoToStudio');
+
+          if (pageName === 'setup') {
+            if (pageSetup) pageSetup.style.display = 'block';
+            if (pageStudio) pageStudio.style.display = 'none';
+            if (btnGoToStudio) {
+              btnGoToStudio.style.display = state.slides.length > 0 ? 'inline-flex' : 'none';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else if (pageName === 'studio') {
+            if (pageSetup) pageSetup.style.display = 'none';
+            if (pageStudio) pageStudio.style.display = 'flex';
+            if (btnGoToStudio) {
+              btnGoToStudio.style.display = 'none';
+            }
+            renderSlideThumbnails();
+            renderActiveSlide();
+            updateEditorFields();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+
+        function switchTab(tabKey) {
+          dom.tabBtnAi.classList.toggle('active', tabKey === 'ai');
+          dom.tabBtnMaster.classList.toggle('active', tabKey === 'master');
+          dom.tabBtnSlideEdit.classList.toggle('active', tabKey === 'edit');
+
+          dom.tabContentAi.style.display = tabKey === 'ai' ? 'flex' : 'none';
+          dom.tabContentMaster.style.display = tabKey === 'master' ? 'flex' : 'none';
+          dom.tabContentSlideEdit.style.display = tabKey === 'edit' ? 'flex' : 'none';
+        }
+
+        /* ==========================================================================
+           11. MODAL & POPUP HELPERS (Welcome & Celebration)
+           ========================================================================== */
+        function openWelcomePopup() {
+          if (!dom.modalWelcome) return;
+          dom.modalWelcome.classList.remove('modal-closing');
+          dom.modalWelcome.style.display = 'flex';
+          const currentKey = (dom.inputApiKey && dom.inputApiKey.value) || localStorage.getItem('gemini_ocr_apikey') || '';
+          if (dom.inputWelcomeApiKey) {
+            dom.inputWelcomeApiKey.value = currentKey;
+            setTimeout(() => dom.inputWelcomeApiKey.focus(), 150);
+          }
+          if (dom.welcomeApiError) {
+            dom.welcomeApiError.style.display = 'none';
+          }
+        }
+
+        function closeWelcomePopup() {
+          if (!dom.modalWelcome) return;
+          dom.modalWelcome.classList.add('modal-closing');
+          setTimeout(() => {
+            dom.modalWelcome.style.display = 'none';
+            dom.modalWelcome.classList.remove('modal-closing');
+          }, 220);
+        }
+
+        function openCelebrationPopup(slideCount, fileSizeKb, blobUrl, downloadFileName) {
+          if (!dom.modalCelebration) return;
+          if (dom.celebSlideCount) dom.celebSlideCount.innerText = `${slideCount} টি স্লাইড`;
+          if (dom.celebFileSize) dom.celebFileSize.innerText = `${fileSizeKb} KB`;
+          if (dom.btnCelebDownloadAgain) {
+            dom.btnCelebDownloadAgain.href = blobUrl;
+            dom.btnCelebDownloadAgain.download = downloadFileName;
+          }
+          dom.modalCelebration.classList.remove('modal-closing');
+          dom.modalCelebration.style.display = 'flex';
+        }
+
+        function closeCelebrationPopup() {
+          if (!dom.modalCelebration) return;
+          dom.modalCelebration.classList.add('modal-closing');
+          setTimeout(() => {
+            dom.modalCelebration.style.display = 'none';
+            dom.modalCelebration.classList.remove('modal-closing');
+          }, 220);
+        }
+
+        /* ==========================================================================
+           11. EVENT LISTENERS SETUP
+           ========================================================================== */
+        function initEventListeners() {
+          // 2-Page Flow Nav Buttons
+          if (dom.btnBackToSetup) {
+            dom.btnBackToSetup.onclick = () => showPage('setup');
+          }
+          if (dom.btnGoToStudio) {
+            dom.btnGoToStudio.onclick = () => showPage('studio');
+          }
+          if (dom.btnLoadSampleSetup) {
+            dom.btnLoadSampleSetup.onclick = loadSampleQuestions;
+          }
+
+          // API Key Visibility Toggle & LocalStorage Persistence
+          if (dom.btnToggleApiKey && dom.inputApiKey) {
+            dom.btnToggleApiKey.onclick = () => {
+              if (dom.inputApiKey.type === 'password') {
+                dom.inputApiKey.type = 'text';
+                dom.btnToggleApiKey.innerText = '🔒';
+              } else {
+                dom.inputApiKey.type = 'password';
+                dom.btnToggleApiKey.innerText = '👁';
+              }
+            };
+          }
+
+          if (dom.inputApiKey) {
+            try {
+              const savedKey = localStorage.getItem('gemini_ocr_apikey');
+              if (savedKey) dom.inputApiKey.value = savedKey;
+              dom.inputApiKey.addEventListener('input', (e) => {
+                localStorage.setItem('gemini_ocr_apikey', e.target.value.trim());
+              });
+            } catch (err) {
+              console.warn('LocalStorage not available', err);
+            }
+          }
+
+          // Dropzone
+          dom.dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dom.dropzone.classList.add('dragover');
+          });
+          dom.dropzone.addEventListener('dragleave', () => dom.dropzone.classList.remove('dragover'));
+          dom.dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dom.dropzone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+          });
+          dom.fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+          // Run OCR triggers (all OCR buttons on page)
+          document.querySelectorAll('.btn-large-ocr, #btnStartOcr').forEach(btn => {
+            btn.onclick = runGeminiOcrOnImages;
+          });
+
+          dom.btnExportPpt.onclick = exportPresentation;
+          dom.btnLoadSample.onclick = loadSampleQuestions;
+          dom.btnClearImages.onclick = () => {
+            state.images = [];
+            renderImageList();
+          };
+
+          // Slide Navigation Handlers (Universal)
+          document.querySelectorAll('.btn-prev-slide').forEach(btn => {
+            btn.onclick = () => {
+              if (state.slides.length === 0) return;
+              state.activeSlideIndex = (state.activeSlideIndex - 1 + state.slides.length) % state.slides.length;
+              renderSlideThumbnails();
+              renderActiveSlide();
+              updateEditorFields();
+            };
+          });
+
+          document.querySelectorAll('.btn-next-slide').forEach(btn => {
+            btn.onclick = () => {
+              if (state.slides.length === 0) return;
+              state.activeSlideIndex = (state.activeSlideIndex + 1) % state.slides.length;
+              renderSlideThumbnails();
+              renderActiveSlide();
+              updateEditorFields();
+            };
+          });
+
+          document.querySelectorAll('.btn-delete-slide').forEach(btn => {
+            btn.onclick = () => {
+              if (state.slides.length === 0) return;
+              state.slides.splice(state.activeSlideIndex, 1);
+              if (state.activeSlideIndex >= state.slides.length) {
+                state.activeSlideIndex = Math.max(0, state.slides.length - 1);
+              }
+              renderSlideThumbnails();
+              renderActiveSlide();
+              updateEditorFields();
+            };
+          });
+
+          document.querySelectorAll('.btn-add-slide').forEach(btn => {
+            btn.onclick = () => {
+              state.slides.push({
+                id: 'slide_' + Math.random().toString(36).substring(2, 9),
+                question: 'New Question Text Here',
+                options: [
+                  { label: 'A', text: 'A) Option A' },
+                  { label: 'B', text: 'B) Option B' },
+                  { label: 'C', text: 'C) Option C' },
+                  { label: 'D', text: 'D) Option D' }
+                ]
+              });
+              state.activeSlideIndex = state.slides.length - 1;
+              renderSlideThumbnails();
+              renderActiveSlide();
+              updateEditorFields();
+            };
+          });
+
+          // View Modes
+          document.querySelectorAll('.btn-mode-preview').forEach(btn => {
+            btn.onclick = () => setViewMode('preview');
+          });
+
+          document.querySelectorAll('.btn-mode-master').forEach(btn => {
+            btn.onclick = () => setViewMode('master');
+          });
+
+          // Tabs
+          dom.tabBtnAi.onclick = () => switchTab('ai');
+          dom.tabBtnMaster.onclick = () => {
+            switchTab('master');
+            setViewMode('master');
+          };
+          dom.tabBtnSlideEdit.onclick = () => switchTab('edit');
+
+          // Styling Inputs
+          dom.fontFamilySelect.onchange = (e) => {
+            state.masterStyle.fontFamily = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.questionFontSizeInput.oninput = (e) => {
+            state.masterStyle.questionFontSize = parseInt(e.target.value) || 22;
+            renderActiveSlide();
+          };
+
+          dom.optionFontSizeInput.oninput = (e) => {
+            state.masterStyle.optionFontSize = parseInt(e.target.value) || 18;
+            renderActiveSlide();
+          };
+
+          dom.questionColorPicker.oninput = (e) => {
+            state.masterStyle.questionColor = e.target.value;
+            dom.questionColorHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.questionColorHex.onchange = (e) => {
+            state.masterStyle.questionColor = e.target.value;
+            dom.questionColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.optionColorPicker.oninput = (e) => {
+            state.masterStyle.optionColor = e.target.value;
+            dom.optionColorHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.optionColorHex.onchange = (e) => {
+            state.masterStyle.optionColor = e.target.value;
+            dom.optionColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.boxBgColorPicker.oninput = (e) => {
+            state.masterStyle.boxBgColor = e.target.value;
+            dom.boxBgHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.boxBgHex.onchange = (e) => {
+            state.masterStyle.boxBgColor = e.target.value;
+            dom.boxBgColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.boxBorderColorPicker.oninput = (e) => {
+            state.masterStyle.boxBorderColor = e.target.value;
+            dom.boxBorderHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.boxBorderHex.onchange = (e) => {
+            state.masterStyle.boxBorderColor = e.target.value;
+            dom.boxBorderColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.boxBorderWidthInput.oninput = (e) => {
+            state.masterStyle.boxBorderWidth = parseFloat(e.target.value) || 1;
+            renderActiveSlide();
+          };
+
+          dom.boxBorderRadiusInput.oninput = (e) => {
+            state.masterStyle.boxBorderRadius = parseInt(e.target.value) || 8;
+            renderActiveSlide();
+          };
+
+          dom.slideBgColorPicker.oninput = (e) => {
+            state.masterStyle.slideBgColor = e.target.value;
+            dom.slideBgHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.slideBgHex.onchange = (e) => {
+            state.masterStyle.slideBgColor = e.target.value;
+            dom.slideBgColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.accentBarSelect.onchange = (e) => {
+            state.masterStyle.accentBar = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.accentColorPicker.oninput = (e) => {
+            state.masterStyle.accentColor = e.target.value;
+            dom.accentColorHex.value = e.target.value.toUpperCase();
+            renderActiveSlide();
+          };
+          dom.accentColorHex.onchange = (e) => {
+            state.masterStyle.accentColor = e.target.value;
+            dom.accentColorPicker.value = e.target.value;
+            renderActiveSlide();
+          };
+
+          dom.chkBrandingEnabled.onchange = (e) => {
+            state.masterStyle.brandingEnabled = e.target.checked;
+            dom.brandingControls.style.display = e.target.checked ? 'flex' : 'none';
+            renderActiveSlide();
+          };
+
+          dom.inputBrandingText.oninput = (e) => {
+            state.masterStyle.brandingText = e.target.value;
+            renderActiveSlide();
+          };
+
+          // Magnetic Snapping Toggle
+          if (dom.chkMagneticSnap) {
+            dom.chkMagneticSnap.onchange = (e) => {
+              state.magneticSnapEnabled = e.target.checked;
+              if (dom.coordMagnetStatus) {
+                dom.coordMagnetStatus.innerText = e.target.checked ? 'ON' : 'OFF';
+                dom.coordMagnetStatus.style.color = e.target.checked ? 'var(--success)' : 'var(--text-muted)';
+              }
+            };
+          }
+
+          // Option Boxes Disabled / Borderless Toggle ("ar option er box lagbe na")
+          if (dom.chkNoOptionBox) {
+            dom.chkNoOptionBox.onchange = (e) => {
+              state.masterStyle.noOptionBox = e.target.checked;
+              if (dom.optionBoxCustomControls) {
+                dom.optionBoxCustomControls.style.opacity = e.target.checked ? '0.4' : '1';
+                dom.optionBoxCustomControls.style.pointerEvents = e.target.checked ? 'none' : 'auto';
+              }
+              if (dom.noBoxActiveNotice) {
+                dom.noBoxActiveNotice.style.display = e.target.checked ? 'block' : 'none';
+              }
+              renderActiveSlide();
+            };
+          }
+
+          // Custom Background Upload
+          dom.customBgInput.onchange = async (e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              state.customBgDataUrl = await readFileAsDataUrl(file);
+              renderActiveSlide();
+            }
+          };
+
+          dom.btnRemoveCustomBg.onclick = () => {
+            state.customBgDataUrl = null;
+            dom.customBgInput.value = '';
+            renderActiveSlide();
+          };
+
+          // Slide Editor Text Changes
+          dom.editQuestionText.oninput = (e) => {
+            if (state.slides[state.activeSlideIndex]) {
+              state.slides[state.activeSlideIndex].question = e.target.value;
+              renderActiveSlide();
+              renderSlideThumbnails();
+            }
+          };
+
+          const setupOptionEdit = (inputDom, index, prefix) => {
+            inputDom.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                if (!state.slides[state.activeSlideIndex].options[index]) {
+                  state.slides[state.activeSlideIndex].options[index] = { label: prefix, text: '' };
+                }
+                state.slides[state.activeSlideIndex].options[index].text = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          };
+
+          setupOptionEdit(dom.editOptionAText, 0, 'A');
+          setupOptionEdit(dom.editOptionBText, 1, 'B');
+          setupOptionEdit(dom.editOptionCText, 2, 'C');
+          setupOptionEdit(dom.editOptionDText, 3, 'D');
+
+          // Initialize Interactive Drag
+          initMasterDragEngine();
+
+          // ==========================================================================
+          // WELCOME POPUP & CELEBRATION MODAL EVENT HANDLERS
+          // ==========================================================================
+          // 1. Welcome API key show/hide toggle
+          if (dom.btnToggleWelcomeApiKey && dom.inputWelcomeApiKey) {
+            dom.btnToggleWelcomeApiKey.onclick = () => {
+              if (dom.inputWelcomeApiKey.type === 'password') {
+                dom.inputWelcomeApiKey.type = 'text';
+                dom.btnToggleWelcomeApiKey.innerText = '🔒';
+              } else {
+                dom.inputWelcomeApiKey.type = 'password';
+                dom.btnToggleWelcomeApiKey.innerText = '👁';
+              }
+            };
+          }
+
+          // 2. Welcome "Next" button handler
+          if (dom.btnWelcomeNext) {
+            dom.btnWelcomeNext.onclick = () => {
+              const enteredKey = dom.inputWelcomeApiKey ? dom.inputWelcomeApiKey.value.trim() : '';
+              if (!enteredKey) {
+                if (dom.welcomeApiError) dom.welcomeApiError.style.display = 'block';
+                if (dom.inputWelcomeApiKey) {
+                  dom.inputWelcomeApiKey.style.animation = 'none';
+                  void dom.inputWelcomeApiKey.offsetWidth; // Force CSS reflow
+                  dom.inputWelcomeApiKey.style.animation = 'shakeInput 0.4s ease';
+                  dom.inputWelcomeApiKey.focus();
+                }
+                return;
+              }
+
+              // Hide error, save to memory/storage, sync input
+              if (dom.welcomeApiError) dom.welcomeApiError.style.display = 'none';
+              try {
+                localStorage.setItem('gemini_ocr_apikey', enteredKey);
+              } catch (e) {
+                console.warn('LocalStorage error:', e);
+              }
+              if (dom.inputApiKey) dom.inputApiKey.value = enteredKey;
+
+              // Close popup with clean animation
+              closeWelcomePopup();
+
+              // Smoothly scroll to and highlight image dropzone
+              if (dom.dropzone) {
+                dom.dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                dom.dropzone.style.transition = 'all 0.4s ease';
+                dom.dropzone.style.borderColor = 'var(--accent-yellow)';
+                dom.dropzone.style.boxShadow = '0 0 25px rgba(250, 204, 21, 0.35)';
+                setTimeout(() => {
+                  dom.dropzone.style.borderColor = '';
+                  dom.dropzone.style.boxShadow = '';
+                }, 1400);
+              }
+            };
+          }
+
+          // 3. Enter key inside welcome input advances
+          if (dom.inputWelcomeApiKey) {
+            dom.inputWelcomeApiKey.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (dom.btnWelcomeNext) dom.btnWelcomeNext.click();
+              }
+            });
+          }
+
+          // 4. Welcome Quick Demo button handler
+          if (dom.btnWelcomeDemo) {
+            dom.btnWelcomeDemo.onclick = () => {
+              closeWelcomePopup();
+              loadSampleQuestions();
+            };
+          }
+
+          // 5. Header API Key buttons to reopen popup anytime
+          if (dom.btnHeaderApiKey) {
+            dom.btnHeaderApiKey.onclick = openWelcomePopup;
+          }
+          if (dom.btnHeaderApiKeyStudio) {
+            dom.btnHeaderApiKeyStudio.onclick = openWelcomePopup;
+          }
+
+          // 6. Celebration modal close handler
+          if (dom.btnCelebClose) {
+            dom.btnCelebClose.onclick = closeCelebrationPopup;
+          }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+          showPage('setup');
+          syncControlsFromState();
+          initEventListeners();
+          renderEmptyPlaceholder();
+
+          // Auto-show Welcome Popup on startup
+          const savedKey = localStorage.getItem('gemini_ocr_apikey');
+          if (savedKey) {
+            if (dom.inputApiKey) dom.inputApiKey.value = savedKey;
+            if (dom.inputWelcomeApiKey) dom.inputWelcomeApiKey.value = savedKey;
+          }
+          // Display the Welcome popup as requested
+          openWelcomePopup();
+        });
+      })();
+    </script>
+  </body>
+</html>
