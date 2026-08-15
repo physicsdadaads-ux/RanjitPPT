@@ -444,6 +444,38 @@
         overflow: hidden;
         word-break: break-word;
         line-height: 1.45;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Embedded Table / ছক in Slide */
+      .slide-embedded-table {
+        width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.45rem;
+        font-size: 0.82em;
+        text-align: center;
+        border-radius: 4px;
+        overflow: hidden;
+        border: 1.5px solid currentColor;
+      }
+
+      .slide-embedded-table th,
+      .slide-embedded-table td {
+        padding: 0.28rem 0.5rem;
+        border: 1px solid currentColor;
+        font-size: inherit;
+      }
+
+      .slide-embedded-table th {
+        font-weight: 700;
+        background: rgba(250, 204, 21, 0.18);
+        border-bottom: 2px solid currentColor;
+      }
+
+      .slide-embedded-table tr:nth-child(even) td {
+        background: rgba(255, 255, 255, 0.04);
       }
 
       /* Resize Handles for Master Drag Mode */
@@ -489,6 +521,39 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
+      }
+
+      /* Master Slide Type Scope Buttons */
+      .btn-master-scope {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.45rem 0.35rem;
+        background: var(--bg-card);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .btn-master-scope:hover {
+        background: rgba(250, 204, 21, 0.08);
+        border-color: var(--accent-yellow);
+        color: var(--text-primary);
+      }
+
+      .btn-master-scope.active {
+        background: var(--accent-yellow);
+        color: #0A0A0F;
+        border-color: var(--accent-yellow);
+        font-weight: 800;
+        box-shadow: 0 2px 8px rgba(250, 204, 21, 0.25);
       }
 
       .btn-align {
@@ -924,6 +989,197 @@
         align-items: center;
         gap: 0.4rem;
       }
+
+      /* Setup Mode Switcher (OCR vs Topic Theory) */
+      .setup-mode-nav {
+        display: flex;
+        background: var(--bg-panel-sub);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 1.25rem;
+        gap: 6px;
+      }
+
+      .setup-mode-btn {
+        flex: 1;
+        padding: 0.65rem 1rem;
+        border-radius: 7px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-secondary);
+        font-size: 0.86rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .setup-mode-btn:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .setup-mode-btn.active {
+        background: var(--bg-card);
+        color: var(--accent-yellow);
+        border-color: rgba(250, 204, 21, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Quick Topic Preset Chips */
+      .topic-preset-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin-top: 0.5rem;
+      }
+
+      .topic-preset-chip {
+        padding: 0.32rem 0.65rem;
+        border-radius: 6px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        font-size: 0.74rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .topic-preset-chip:hover {
+        background: rgba(250, 204, 21, 0.12);
+        color: var(--accent-yellow);
+        border-color: var(--accent-yellow);
+        transform: translateY(-1px);
+      }
+
+      /* Slide Type Selector Pills */
+      .slide-type-pills {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.35rem;
+        background: var(--bg-panel-sub);
+        padding: 3px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 0.75rem;
+      }
+
+      .slide-type-pill {
+        padding: 0.42rem 0.4rem;
+        font-size: 0.74rem;
+        font-weight: 700;
+        text-align: center;
+        background: transparent;
+        border: 1px solid transparent;
+        color: var(--text-secondary);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+      }
+
+      .slide-type-pill:hover {
+        color: var(--text-primary);
+      }
+
+      .slide-type-pill.active {
+        background: var(--bg-card);
+        color: var(--accent-yellow);
+        border-color: rgba(250, 204, 21, 0.4);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      /* SAQ and Theory Slide Canvas Elements */
+      .slide-saq-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slide-saq-header {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: var(--accent-yellow);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .slide-saq-body {
+        font-size: 0.95em;
+        line-height: 1.5;
+        white-space: pre-line;
+      }
+
+      .slide-theory-subtitle {
+        display: inline-block;
+        font-size: 0.75em;
+        font-weight: 600;
+        opacity: 0.85;
+        margin-top: 0.2rem;
+        color: var(--accent-yellow);
+      }
+
+      .slide-theory-bullets {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        margin-top: 0.35rem;
+      }
+
+      .slide-theory-bullet-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.45rem;
+        line-height: 1.45;
+        font-size: 0.95em;
+      }
+
+      .slide-theory-bullet-item::before {
+        content: "•";
+        color: var(--accent-yellow);
+        font-weight: 900;
+        font-size: 1.2em;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
+      .slide-theory-note-box {
+        margin-top: 0.4rem;
+        padding: 0.45rem 0.65rem;
+        border-radius: 6px;
+        background: rgba(250, 204, 21, 0.08);
+        border-left: 3px solid var(--accent-yellow);
+        font-size: 0.88em;
+        font-weight: 600;
+      }
+
+      .slide-type-tag {
+        font-size: 0.62rem;
+        font-weight: 800;
+        padding: 1px 5px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .tag-mcq { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+      .tag-saq { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+      .tag-theory { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
 
       /* 2-Page Workflow Styles */
       .page-container {
@@ -1606,21 +1862,33 @@
 
       <!-- Main Setup Wrapper -->
       <div class="page-setup-wrapper" style="max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem;">
-        <div class="setup-hero" style="text-align:center; margin-bottom:1.5rem;">
+        <div class="setup-hero" style="text-align:center; margin-bottom:1.25rem;">
           <h2 style="font-size:1.6rem; font-weight:800; color:#FFFFFF; margin-bottom:0.4rem; letter-spacing:-0.02em;">
-            MCQ to PowerPoint Converter
+            Smart Educational PowerPoint Maker
           </h2>
           <p style="font-size:0.88rem; color:var(--text-secondary); margin:0;">
-            প্রশ্নপত্রের ছবি আপলোড করুন এবং এক ক্লিকে এডিটেবল PPTX স্লাইড তৈরি করুন।
+            প্রশ্নপত্রের ছবি (MCQ/SAQ/ছক) থেকে অথবা যে কোনো থিওরি টপিক দিয়ে ইনস্ট্যান্ট PPTX স্লাইড তৈরি করুন।
           </p>
         </div>
 
-        <!-- Clean Image Upload Card -->
-        <div class="setup-card" style="background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1.25rem;">
+        <!-- Setup Mode Switcher Nav -->
+        <div class="setup-mode-nav">
+          <button type="button" id="btnModeOcr" class="setup-mode-btn active" onclick="switchSetupMode('ocr')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span>প্রশ্নপত্র ছবি (MCQ • SAQ/CQ • ছক OCR)</span>
+          </button>
+          <button type="button" id="btnModeTheory" class="setup-mode-btn" onclick="switchSetupMode('theory')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>টপিক ভিত্তিক থিওরি স্লাইড (Topic Theory PPT)</span>
+          </button>
+        </div>
+
+        <!-- MODE 1: Clean Image Upload Card (MCQ, SAQ, Tables) -->
+        <div id="setupOcrCard" class="setup-card" style="background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1.25rem;">
           <div class="setup-card-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
             <div class="setup-card-title" style="font-size:0.95rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:0.5rem;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              প্রশ্নপত্রের ছবি (Images)
+              প্রশ্নপত্রের ছবি (Images - MCQ, SAQ, CQ, উদ্দীপকের ছক)
             </div>
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <span class="setup-badge" id="setupImageCountBadge" style="background:rgba(250,204,21,0.12); color:var(--accent-yellow); padding:3px 9px; border-radius:6px; font-size:0.75rem; font-weight:700;">0 টি ছবি</span>
@@ -1635,7 +1903,7 @@
             </div>
             <div class="dropzone-text" style="margin-bottom:0.75rem;">
               <strong style="color:var(--text-primary); font-size:0.92rem;">এখানে প্রশ্ন ছবি ড্র্যাগ করুন অথবা ক্লিক করুন</strong><br>
-              <span style="font-size:0.75rem; color:var(--text-muted);">সাপোর্টেড ফরম্যাট: PNG, JPG, WEBP</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">MCQ, SAQ/সংক্ষিপ্ত প্রশ্ন, সৃজনশীল (CQ) ও উদ্দীপকের ছক স্বয়ংক্রিয়ভাবে শনাক্ত হবে</span>
             </div>
             <input type="file" id="fileInput" multiple accept="image/png, image/jpeg, image/jpg, image/webp" style="display:none;">
             <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('fileInput').click()">
@@ -1668,24 +1936,121 @@
 
           <!-- Uploaded Images Thumbnails List -->
           <div id="imageList" class="image-list" style="max-height: 200px; overflow-y: auto; margin-top: 1rem;"></div>
+
+          <!-- OCR Action Footer -->
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--border-color); flex-wrap:wrap; gap:0.75rem;">
+            <div style="font-size:0.82rem; color:var(--text-muted);">
+              ছবি সিলেক্ট করে বাটন চাপলেই স্বয়ংক্রিয় MCQ ও SAQ স্লাইড তৈরি হবে।
+            </div>
+
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <button id="btnLoadSampleSetup" class="btn btn-secondary" title="Load sample questions">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                নমুনা প্রশ্ন ও ছক (Sample)
+              </button>
+
+              <button id="btnStartOcr" class="btn btn-primary" style="padding:0.65rem 1.4rem; font-size:0.9rem; font-weight:800;" title="Run Google OCR and create slides">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                Run Google OCR → স্লাইড তৈরি করুন
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- Clean Action Buttons Footer -->
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1.5rem; background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1rem 1.25rem; flex-wrap:wrap; gap:0.75rem;">
-          <div style="font-size:0.82rem; color:var(--text-muted);">
-            ছবি সিলেক্ট করার পর বাটন চাপলেই স্বয়ংক্রিয় স্লাইড তৈরি হবে।
+        <!-- MODE 2: Topic-wise Theory PPT Generator Card (India & West Bengal Curriculum Focused) -->
+        <div id="setupTheoryCard" class="setup-card" style="display:none; background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:1.25rem;">
+          <div class="setup-card-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+            <div class="setup-card-title" style="font-size:0.95rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              টপিক অনুযায়ী থিওরি প্রেজেন্টেশন (Topic-Wise Theory PPT Generator)
+            </div>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <span style="background:rgba(234,88,12,0.15); color:#fb923c; border:1px solid rgba(234,88,12,0.3); padding:3px 8px; border-radius:6px; font-size:0.72rem; font-weight:800;">🇮🇳 India & WB Curriculum</span>
+              <span style="background:rgba(168,85,247,0.15); color:#c084fc; padding:3px 8px; border-radius:6px; font-size:0.72rem; font-weight:700;">AI Theory Mode 📖</span>
+            </div>
           </div>
 
-          <div style="display:flex; align-items:center; gap:0.6rem;">
-            <button id="btnLoadSampleSetup" class="btn btn-secondary" title="Load sample questions">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              নমুনা প্রশ্ন (Sample)
-            </button>
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <!-- Topic Input -->
+            <div class="form-group">
+              <label class="form-label" style="color:var(--text-primary);">
+                <span>বিষয় বা টপিকের নাম (Topic / Subject Title)</span>
+                <span style="color:var(--accent-yellow); font-size:0.7rem;">যেকোনো অধ্যায় বা বিষয় লিখুন</span>
+              </label>
+              <input type="text" id="inputTheoryTopic" class="form-input" placeholder="e.g. নিউটনের গতিসূত্র ও বলবিদ্যা (Physics) অথবা Indian Freedom Movement" style="font-size:0.92rem; padding:0.6rem 0.8rem;">
+            </div>
 
-            <button id="btnStartOcr" class="btn btn-primary" style="padding:0.65rem 1.4rem; font-size:0.9rem; font-weight:800;" title="Run Google OCR and create slides">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              Run Google OCR → স্লাইড তৈরি করুন
-            </button>
+            <!-- Quick Topic Presets (India & West Bengal Curricula) -->
+            <div>
+              <span style="font-size:0.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">জনপ্রিয় ভারতীয় ও পশ্চিমবঙ্গ পাঠ্যক্রমের নমুনা টপিক (Quick Presets):</span>
+              <div class="topic-preset-grid">
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('নিউটনের ৩টি গতিসূত্র ও এদের প্রয়োগ (Physics Class 9-12)')">⚡ নিউটনের গতিসূত্র</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('কাজ, ক্ষমতা ও শক্তি এবং শক্তির নিত্যতা সূত্র (Work, Power & Energy)')">⚡ কাজ, ক্ষমতা ও শক্তি</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('পর্যায় সারণি ও মৌলের পর্যায়বৃত্ত ধর্ম (Chemistry Class 10-12)')">🧪 পর্যায় সারণির ধর্ম</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('সালোকসংশ্লেষণ প্রক্রিয়া ও কোষ বিভাজন (Life Science / Biology)')">🌿 সালোকসংশ্লেষণ ও কোষ</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('ত্রিকোণমিতিক অনুপাত ও ক্যালকুলাসের প্রাথমিক ধারণা (Mathematics)')">📐 ত্রিকোণমিতি ও ক্যালকুলাস</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('পাইথন প্রোগ্রামিং: ডেটা টাইপ, লুপ ও ফাংশন (Computer Science / AI)')">💻 পাইথন প্রোগ্রামিং বেসিকস</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('ভারতের স্বাধীনতা আন্দোলন ও নেতাজি সুভাষচন্দ্র বসুর অবদান (Indian History)')">🇮🇳 ভারতের স্বাধীনতা আন্দোলন</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('ভারতের সংবিধান: প্রস্তাবনা, মৌলিক অধিকার ও শাসনতন্ত্র (Indian Polity)')">🏛️ ভারতের সংবিধান ও গণতন্ত্র</button>
+                <button type="button" class="topic-preset-chip" onclick="setTheoryPreset('পরমাণুর গঠন, বোরের পরমাণু মডেল ও কোয়ান্টাম তত্ত্ব (Physics/Chemistry)')">⚛️ পরমাণুর গঠন</button>
+              </div>
+            </div>
+
+            <!-- Settings Grid: Slide count, academic board/level, language -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; margin-top:0.35rem;">
+              <div class="form-group">
+                <label class="form-label">স্লাইড সংখ্যা (Slide Count)</label>
+                <select id="selectTheorySlideCount" class="form-select">
+                  <option value="3">৩টি স্লাইড (সংক্ষিপ্ত / Summary)</option>
+                  <option value="4" selected>৪টি স্লাইড (আদর্শ / Standard)</option>
+                  <option value="5">৫টি স্লাইড (বিস্তারিত / Comprehensive)</option>
+                  <option value="6">৬টি স্লাইড (ফুল লেকচার / Lecture)</option>
+                  <option value="8">৮টি স্লাইড (সম্পূর্ণ অধ্যায় / Chapter)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">বোর্ড ও শিক্ষাস্তর (Academic Board / Level)</label>
+                <select id="selectTheoryLevel" class="form-select">
+                  <option value="WBBSE / CBSE Class 9-10 (Madhyamik)">মাধ্যমিক / Class 9-10 (WBBSE / CBSE / ICSE)</option>
+                  <option value="WBCHSE / CBSE Class 11-12 (Higher Secondary)" selected>উচ্চমাধ্যমিক / Class 11-12 (WBCHSE / CBSE / ISC)</option>
+                  <option value="JEE Main / Advanced & WBJEE (Engineering Entrance)">JEE Main / Advanced ও WBJEE</option>
+                  <option value="NEET (Medical Entrance Examination)">NEET (অল ইন্ডিয়া মেডিকেল এন্ট্রান্স)</option>
+                  <option value="UPSC / WBCS / SSC / Railway (Indian Competitive Exams)">সরকারি চাকরি পরীক্ষা (UPSC / WBCS / SSC / Rail)</option>
+                  <option value="College / University / General Conceptual">কলেজ ও স্নাতক স্তর (College / General)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">ভাষা (Output Language)</label>
+                <select id="selectTheoryLanguage" class="form-select">
+                  <option value="Bengali (পশ্চিমবঙ্গ বাংলা মাধ্যম)" selected>বাংলা (Bengali)</option>
+                  <option value="Bilingual (বাংলা + English Scientific Terms)">Bilingual (বাংলা + English Terms)</option>
+                  <option value="English (CBSE/ICSE Standard)">English (CBSE/ICSE Standard)</option>
+                  <option value="Hindi (हिंदी)">Hindi (हिंदी)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Specific Notes / Outline (Optional) -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>নির্দিষ্ট কোনো পয়েন্ট বা সূত্রের নির্দেশনা (ঐচ্ছিক / Optional)</span>
+                <span style="color:var(--text-muted); font-size:0.7rem;">Optional Outline</span>
+              </label>
+              <textarea id="inputTheoryOutline" class="form-textarea" rows="2" placeholder="e.g. ১ম সূত্র, ২য় সূত্রের সমীকরণ F = ma এবং ৩য় সূত্রের ক্রিয়া-প্রতিক্রিয়া বল বিস্তারিত রাখবেন"></textarea>
+            </div>
+
+            <!-- Action Button -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; padding-top:0.75rem; border-top:1px solid var(--border-color); flex-wrap:wrap; gap:0.75rem;">
+              <div style="font-size:0.8rem; color:var(--text-muted);">
+                ভারতীয় ও পশ্চিমবঙ্গ পাঠ্যক্রম অনুযায়ী একাডেমিক মানের পয়েন্ট, সূত্র ও নোটসহ থিওরি স্লাইড তৈরি হবে।
+              </div>
+              <button type="button" id="btnGenerateTheorySlides" class="btn btn-primary" style="padding:0.65rem 1.5rem; font-size:0.92rem; font-weight:800; background:linear-gradient(135deg, #FACC15, #f59e0b);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                Generate Theory PPT → স্লাইড তৈরি করুন
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1987,6 +2352,36 @@
 
         <!-- TAB 2: MASTER SLIDE & THEME STYLING -->
         <div id="tabContentMaster" class="panel-body" style="display:none;">
+          <!-- Master Slide Target Scope Selector (MCQ / SAQ / Theory আলাদা মাস্টার লেআউট) -->
+          <div class="section-card" style="border-left: 3px solid var(--accent-yellow); background: rgba(22, 22, 33, 0.85);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+              <span class="section-header-title" style="margin-bottom:0; font-weight:800; display:flex; align-items:center; gap:6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+                Master Slide Target (টার্গেট স্লাইড ধরন)
+              </span>
+              <span id="masterScopeBadge" style="font-size:0.68rem; font-weight:800; color:var(--accent-yellow); background:rgba(250,204,21,0.12); padding:2px 7px; border-radius:4px; border:1px solid rgba(250,204,21,0.3);">
+                🎯 MCQ Master
+              </span>
+            </div>
+
+            <!-- Scope Switcher 3-Buttons -->
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0.35rem; margin-top:0.4rem;">
+              <button type="button" id="btnMasterScopeMcq" class="btn-master-scope active" onclick="setMasterScopeType('mcq')" title="Edit layout specifically for all MCQ slides">
+                🎯 MCQ
+              </button>
+              <button type="button" id="btnMasterScopeSaq" class="btn-master-scope" onclick="setMasterScopeType('saq')" title="Edit layout specifically for all SAQ slides">
+                📝 SAQ
+              </button>
+              <button type="button" id="btnMasterScopeTheory" class="btn-master-scope" onclick="setMasterScopeType('theory')" title="Edit layout specifically for all Theory slides">
+                📚 Theory
+              </button>
+            </div>
+
+            <div id="masterScopeDesc" style="font-size:0.7rem; color:var(--text-muted); margin-top:0.45rem; line-height:1.4; background:rgba(0,0,0,0.25); padding:0.4rem 0.55rem; border-radius:4px; border:1px solid rgba(255,255,255,0.06);">
+              ✨ পরিবর্তনগুলো <strong>শুধুমাত্র MCQ স্লাইডে</strong> কার্যকর হবে। SAQ ও Theory স্লাইডের লেআউট সম্পূর্ণ সুরক্ষিত ও অপরিবর্তিত থাকবে।
+            </div>
+          </div>
+
           <!-- Selected Box Position & Size Controls (বক্স পজিশন ও সাইজ ফাইন-টিউনিং) -->
           <div class="section-card">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
@@ -2263,32 +2658,146 @@
         <!-- TAB 3: CURRENT SLIDE TEXT EDITOR -->
         <div id="tabContentSlideEdit" class="panel-body" style="display:none;">
           <div class="section-card">
-            <span class="section-header-title">Active Slide Content</span>
+            <span class="section-header-title">Active Slide Content & Format</span>
 
-            <div class="form-group">
-              <label class="form-label">Question Text</label>
-              <textarea id="editQuestionText" class="form-textarea" rows="4"></textarea>
+            <!-- Slide Type Selector Pills -->
+            <div class="slide-type-pills">
+              <button type="button" id="pillTypeMcq" class="slide-type-pill active" onclick="setActiveSlideType('mcq')">
+                <span>🔘 MCQ</span>
+              </button>
+              <button type="button" id="pillTypeSaq" class="slide-type-pill" onclick="setActiveSlideType('saq')">
+                <span>📝 SAQ / CQ</span>
+              </button>
+              <button type="button" id="pillTypeTheory" class="slide-type-pill" onclick="setActiveSlideType('theory')">
+                <span>📖 Theory</span>
+              </button>
             </div>
 
+            <!-- 1. COMMON: Question / Title Text -->
             <div class="form-group">
-              <label class="form-label">Option A</label>
-              <input type="text" id="editOptionAText" class="form-input">
+              <label class="form-label" id="lblEditQuestion">Question Text / উদ্দীপক</label>
+              <textarea id="editQuestionText" class="form-textarea" rows="3" placeholder="প্রশ্ন বা উদ্দীপকের টেক্সট"></textarea>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Option B</label>
-              <input type="text" id="editOptionBText" class="form-input">
+            <!-- THEORY ONLY: Subtitle -->
+            <div id="theorySubtitleGroup" class="form-group" style="display:none;">
+              <label class="form-label">Subtitle / ক্যাটাগরি (Topic Sub-heading)</label>
+              <input type="text" id="editTheorySubtitleText" class="form-input" placeholder="e.g. গতিবিদ্যা • পদার্থবিজ্ঞান ১ম পত্র">
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Option C</label>
-              <input type="text" id="editOptionCText" class="form-input">
+            <!-- 2. Table / ছক Editor (Available across MCQ, SAQ, and Theory) -->
+            <div class="form-group" style="border: 1px solid var(--border-color); background: rgba(22, 22, 33, 0.4); padding: 0.65rem; border-radius: 8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="form-label" style="margin-bottom:0; color:var(--accent-yellow); font-weight:700;">📊 Table / ছক (উদ্দীপক বা তুলনামূলক ছক)</label>
+                <div style="display:flex; gap:0.35rem;">
+                  <button type="button" id="btnInsertSampleTable" class="btn btn-secondary btn-sm" style="padding:2px 7px; font-size:0.68rem;" title="Insert demo 3-column table">+ ডেমো ছক</button>
+                  <button type="button" id="btnClearTable" class="btn btn-danger btn-sm" style="padding:2px 7px; font-size:0.68rem;" title="Clear table from slide">মুছুন</button>
+                </div>
+              </div>
+              <textarea id="editTableText" class="form-textarea" rows="3" placeholder="কলাম১ | কলাম২ | কলাম৩&#10;মান১ | মান২ | মান৩" style="font-family:'Fira Code', monospace; font-size:0.75rem;"></textarea>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:3px; line-height:1.3;">
+                💡 প্রতি লাইনে একটি রো লিখুন। কলাম আলাদা করতে পাইপ ( <code style="color:var(--accent-yellow);">|</code> ) অথবা কমা ( <code style="color:var(--accent-yellow);">,</code> ) দিন।
+              </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Option D</label>
-              <input type="text" id="editOptionDText" class="form-input">
+            <!-- 2.5 Image / Diagram Attachment (উদ্দীপকের ছবি / সার্কিট / চিত্র) -->
+            <div class="form-group" style="border: 1px solid var(--border-color); background: rgba(22, 22, 33, 0.4); padding: 0.65rem; border-radius: 8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="form-label" style="margin-bottom:0; color:var(--accent-cyan); font-weight:700;">🖼️ Diagram / চিত্র (উদ্দীপকের ছবি / সার্কিট / গ্রাফ)</label>
+                <div style="display:flex; gap:0.35rem;">
+                  <input type="file" id="slideImageFileInput" accept="image/*" style="display:none;">
+                  <button type="button" id="btnUploadSlideImage" class="btn btn-secondary btn-sm" style="padding:2px 7px; font-size:0.68rem;" onclick="document.getElementById('slideImageFileInput').click()">+ ছবি আপলোড</button>
+                  <button type="button" id="btnInsertSampleCircuit" class="btn btn-secondary btn-sm" style="padding:2px 7px; font-size:0.68rem;" title="Insert demo physics circuit diagram">+ ডেমো চিত্র</button>
+                  <button type="button" id="btnRemoveSlideImage" class="btn btn-danger btn-sm" style="padding:2px 7px; font-size:0.68rem; display:none;" title="Remove image from slide">মুছুন</button>
+                </div>
+              </div>
+
+              <!-- Image Preview Box -->
+              <div id="slideImagePreviewContainer" style="display:none; margin:0.4rem 0; text-align:center; background:rgba(0,0,0,0.3); border-radius:6px; padding:6px; border:1px dashed var(--border-color);">
+                <img id="imgSlidePreviewThumb" src="" alt="Slide Diagram" style="max-height:110px; max-width:100%; object-fit:contain; border-radius:4px; background:#ffffff; padding:2px;">
+              </div>
+
+              <!-- Caption & Position Inputs -->
+              <div id="slideImageOptionsRow" style="display:none; grid-template-columns:1.2fr 1fr; gap:0.4rem; margin-top:0.35rem;">
+                <div>
+                  <label class="form-label" style="font-size:0.68rem; margin-bottom:2px;">ছবির ক্যাপশন / নাম (Caption)</label>
+                  <input type="text" id="editImageCaptionText" class="form-input" placeholder="e.g. চিত্র ১: হুইটস্টোন ব্রিজ" style="font-size:0.75rem; padding:0.3rem 0.5rem;">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size:0.68rem; margin-bottom:2px;">পজিশন (Slide Position)</label>
+                  <select id="selectImagePosition" class="form-select" style="font-size:0.75rem; padding:0.3rem 0.5rem;">
+                    <option value="right" selected>ডানপাশে (Right of Q)</option>
+                    <option value="below">নিচে (Below Q)</option>
+                    <option value="center">মাঝখানে (Center)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:4px; line-height:1.3;">
+                💡 টিপস: যেকোনো ছবি কপি করে এডিটরে <kbd style="background:rgba(255,255,255,0.12); padding:1px 4px; border-radius:3px; font-family:monospace;">Ctrl + V</kbd> পেস্ট করলেও সরাসরি এই স্লাইডে যুক্ত হয়ে যাবে।
+              </div>
             </div>
+
+            <!-- 3. MCQ SPECIFIC: Option A, B, C, D -->
+            <div id="mcqOptionsGroup">
+              <div class="form-group">
+                <label class="form-label">Option A</label>
+                <input type="text" id="editOptionAText" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Option B</label>
+                <input type="text" id="editOptionBText" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Option C</label>
+                <input type="text" id="editOptionCText" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Option D</label>
+                <input type="text" id="editOptionDText" class="form-input">
+              </div>
+            </div>
+
+            <!-- 4. SAQ / CQ SPECIFIC: Model Answer & Explanation -->
+            <div id="saqContentGroup" style="display:none; flex-direction:column; gap:0.65rem;">
+              <div class="form-group">
+                <label class="form-label" style="color:var(--accent-yellow);">
+                  <span>উত্তরঃ আদর্শ সমাধান / ব্যাখ্যা (Model Answer)</span>
+                </label>
+                <textarea id="editSaqAnswerText" class="form-textarea" rows="4" placeholder="সংক্ষিপ্ত উত্তর বা গাণিতিক সমাধান লিখুন..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>মূল পয়েন্ট বা ব্যাখ্যা (Key Points - প্রতি লাইনে একটি)</span>
+                </label>
+                <textarea id="editSaqPointsText" class="form-textarea" rows="3" placeholder="• ১ম ধাপ: প্রয়োজনীয় সূত্র&#10;• ২য় ধাপ: মান বসানো&#10;• ফলাফল: সঠিক এককসহ উত্তর"></textarea>
+              </div>
+            </div>
+
+            <!-- 5. THEORY SPECIFIC: Bullet Points & Formula Note -->
+            <div id="theoryContentGroup" style="display:none; flex-direction:column; gap:0.65rem;">
+              <div class="form-group">
+                <label class="form-label" style="color:var(--accent-yellow);">
+                  <span>মূল বিষয়বস্তু ও পয়েন্টসমূহ (Key Bullet Points)</span>
+                </label>
+                <textarea id="editTheoryPointsText" class="form-textarea" rows="5" placeholder="• ১ম পয়েন্ট: মূল সংজ্ঞা বা নিয়ম&#10;• ২য় পয়েন্ট: সূত্রের ব্যাখ্যা&#10;• ৩য় পয়েন্ট: বাস্তব জীবনে প্রয়োগ"></textarea>
+                <div style="font-size:0.68rem; color:var(--text-muted); margin-top:2px;">
+                  💡 প্রতিটি লাইনের শুরুতে স্বয়ংক্রিয়ভাবে বুলেট পয়েন্ট হিসেবে প্রদর্শিত ও এক্সপোর্ট হবে।
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>গুরুত্বপূর্ণ সূত্র / বিশেষ নোট (Highlighted Formula or Note)</span>
+                </label>
+                <textarea id="editTheoryNoteText" class="form-textarea" rows="2" placeholder="e.g. সূত্র: F = ma (যেখানে m = ভর, a = ত্বরণ)"></textarea>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -2421,8 +2930,92 @@
         'use strict';
 
         /* ==========================================================================
-           1. CORE STATE MANAGEMENT
+           1. CORE STATE MANAGEMENT (Per-Slide-Type Master Layouts & Styling)
            ========================================================================== */
+        const DEFAULT_MASTER_LAYOUTS = {
+          mcq: {
+            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.28 },
+            options: {
+              A: { x: 0.06, y: 0.40, w: 0.42, h: 0.24 },
+              B: { x: 0.52, y: 0.40, w: 0.42, h: 0.24 },
+              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
+              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
+            }
+          },
+          saq: {
+            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.30 },
+            options: {
+              A: { x: 0.06, y: 0.42, w: 0.88, h: 0.50 },
+              B: { x: 0.52, y: 0.42, w: 0.42, h: 0.24 },
+              C: { x: 0.06, y: 0.70, w: 0.42, h: 0.22 },
+              D: { x: 0.52, y: 0.70, w: 0.42, h: 0.22 }
+            }
+          },
+          theory: {
+            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.26 },
+            options: {
+              A: { x: 0.06, y: 0.38, w: 0.52, h: 0.54 },
+              B: { x: 0.61, y: 0.38, w: 0.33, h: 0.54 },
+              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
+              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
+            }
+          }
+        };
+
+        const DEFAULT_MASTER_STYLES = {
+          mcq: {
+            fontFamily: "'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif",
+            questionFontSize: 22,
+            optionFontSize: 18,
+            questionColor: "#0F172A",
+            optionColor: "#1E293B",
+            noOptionBox: false,
+            boxBgColor: "#F8FAFC",
+            boxBorderColor: "#CBD5E1",
+            boxBorderWidth: 1.5,
+            boxBorderRadius: 8,
+            slideBgColor: "#FFFFFF",
+            accentBar: "top",
+            accentColor: "#F59E0B",
+            brandingEnabled: false,
+            brandingText: "Google OCR • Smart PPT"
+          },
+          saq: {
+            fontFamily: "'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif",
+            questionFontSize: 22,
+            optionFontSize: 18,
+            questionColor: "#0F172A",
+            optionColor: "#1E293B",
+            noOptionBox: false,
+            boxBgColor: "#F8FAFC",
+            boxBorderColor: "#CBD5E1",
+            boxBorderWidth: 1.5,
+            boxBorderRadius: 8,
+            slideBgColor: "#FFFFFF",
+            accentBar: "top",
+            accentColor: "#F59E0B",
+            brandingEnabled: false,
+            brandingText: "Google OCR • Smart PPT"
+          },
+          theory: {
+            fontFamily: "'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif",
+            questionFontSize: 24,
+            optionFontSize: 17,
+            questionColor: "#0F172A",
+            optionColor: "#1E293B",
+            noOptionBox: false,
+            boxBgColor: "#F8FAFC",
+            boxBorderColor: "#CBD5E1",
+            boxBorderWidth: 1.5,
+            boxBorderRadius: 8,
+            slideBgColor: "#FFFFFF",
+            accentBar: "top",
+            accentColor: "#F59E0B",
+            brandingEnabled: false,
+            brandingText: "Google OCR • Smart PPT"
+          }
+        };
+
         const state = {
           currentPage: 'setup', // 'setup' | 'studio'
           images: [],
@@ -2436,35 +3029,20 @@
           magneticSnapEnabled: true,
           dragStart: { x: 0, y: 0, initialBox: null },
           exportedBlob: null,
+          activeMasterScopeType: 'mcq', // 'mcq' | 'saq' | 'theory'
 
-          // Master normalized layout (0.0 to 1.0 relative coordinates in 16:9 widescreen)
-          masterLayout: {
-            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.28 },
-            options: {
-              A: { x: 0.06, y: 0.40, w: 0.42, h: 0.24 },
-              B: { x: 0.52, y: 0.40, w: 0.42, h: 0.24 },
-              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
-              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
-            }
+          // Per-type Master normalized layouts (0.0 to 1.0 relative coordinates in 16:9 widescreen)
+          masterLayouts: JSON.parse(JSON.stringify(DEFAULT_MASTER_LAYOUTS)),
+
+          // Per-type Master slide styling
+          masterStyles: JSON.parse(JSON.stringify(DEFAULT_MASTER_STYLES)),
+
+          // Backwards compatibility accessor
+          get masterLayout() {
+            return this.masterLayouts[this.activeMasterScopeType || 'mcq'] || this.masterLayouts.mcq;
           },
-
-          // Master slide styling
-          masterStyle: {
-            fontFamily: "'Plus Jakarta Sans', 'Noto Sans Bengali', sans-serif",
-            questionFontSize: 22,
-            optionFontSize: 18,
-            questionColor: "#0F172A",
-            optionColor: "#1E293B",
-            noOptionBox: false, // User option: "ar option er box lagbe na"
-            boxBgColor: "#F8FAFC",
-            boxBorderColor: "#CBD5E1",
-            boxBorderWidth: 1.5,
-            boxBorderRadius: 8,
-            slideBgColor: "#FFFFFF",
-            accentBar: "top", // 'none' | 'top' | 'left'
-            accentColor: "#F59E0B",
-            brandingEnabled: false,
-            brandingText: "Google OCR • Smart PPT"
+          get masterStyle() {
+            return this.masterStyles[this.activeMasterScopeType || 'mcq'] || this.masterStyles.mcq;
           }
         };
 
@@ -2553,6 +3131,12 @@
           tabContentAi: document.getElementById('tabContentAi'),
           tabContentMaster: document.getElementById('tabContentMaster'),
           tabContentSlideEdit: document.getElementById('tabContentSlideEdit'),
+          // Master Slide Scope Selectors
+          btnMasterScopeMcq: document.getElementById('btnMasterScopeMcq'),
+          btnMasterScopeSaq: document.getElementById('btnMasterScopeSaq'),
+          btnMasterScopeTheory: document.getElementById('btnMasterScopeTheory'),
+          masterScopeBadge: document.getElementById('masterScopeBadge'),
+          masterScopeDesc: document.getElementById('masterScopeDesc'),
           // Form inputs
           chkMagneticSnap: document.getElementById('chkMagneticSnap'),
           chkNoOptionBox: document.getElementById('chkNoOptionBox'),
@@ -2581,12 +3165,48 @@
           chkBrandingEnabled: document.getElementById('chkBrandingEnabled'),
           brandingControls: document.getElementById('brandingControls'),
           inputBrandingText: document.getElementById('inputBrandingText'),
-          // Slide text editor fields
+          // Slide text editor fields & polymorphic controls
+          pillTypeMcq: document.getElementById('pillTypeMcq'),
+          pillTypeSaq: document.getElementById('pillTypeSaq'),
+          pillTypeTheory: document.getElementById('pillTypeTheory'),
+          lblEditQuestion: document.getElementById('lblEditQuestion'),
           editQuestionText: document.getElementById('editQuestionText'),
+          theorySubtitleGroup: document.getElementById('theorySubtitleGroup'),
+          editTheorySubtitleText: document.getElementById('editTheorySubtitleText'),
+          editTableText: document.getElementById('editTableText'),
+          btnInsertSampleTable: document.getElementById('btnInsertSampleTable'),
+          btnClearTable: document.getElementById('btnClearTable'),
+          // Slide Diagram / Image Elements
+          slideImageFileInput: document.getElementById('slideImageFileInput'),
+          btnUploadSlideImage: document.getElementById('btnUploadSlideImage'),
+          btnInsertSampleCircuit: document.getElementById('btnInsertSampleCircuit'),
+          btnRemoveSlideImage: document.getElementById('btnRemoveSlideImage'),
+          slideImagePreviewContainer: document.getElementById('slideImagePreviewContainer'),
+          imgSlidePreviewThumb: document.getElementById('imgSlidePreviewThumb'),
+          slideImageOptionsRow: document.getElementById('slideImageOptionsRow'),
+          editImageCaptionText: document.getElementById('editImageCaptionText'),
+          selectImagePosition: document.getElementById('selectImagePosition'),
+          mcqOptionsGroup: document.getElementById('mcqOptionsGroup'),
           editOptionAText: document.getElementById('editOptionAText'),
           editOptionBText: document.getElementById('editOptionBText'),
           editOptionCText: document.getElementById('editOptionCText'),
-          editOptionDText: document.getElementById('editOptionDText')
+          editOptionDText: document.getElementById('editOptionDText'),
+          saqContentGroup: document.getElementById('saqContentGroup'),
+          editSaqAnswerText: document.getElementById('editSaqAnswerText'),
+          editSaqPointsText: document.getElementById('editSaqPointsText'),
+          theoryContentGroup: document.getElementById('theoryContentGroup'),
+          editTheoryPointsText: document.getElementById('editTheoryPointsText'),
+          editTheoryNoteText: document.getElementById('editTheoryNoteText'),
+          // Setup Mode Switcher & Theory PPT card
+          tabModeOcr: document.getElementById('tabModeOcr'),
+          tabModeTheory: document.getElementById('tabModeTheory'),
+          setupOcrCard: document.getElementById('setupOcrCard'),
+          setupTheoryCard: document.getElementById('setupTheoryCard'),
+          inputTheoryTopic: document.getElementById('inputTheoryTopic'),
+          selectTheorySlideCount: document.getElementById('selectTheorySlideCount'),
+          selectTheoryLevel: document.getElementById('selectTheoryLevel'),
+          selectTheoryLanguage: document.getElementById('selectTheoryLanguage'),
+          btnGenerateTheorySlides: document.getElementById('btnGenerateTheorySlides')
         };
 
         // Page Navigation Controller (2-Page Flow)
@@ -2810,9 +3430,34 @@
         }
 
         /* ==========================================================================
-           4. GOOGLE GEMINI OCR & STRUCTURED PARSER (ULTRA-FAST PARALLEL FLASH LITE)
+           4. SETUP MODE SWITCHER & THEORY PPT GENERATOR ENGINE
            ========================================================================== */
-        async function runGeminiOcrOnImages() {
+        function switchSetupMode(mode) {
+          state.setupMode = mode;
+          if (dom.tabModeOcr) {
+            dom.tabModeOcr.classList.toggle('active', mode === 'ocr');
+          }
+          if (dom.tabModeTheory) {
+            dom.tabModeTheory.classList.toggle('active', mode === 'theory');
+          }
+          if (dom.setupOcrCard) {
+            dom.setupOcrCard.style.display = mode === 'ocr' ? 'block' : 'none';
+          }
+          if (dom.setupTheoryCard) {
+            dom.setupTheoryCard.style.display = mode === 'theory' ? 'block' : 'none';
+          }
+        }
+        window.switchSetupMode = switchSetupMode;
+
+        function setTheoryPreset(topicText) {
+          if (dom.inputTheoryTopic) {
+            dom.inputTheoryTopic.value = topicText;
+            dom.inputTheoryTopic.focus();
+          }
+        }
+        window.setTheoryPreset = setTheoryPreset;
+
+        function getEffectiveApiKey() {
           let apiKey = '';
           try {
             apiKey = (localStorage.getItem('gemini_ocr_apikey') || '').trim();
@@ -2822,6 +3467,186 @@
           if (!apiKey && dom.inputWelcomeApiKey) {
             apiKey = (dom.inputWelcomeApiKey.value || '').trim();
           }
+          if (!apiKey && dom.inputApiKey) {
+            apiKey = (dom.inputApiKey.value || '').trim();
+          }
+          return apiKey;
+        }
+
+        async function generateTheorySlides() {
+          const apiKey = getEffectiveApiKey();
+          if (!apiKey) {
+            openWelcomePopup();
+            if (dom.welcomeApiError) {
+              dom.welcomeApiError.style.display = 'block';
+              dom.welcomeApiError.innerText = '⚠️ থিওরি স্লাইড তৈরির জন্য অনুগ্রহ করে আপনার Google Gemini API Key দিন।';
+            }
+            showNotification({
+              title: 'API Key প্রয়োজন',
+              message: 'AI থিওরি প্রেজেন্টেশন তৈরির জন্য অনুগ্রহ করে আপনার Google Gemini API Key প্রদান করুন।',
+              type: 'warning',
+              onConfirm: openWelcomePopup
+            });
+            return;
+          }
+
+          const topic = (dom.inputTheoryTopic ? dom.inputTheoryTopic.value : '').trim();
+          if (!topic) {
+            showNotification({
+              title: 'টপিক বা অধ্যায় লিখুন',
+              message: 'অনুগ্রহ করে যে বিষয়ের উপর স্লাইড তৈরি করতে চান তার নাম বা টপিক লিখুন (যেমন: নিউটনের গতিসূত্র, তরঙ্গের বৈশিষ্ট্য, ইত্যাদি)।',
+              type: 'warning'
+            });
+            if (dom.inputTheoryTopic) dom.inputTheoryTopic.focus();
+            return;
+          }
+
+          const slideCount = parseInt(dom.selectTheorySlideCount?.value || '5', 10);
+          const academicLevel = dom.selectTheoryLevel?.value || 'HSC (Higher Secondary)';
+          const language = dom.selectTheoryLanguage?.value || 'Bengali with English Terms';
+          const selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
+
+          const outlineNotes = (dom.inputTheoryOutline ? dom.inputTheoryOutline.value : '').trim();
+
+          if (dom.btnGenerateTheorySlides) dom.btnGenerateTheorySlides.disabled = true;
+          showProgress(`Generating Theory PPT (${selectedModel})...`, 0, slideCount, `Crafting ${slideCount} structured slides for "${topic}"`);
+
+          const promptText = `
+You are a master academic educator and presentation designer specializing in Indian and West Bengal school/college curricula (CBSE, ICSE, WBBSE Madhyamik, WBCHSE Higher Secondary, NCERT, JEE, NEET, WBCS, and UPSC standards).
+Generate a comprehensive, crystal-clear, highly structured ${slideCount}-slide PowerPoint lecture deck for the following topic:
+
+TOPIC: ${topic}
+ACADEMIC BOARD / LEVEL: ${academicLevel}
+LANGUAGE: ${language}
+TOTAL SLIDES: ${slideCount}
+${outlineNotes ? `SPECIFIC USER OUTLINE / FOCUS POINTS:\n${outlineNotes}\n` : ''}
+
+CRITICAL PEDAGOGICAL & CURRICULUM GUIDELINES:
+1. CURRICULUM CONTEXT:
+   - Align all concepts, definitions, formulas, and historical references strictly with Indian educational standards (NCERT / CBSE / ICSE / WBBSE / WBCHSE / JEE / NEET).
+   - If the topic is related to History, Polity, or Social Sciences, align with the Indian context (e.g. Indian Freedom Movement, Constitution of India, Indian Geography, etc.).
+2. PROGRESSION & STRUCTURE:
+   - Slide 1: Introduction, fundamental definitions, and core concept overview.
+   - Middle Slides: Detailed principles, core laws/equations, step-by-step mechanisms, or comparative analysis.
+   - When a comparison, property matrix, or parameter listing is beneficial, provide a structured "table" (e.g. তুলনামূলক ছক, বৈশিষ্ট্য তালিকা).
+   - Final Slide: Practical applications, key summary formulas, or exam-oriented key takeaways.
+3. CONTENT ACCURACY:
+   - Title: Short, punchy display heading in Unicode.
+   - Subtitle: Chapter/context metadata (e.g. "গতিবিদ্যা • পদার্থবিজ্ঞান একাদশ শ্রেণী" or "Indian History • Freedom Struggle").
+   - Points: 3 to 5 clear, high-yield bullet points per slide (each starting with a key term or bullet).
+   - Theory Note / Formula: Highlighted law or critical equation (e.g. "💡 সূত্র: F = ma" or "📌 বিশেষ দ্রষ্টব্য: ...").
+   - Table: If relevant, include a 2D array of strings for "table": [ ["কলাম ১", "কলাম ২", ...], ["মান ১", "মান ২", ...] ]. Otherwise set "table": null.
+4. UNICODE MATH (NO RAW LATEX):
+   - Convert all symbols, superscripts, subscripts, fractions, and Greek letters into clean UNICODE plain text (e.g., E⃗, x², v₀, λ, θ, ω, m·s⁻¹). No $...$ symbols.
+
+RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
+{
+  "slides": [
+    {
+      "type": "theory",
+      "title": "Slide Title in Unicode",
+      "subtitle": "Chapter / Context Subtitle",
+      "points": [
+        "• ১ম পয়েন্ট: মূল সংজ্ঞা ও মৌলিক ধারণা",
+        "• ২য় পয়েন্ট: সূত্রের গাণিতিক রূপ ও ব্যাখ্যা",
+        "• ৩য় পয়েন্ট: বাস্তব জীবনে প্রয়োগ ও উদাহরণ"
+      ],
+      "theoryNote": "💡 সূত্র বা বিশেষ দ্রষ্টব্য নোট",
+      "table": [
+        ["বৈশিষ্ট্য", "ধরণ ১", "ধরণ ২"],
+        ["মান ১", "মান ২", "মান ৩"]
+      ]
+    }
+  ]
+}
+`.trim();
+
+          try {
+            let currentModelToUse = selectedModel;
+            let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+            let response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: promptText }] }],
+                generationConfig: {
+                  temperature: 0.2,
+                  maxOutputTokens: 3500,
+                  responseMimeType: 'application/json'
+                }
+              })
+            });
+
+            if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
+              console.warn(`Model ${currentModelToUse} returned ${response.status}. Falling back to gemini-2.5-flash-lite.`);
+              currentModelToUse = 'gemini-2.5-flash-lite';
+              apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+              response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: promptText }] }],
+                  generationConfig: {
+                    temperature: 0.2,
+                    maxOutputTokens: 3500,
+                    responseMimeType: 'application/json'
+                  }
+                })
+              });
+            }
+
+            if (!response.ok) {
+              const errData = await response.json().catch(() => ({}));
+              const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
+              throw new Error(`Google Gemini API Error (${currentModelToUse}): ${errMsg}`);
+            }
+
+            const data = await response.json();
+            const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+            let cleanJson = textOutput.trim();
+            if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+            if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+            if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+            cleanJson = cleanJson.trim();
+
+            const parsed = JSON.parse(cleanJson);
+            if (!parsed || !Array.isArray(parsed.slides) || parsed.slides.length === 0) {
+              throw new Error('AI থেকে কোনো স্লাইড তৈরি হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
+            }
+
+            const generatedSlides = parsed.slides.map(s => normalizeSlideData({ ...s, type: 'theory' }));
+            state.slides = generatedSlides;
+            state.activeSlideIndex = 0;
+
+            showPage('studio');
+            showNotification({
+              title: 'থিওরি স্লাইড প্রস্তুত! 📖⚡',
+              message: `"${topic}" বিষয়ের উপর ${generatedSlides.length} টি পূর্ণাঙ্গ থিওরি ও লেকচার স্লাইড তৈরি করা হয়েছে। আপনি এখন প্রতিটি স্লাইড এডিট, কাস্টমাইজ বা সরাসরি PPTX এক্সপোর্ট করতে পারবেন।`,
+              type: 'success'
+            });
+            showToast(`Generated ${generatedSlides.length} theory slides for "${topic}"!`, 'success');
+          } catch (error) {
+            console.error('Theory Generation failed:', error);
+            showNotification({
+              title: 'থিওরি স্লাইড তৈরিতে ত্রুটি',
+              message: `AI প্রেজেন্টেশন তৈরির সময় একটি সমস্যা দেখা দিয়েছে। অনুগ্রহ করে আপনার এপিআই কী ও ইন্টারনেট সংযোগ চেক করুন।`,
+              type: 'error',
+              details: error.message || String(error)
+            });
+            showToast(`Theory Gen Error: ${error.message}`, 'error', 5000);
+          } finally {
+            hideProgress();
+            if (dom.btnGenerateTheorySlides) dom.btnGenerateTheorySlides.disabled = false;
+          }
+        }
+        window.generateTheorySlides = generateTheorySlides;
+
+        /* ==========================================================================
+           5. GOOGLE GEMINI OCR & STRUCTURED PARSER (MCQ, SAQ & CQ MULTI-MODAL)
+           ========================================================================== */
+        async function runGeminiOcrOnImages() {
+          const apiKey = getEffectiveApiKey();
 
           if (!apiKey) {
             openWelcomePopup();
@@ -2858,14 +3683,27 @@
           showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
 
           const promptText = `
-You are an expert educational OCR engine for Physics, Mathematics, Chemistry, Bengali, and English exams.
-Analyze the provided question image.
+You are an expert multi-modal educational exam parser for Physics, Mathematics, Chemistry, Biology, Bengali, and English.
+Analyze the provided question paper image.
 
-CRITICAL INSTRUCTIONS:
-1. DETECT EVERY SEPARATE QUESTION: Separate each individual question into its own distinct slide object.
-2. COMPLETE QUESTION TEXT: Capture full question text accurately including Bengali phrasing and equations.
-3. MCQ OPTIONS (A, B, C, D / ক, খ, গ, ঘ): Extract up to 4 options into the "options" array with option labels.
-4. UNICODE MATH ONLY (NO RAW LATEX):
+CRITICAL PARSING RULES:
+1. DETECT EVERY QUESTION SEPARATELY:
+   - Extract every distinct question into its own slide object.
+   - Detect both MCQ (Multiple Choice Questions) AND Non-MCQ / SAQ / CQ (Short Answer Questions, Creative Questions, উদ্দীপক-ভিত্তিক গাণিতিক সমস্যা).
+2. SLIDE TYPE CLASSIFICATION:
+   - If the question has 4 options (A, B, C, D / ক, খ, গ, ঘ), classify as "type": "mcq".
+   - If the question is a Creative Question (সৃজনশীল), Math Problem, or Short Answer Question (without 4 choices), classify as "type": "saq".
+3. COMPLETE QUESTION TEXT / উদ্দীপক:
+   - Capture the full question stem and sub-questions (e.g. উদ্দীপক + (ক), (খ), (গ), (ঘ) or math problem).
+4. TABLE / ছক DETECTION:
+   - If a question contains a table, chart, or data matrix (e.g. উদ্দীপকের ছক, বস্তু/ভর/বেগ তালিকা, সত্যক সারণি):
+   - Extract the table as a clean 2D array of strings in "table": [ ["কলাম ১", "কলাম ২", ...], ["মান ১", "মান ২", ...] ].
+   - Omit the table lines from the "question" text so it remains clean. If there is no table, set "table": null.
+5. SAQ MODEL ANSWER & STEP-BY-STEP POINTS:
+   - For non-MCQ / SAQ questions, generate or extract a clean model answer / solution in "answer" and step-by-step solution steps in "points": [ "• ১ম ধাপ...", "• ২য় ধাপ..." ].
+6. MCQ OPTIONS:
+   - For MCQ questions, extract up to 4 options into "options": [ {"text": "A) ..."}, ... ].
+7. UNICODE MATH ONLY (NO RAW LATEX):
    - Convert equations, vectors, fractions, powers, subscripts, and Greek symbols into clean UNICODE plain text.
    - Examples: \\vec{E} -> E⃗, x^2 -> x², 10^12 -> 10¹², v_0 -> v₀, \\frac{a}{b} -> (a/b), \\theta -> θ, \\Delta -> Δ, \\lambda -> λ, \\omega -> ω, m/s -> m·s⁻¹.
    - DO NOT output $...$ LaTeX delimiters.
@@ -2874,12 +3712,28 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 {
   "slides": [
     {
+      "type": "mcq",
       "question": "Full question text in Unicode",
+      "table": [
+        ["কলাম ১", "কলাম ২", "কলাম ৩"],
+        ["মান ১", "মান ২", "মান ৩"]
+      ],
       "options": [
-        { "text": "A) option A text with unicode math" },
-        { "text": "B) option B text with unicode math" },
-        { "text": "C) option C text with unicode math" },
-        { "text": "D) option D text with unicode math" }
+        { "text": "A) option A text" },
+        { "text": "B) option B text" },
+        { "text": "C) option C text" },
+        { "text": "D) option D text" }
+      ]
+    },
+    {
+      "type": "saq",
+      "question": "Creative question / SAQ stem in Unicode",
+      "table": null,
+      "answer": "আদর্শ উত্তর বা গাণিতিক চূড়ান্ত সমাধান",
+      "points": [
+        "• ১ম ধাপ: প্রয়োজনীয় সূত্র F = ma",
+        "• ২য় ধাপ: মান বসিয়ে পাই F = 10 × 5 = 50 N",
+        "• চূড়ান্ত উত্তর: 50 N"
       ]
     }
   ]
@@ -2887,7 +3741,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 `.trim();
 
           try {
-            // Process images concurrently in parallel for blazing-fast performance
             const ocrTasks = state.images.map(async (imgObj, idx) => {
               const currentNum = idx + 1;
               const targetDataUrl = (shouldEnhance && imgObj.enhancedDataUrl) ? imgObj.enhancedDataUrl : imgObj.originalDataUrl;
@@ -2914,13 +3767,12 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                   contents: [{ parts: parts }],
                   generationConfig: {
                     temperature: 0.1,
-                    maxOutputTokens: 2500,
+                    maxOutputTokens: 3000,
                     responseMimeType: 'application/json'
                   }
                 })
               });
 
-              // Smart fallback if newer experimental model name is not yet accessible in user's key tier
               if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
                 console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
                 currentModelToUse = 'gemini-2.5-flash-lite';
@@ -2932,7 +3784,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                     contents: [{ parts: parts }],
                     generationConfig: {
                       temperature: 0.1,
-                      maxOutputTokens: 2500,
+                      maxOutputTokens: 3000,
                       responseMimeType: 'application/json'
                     }
                   })
@@ -2979,7 +3831,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             if (allDetectedSlides.length === 0) {
               showNotification({
                 title: 'কোনো প্রশ্ন শনাক্ত হয়নি',
-                message: 'ছবিগুলো থেকে কোনো সুস্পষ্ট প্রশ্ন ও অপশন খুঁজে পাওয়া যায়নি। অনুগ্রহ করে পরিষ্কার ও ভালো আলোয় তোলা প্রশ্নপত্রের ছবি আপলোড করুন।',
+                message: 'ছবিগুলো থেকে কোনো সুস্পষ্ট প্রশ্ন বা থিওরি খুঁজে পাওয়া যায়নি। অনুগ্রহ করে পরিষ্কার ও ভালো আলোয় তোলা প্রশ্নপত্রের ছবি আপলোড করুন।',
                 type: 'warning'
               });
             } else {
@@ -2988,7 +3840,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               showPage('studio');
               showNotification({
                 title: 'Google Flash OCR সম্পন্ন! ⚡',
-                message: `মোট ${allDetectedSlides.length} টি প্রশ্নপত্র স্লাইড অতি দ্রুত ও নির্ভুলভাবে তৈরি করা হয়েছে। আপনি এখন প্রতিটি স্লাইড প্রিভিউ, ড্র্যাগ বা এডিট করতে পারেন।`,
+                message: `মোট ${allDetectedSlides.length} টি প্রশ্নপত্র ও থিওরি স্লাইড অতি দ্রুত ও নির্ভুলভাবে তৈরি করা হয়েছে। আপনি এখন প্রতিটি স্লাইড প্রিভিউ, ড্র্যাগ বা এডিট করতে পারেন।`,
                 type: 'success'
               });
               showToast(`⚡ ${allDetectedSlides.length} slides generated successfully!`, 'success');
@@ -3009,11 +3861,92 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           }
         }
 
-        // Normalize raw Gemini output into standardized slide model
-        function normalizeSlideData(raw) {
-          const questionText = normalizeContent(raw.question || '', raw.questionEquations || []);
-          const rawOptions = Array.isArray(raw.options) ? raw.options : [];
+        // Helper to parse and clean Table / ছক structures
+        function parseTableData(rawTable, questionText) {
+          let table = null;
+          let cleanQuestion = questionText;
 
+          // 1. If explicit 2D array is provided
+          if (Array.isArray(rawTable) && rawTable.length > 0) {
+            table = rawTable
+              .filter(row => Array.isArray(row) && row.length > 0)
+              .map(row => row.map(cell => normalizeContent(String(cell != null ? cell : '').trim())));
+          } else if (typeof rawTable === 'string' && rawTable.trim()) {
+            const lines = rawTable.trim().split('\n').filter(l => l.trim() && !l.trim().match(/^\|?[-:\s|]+\|?$/));
+            if (lines.length > 0) {
+              table = lines.map(line => {
+                const separator = line.includes('|') ? '|' : (line.includes('\t') ? '\t' : ',');
+                return line.split(separator)
+                  .map(c => normalizeContent(c.trim()))
+                  .filter((c, i, arr) => c.length > 0 || (separator === '|' && i > 0 && i < arr.length - 1));
+              }).filter(r => r.length > 0);
+            }
+          }
+
+          // 2. If table is embedded in question as markdown table
+          if ((!table || table.length === 0) && cleanQuestion && cleanQuestion.includes('|')) {
+            const lines = cleanQuestion.split('\n');
+            const tableLines = [];
+            const remainingLines = [];
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+                if (!trimmed.match(/^\|[-:\s|]+\|$/)) {
+                  const cells = trimmed.slice(1, -1).split('|').map(c => normalizeContent(c.trim()));
+                  if (cells.length > 0) tableLines.push(cells);
+                }
+              } else {
+                remainingLines.push(line);
+              }
+            }
+
+            if (tableLines.length >= 2) {
+              table = tableLines;
+              cleanQuestion = remainingLines.join('\n').trim();
+            }
+          }
+
+          return { table, question: cleanQuestion };
+        }
+
+        // Normalize raw Gemini output into standardized polymorphic slide model (MCQ / SAQ / Theory)
+        function normalizeSlideData(raw) {
+          let rawQ = raw.question || raw.title || '';
+          const rawOptions = Array.isArray(raw.options) ? raw.options : [];
+          
+          // Determine polymorphic type
+          let type = raw.type || 'mcq';
+          if (raw.type === 'theory' || (!raw.options && (raw.points || raw.theoryNote || raw.subtitle))) {
+            type = 'theory';
+          } else if (raw.type === 'saq' || (rawOptions.length === 0 && (raw.answer || raw.solution || raw.points))) {
+            type = 'saq';
+          } else if (rawOptions.length > 0) {
+            type = 'mcq';
+          }
+
+          // Parse table if exists in raw output or embedded in question
+          const tableParsed = parseTableData(raw.table, rawQ);
+          const questionText = normalizeContent(tableParsed.question || '', raw.questionEquations || []);
+
+          // Subtitle for theory slides
+          const subtitleText = raw.subtitle ? normalizeContent(raw.subtitle) : '';
+
+          // Points array (used by theory and SAQ)
+          let points = [];
+          if (Array.isArray(raw.points)) {
+            points = raw.points.map(p => normalizeContent(String(p || '').trim())).filter(Boolean);
+          } else if (typeof raw.points === 'string' && raw.points.trim()) {
+            points = raw.points.split('\n').map(p => normalizeContent(p.trim())).filter(Boolean);
+          }
+
+          // Model answer for SAQ
+          const answerText = raw.answer ? normalizeContent(raw.answer) : (raw.solution ? normalizeContent(raw.solution) : '');
+
+          // Highlighted note or formula for Theory
+          const theoryNote = raw.theoryNote ? normalizeContent(raw.theoryNote) : (raw.note ? normalizeContent(raw.note) : '');
+
+          // Standard 4 options for MCQ
           const options = [];
           const labels = ['A', 'B', 'C', 'D'];
 
@@ -3031,35 +3964,151 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
           return {
             id: 'slide_' + Math.random().toString(36).substring(2, 9),
+            type: type,
             question: questionText,
-            options: options
+            subtitle: subtitleText,
+            table: tableParsed.table,
+            options: options,
+            answer: answerText,
+            points: points,
+            theoryNote: theoryNote,
+            image: raw.image || raw.diagram || raw.imageUrl || null,
+            imageCaption: raw.imageCaption || raw.diagramCaption || '',
+            imagePosition: raw.imagePosition || 'right'
           };
         }
 
+        // Active Slide Type Switcher (MCQ vs SAQ vs Theory)
+        function setActiveSlideType(newType) {
+          if (state.slides.length === 0) return;
+          const currentSlide = state.slides[state.activeSlideIndex];
+          if (!currentSlide) return;
+
+          currentSlide.type = newType;
+          if (newType === 'theory' && (!currentSlide.points || currentSlide.points.length === 0)) {
+            currentSlide.points = [
+              '• মূল সংজ্ঞা ও ধারণার প্রাথমিক বিবরণ',
+              '• গাণিতিক সূত্র বা মূল নীতির বিশ্লেষণ',
+              '• বাস্তব জীবনে প্রয়োগ ও উদাহরণ'
+            ];
+            if (!currentSlide.theoryNote) {
+              currentSlide.theoryNote = '💡 গুরুত্বপূর্ণ সূত্র / বিশেষ পর্যবেক্ষণ';
+            }
+          } else if (newType === 'saq' && !currentSlide.answer) {
+            currentSlide.answer = 'সংক্ষিপ্ত উত্তর বা গাণিতিক সমাধান এখানে লিখুন...';
+            if (!currentSlide.points || currentSlide.points.length === 0) {
+              currentSlide.points = [
+                '• ধাপ ১: মূল সূত্র বা শর্ত',
+                '• ধাপ ২: মান প্রতিস্থাপন ও হিসাব',
+                '• ফলাফল: চূড়ান্ত উত্তর'
+              ];
+            }
+          }
+
+          renderSlideThumbnails();
+          renderActiveSlide();
+          updateEditorFields();
+          setMasterScopeType(newType, false);
+          showToast(`স্লাইড টাইপ "${newType.toUpperCase()}" এ পরিবর্তিত হয়েছে`, 'info');
+        }
+        window.setActiveSlideType = setActiveSlideType;
+
         /* ==========================================================================
-           5. MASTER SLIDE COORDINATES & 1:1 RENDERING MATH
+           5. MASTER SLIDE COORDINATES & 1:1 RENDERING MATH (SCOPED BY TYPE: MCQ/SAQ/THEORY)
            ========================================================================== */
+        function getMasterLayout(type) {
+          const t = type || state.activeMasterScopeType || 'mcq';
+          if (!state.masterLayouts[t]) {
+            state.masterLayouts[t] = JSON.parse(JSON.stringify(DEFAULT_MASTER_LAYOUTS[t] || DEFAULT_MASTER_LAYOUTS.mcq));
+          }
+          return state.masterLayouts[t];
+        }
+        window.getMasterLayout = getMasterLayout;
+
+        function getMasterStyle(type) {
+          const t = type || state.activeMasterScopeType || 'mcq';
+          if (!state.masterStyles[t]) {
+            state.masterStyles[t] = JSON.parse(JSON.stringify(DEFAULT_MASTER_STYLES[t] || DEFAULT_MASTER_STYLES.mcq));
+          }
+          return state.masterStyles[t];
+        }
+        window.getMasterStyle = getMasterStyle;
+
+        function getCurrentMasterScopeType() {
+          if (state.currentViewMode === 'master') {
+            return state.activeMasterScopeType || 'mcq';
+          }
+          const currentSlide = state.slides[state.activeSlideIndex];
+          return (currentSlide && currentSlide.type) ? currentSlide.type : (state.activeMasterScopeType || 'mcq');
+        }
+        window.getCurrentMasterScopeType = getCurrentMasterScopeType;
+
+        function setMasterScopeType(targetType, showToastMsg = true) {
+          if (!['mcq', 'saq', 'theory'].includes(targetType)) return;
+          state.activeMasterScopeType = targetType;
+
+          // Update Scope Buttons UI
+          const btns = [
+            { el: dom.btnMasterScopeMcq, type: 'mcq' },
+            { el: dom.btnMasterScopeSaq, type: 'saq' },
+            { el: dom.btnMasterScopeTheory, type: 'theory' }
+          ];
+          btns.forEach(b => {
+            if (b.el) b.el.classList.toggle('active', b.type === targetType);
+          });
+
+          // Update Scope Badge & Description
+          const typeLabels = {
+            mcq: 'MCQ (৪ অপশন)',
+            saq: 'SAQ (সংক্ষিপ্ত প্রশ্ন / সমাধান)',
+            theory: 'THEORY (বিশ্লেষণ / সূত্র)'
+          };
+          const typeDescs = {
+            mcq: 'MCQ স্লাইডের জন্য প্রশ্ন ও ৪টি অপশন বক্সের অবস্থান ও সাইজ কনফিগার করুন।',
+            saq: 'SAQ স্লাইডের জন্য উদ্দীপক ও বড় সলিউশন বক্সের লেআউট কনফিগার করুন।',
+            theory: 'থিওরি স্লাইডের জন্য শিরোনাম, পয়েন্ট লিস্ট ও নোট বক্সের লেআউট কনফিগার করুন।'
+          };
+
+          if (dom.masterScopeBadge) {
+            dom.masterScopeBadge.innerText = `${typeLabels[targetType] || targetType.toUpperCase()} মাস্টার লেআউট সক্রিয়`;
+          }
+          if (dom.masterScopeDesc) {
+            dom.masterScopeDesc.innerText = typeDescs[targetType] || '';
+          }
+
+          syncControlsFromState();
+          renderActiveSlide();
+          if (showToastMsg) {
+            showToast(`মাস্টার স্লাইড টার্গেট "${targetType.toUpperCase()}" এ সেট হয়েছে`, 'info');
+          }
+        }
+        window.setMasterScopeType = setMasterScopeType;
+
         // Returns the normalized bounding rect { x, y, w, h } (0 to 1 relative to slide dimensions)
-        function getMasterRect(boxType) {
+        function getMasterRect(boxType, specificType) {
+          const type = specificType || getCurrentMasterScopeType();
+          const layout = getMasterLayout(type);
           if (boxType === 'question') {
-            return state.masterLayout.question;
+            return layout.question;
           }
           if (boxType === 'A' || boxType === 'B' || boxType === 'C' || boxType === 'D') {
-            return state.masterLayout.options[boxType];
+            return layout.options[boxType];
           }
           return { x: 0.1, y: 0.1, w: 0.8, h: 0.2 };
         }
+        window.getMasterRect = getMasterRect;
 
-        // Live Render of Active Slide
+        // Live Render of Active Slide (Polymorphic: MCQ / SAQ / Theory)
         function renderActiveSlide() {
           if (state.slides.length === 0) {
-            // Placeholder empty slide
             renderEmptyPlaceholder();
             return;
           }
 
           const slide = state.slides[state.activeSlideIndex] || state.slides[0];
-          const style = state.masterStyle;
+          const activeType = state.currentViewMode === 'master' ? (state.activeMasterScopeType || 'mcq') : (slide.type || 'mcq');
+          const style = getMasterStyle(activeType);
+          const slideType = activeType;
 
           // 1. Background Layer
           if (state.customBgDataUrl) {
@@ -3098,52 +4147,249 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             dom.slideWatermark.style.display = 'none';
           }
 
-          // 4. Render Boxes with Exact Coordinates & Styles
-          applyBoxTransform(dom.boxQuestion, getMasterRect('question'));
-          applyBoxTransform(dom.boxOptionA, getMasterRect('A'));
-          applyBoxTransform(dom.boxOptionB, getMasterRect('B'));
-          applyBoxTransform(dom.boxOptionC, getMasterRect('C'));
-          applyBoxTransform(dom.boxOptionD, getMasterRect('D'));
+          // 4. Render Boxes with Exact Coordinates for the active type
+          applyBoxTransform(dom.boxQuestion, getMasterRect('question', activeType));
+          applyBoxTransform(dom.boxOptionA, getMasterRect('A', activeType));
+          applyBoxTransform(dom.boxOptionB, getMasterRect('B', activeType));
+          applyBoxTransform(dom.boxOptionC, getMasterRect('C', activeType));
+          applyBoxTransform(dom.boxOptionD, getMasterRect('D', activeType));
 
-          // Highlight current selected box
           const currentSelected = state.selectedBoxKey || 'question';
-          updateCoordInspector(currentSelected, getMasterRect(currentSelected));
+          updateCoordInspector(currentSelected, getMasterRect(currentSelected, activeType));
 
-          // Styling
+          // Styling Tokens
           const boxBorder = style.noOptionBox ? 'none' : `${style.boxBorderWidth}px solid ${style.boxBorderColor}`;
           const boxRadius = style.noOptionBox ? '0px' : `${style.boxBorderRadius}px`;
 
-          // Question Content
+          // Top Header / Question Box
           dom.boxQuestion.style.backgroundColor = 'transparent';
           dom.boxQuestion.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : 'none';
           dom.contentQuestion.style.fontFamily = style.fontFamily;
           dom.contentQuestion.style.fontSize = `${style.questionFontSize}px`;
           dom.contentQuestion.style.color = style.questionColor;
           dom.contentQuestion.style.fontWeight = '700';
-          dom.contentQuestion.innerText = slide.question || '(No Question Text Detected)';
+          dom.contentQuestion.innerHTML = '';
 
-          // Options A, B, C, D
-          const optBoxes = [
-            { domBox: dom.boxOptionA, contentDom: dom.contentOptionA, opt: slide.options?.[0], defaultPrefix: 'A' },
-            { domBox: dom.boxOptionB, contentDom: dom.contentOptionB, opt: slide.options?.[1], defaultPrefix: 'B' },
-            { domBox: dom.boxOptionC, contentDom: dom.contentOptionC, opt: slide.options?.[2], defaultPrefix: 'C' },
-            { domBox: dom.boxOptionD, contentDom: dom.contentOptionD, opt: slide.options?.[3], defaultPrefix: 'D' }
-          ];
+          // Polymorphic Header & Diagram Rendering
+          const hasImage = Boolean(slide.image);
+          const imgPos = slide.imagePosition || 'right';
 
-          for (const item of optBoxes) {
-            item.domBox.style.backgroundColor = style.noOptionBox ? 'transparent' : style.boxBgColor;
-            item.domBox.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : boxBorder;
-            item.domBox.style.borderRadius = boxRadius;
-            item.domBox.style.boxShadow = style.noOptionBox ? 'none' : (state.currentViewMode === 'master' ? 'none' : '0 1px 3px rgba(0,0,0,0.05)');
-            item.domBox.style.padding = style.noOptionBox ? '0.35rem 0.5rem' : '0.65rem 0.85rem';
+          // Helper to create text + table block
+          const textBlockEl = document.createElement('div');
+          textBlockEl.style.display = 'flex';
+          textBlockEl.style.flexDirection = 'column';
+          textBlockEl.style.gap = '4px';
+          textBlockEl.style.flex = '1';
+          textBlockEl.style.minWidth = '0';
 
-            item.contentDom.style.fontFamily = style.fontFamily;
-            item.contentDom.style.fontSize = `${style.optionFontSize}px`;
-            item.contentDom.style.color = style.optionColor;
-            item.contentDom.style.fontWeight = '500';
+          if (slideType === 'theory') {
+            // Title & Subtitle for Theory Slides
+            const titleDiv = document.createElement('div');
+            titleDiv.innerText = slide.question || slide.title || 'থিওরি শিরোনাম';
+            textBlockEl.appendChild(titleDiv);
 
-            const optText = item.opt?.text || '';
-            item.contentDom.innerText = optText ? optText : `${item.defaultPrefix}) —`;
+            if (slide.subtitle) {
+              const subDiv = document.createElement('div');
+              subDiv.style.fontSize = `${Math.max(12, style.questionFontSize - 7)}px`;
+              subDiv.style.fontWeight = '500';
+              subDiv.style.color = style.accentColor || 'var(--accent-yellow)';
+              subDiv.style.marginTop = '2px';
+              subDiv.innerText = `📌 ${slide.subtitle}`;
+              textBlockEl.appendChild(subDiv);
+            }
+          } else {
+            // Standard question text for MCQ and SAQ
+            if (slide.question) {
+              const qDiv = document.createElement('div');
+              qDiv.innerText = slide.question;
+              textBlockEl.appendChild(qDiv);
+            } else if (!slide.table || slide.table.length === 0) {
+              const qDiv = document.createElement('div');
+              qDiv.innerText = '(No Question Text Detected)';
+              textBlockEl.appendChild(qDiv);
+            }
+          }
+
+          // Embedded Table Rendering (Universal for MCQ / SAQ / Theory)
+          if (slide.table && Array.isArray(slide.table) && slide.table.length > 0) {
+            const tableEl = document.createElement('table');
+            tableEl.className = 'slide-embedded-table';
+            tableEl.style.borderColor = style.accentColor || style.boxBorderColor;
+
+            slide.table.forEach((row, rIdx) => {
+              const tr = document.createElement('tr');
+              if (Array.isArray(row)) {
+                row.forEach(cell => {
+                  const cellEl = document.createElement(rIdx === 0 ? 'th' : 'td');
+                  cellEl.innerText = cell;
+                  if (rIdx === 0) {
+                    cellEl.style.backgroundColor = style.accentColor ? `${style.accentColor}33` : 'rgba(250, 204, 21, 0.2)';
+                  }
+                  tr.appendChild(cellEl);
+                });
+              }
+              tableEl.appendChild(tr);
+            });
+            textBlockEl.appendChild(tableEl);
+          }
+
+          // Helper to create image card
+          function createImageCard(isSide = false) {
+            const card = document.createElement('div');
+            card.style.display = 'flex';
+            card.style.flexDirection = 'column';
+            card.style.alignItems = 'center';
+            card.style.flexShrink = '0';
+            if (isSide) {
+              card.style.maxWidth = '36%';
+              card.style.marginLeft = 'auto';
+            } else {
+              card.style.margin = '6px auto 0 auto';
+              card.style.maxWidth = '90%';
+            }
+
+            const img = document.createElement('img');
+            img.src = slide.image;
+            img.alt = slide.imageCaption || 'Question Diagram';
+            img.style.maxHeight = isSide ? '135px' : '110px';
+            img.style.maxWidth = '100%';
+            img.style.objectFit = 'contain';
+            img.style.background = '#ffffff';
+            img.style.padding = '4px';
+            img.style.borderRadius = '6px';
+            img.style.border = '1px solid rgba(0,0,0,0.18)';
+            img.style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
+            card.appendChild(img);
+
+            if (slide.imageCaption && slide.imageCaption.trim()) {
+              const caption = document.createElement('div');
+              caption.innerText = slide.imageCaption;
+              caption.style.fontSize = `${Math.max(10, style.questionFontSize - 9)}px`;
+              caption.style.fontWeight = '600';
+              caption.style.color = style.accentColor || 'var(--accent-yellow)';
+              caption.style.marginTop = '3px';
+              caption.style.textAlign = 'center';
+              card.appendChild(caption);
+            }
+            return card;
+          }
+
+          if (hasImage) {
+            if (imgPos === 'right') {
+              const rowLayout = document.createElement('div');
+              rowLayout.style.display = 'flex';
+              rowLayout.style.gap = '14px';
+              rowLayout.style.alignItems = 'center';
+              rowLayout.style.width = '100%';
+              rowLayout.appendChild(textBlockEl);
+              rowLayout.appendChild(createImageCard(true));
+              dom.contentQuestion.appendChild(rowLayout);
+            } else {
+              dom.contentQuestion.appendChild(textBlockEl);
+              dom.contentQuestion.appendChild(createImageCard(false));
+            }
+          } else {
+            dom.contentQuestion.appendChild(textBlockEl);
+          }
+
+          // Polymorphic Bottom Boxes Rendering
+          if (slideType === 'theory') {
+            // THEORY SLIDE: Box A contains key bullet points; Box B contains formula/note callout; Boxes C & D hidden in preview
+            dom.boxOptionA.style.display = 'flex';
+            dom.boxOptionA.style.opacity = '1';
+            dom.boxOptionA.style.backgroundColor = style.noOptionBox ? 'transparent' : style.boxBgColor;
+            dom.boxOptionA.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : boxBorder;
+            dom.boxOptionA.style.borderRadius = boxRadius;
+            dom.boxOptionA.style.padding = '0.65rem 0.85rem';
+            dom.contentOptionA.style.fontFamily = style.fontFamily;
+            dom.contentOptionA.style.fontSize = `${style.optionFontSize}px`;
+            dom.contentOptionA.style.color = style.optionColor;
+            dom.contentOptionA.style.fontWeight = '500';
+
+            const pointsList = (slide.points && slide.points.length > 0) ? slide.points : ['• মূল তত্ত্ব ও ধারণার বিবরণ'];
+            dom.contentOptionA.innerHTML = pointsList.map(p => `<div style="margin-bottom:4px;">${p}</div>`).join('');
+
+            dom.boxOptionB.style.display = 'flex';
+            dom.boxOptionB.style.opacity = '1';
+            dom.boxOptionB.style.backgroundColor = style.accentColor ? `${style.accentColor}22` : style.boxBgColor;
+            dom.boxOptionB.style.border = `1.5px solid ${style.accentColor || style.boxBorderColor}`;
+            dom.boxOptionB.style.borderRadius = boxRadius;
+            dom.boxOptionB.style.padding = '0.65rem 0.85rem';
+            dom.contentOptionB.style.fontFamily = style.fontFamily;
+            dom.contentOptionB.style.fontSize = `${style.optionFontSize}px`;
+            dom.contentOptionB.style.color = style.optionColor;
+            dom.contentOptionB.style.fontWeight = '600';
+            dom.contentOptionB.innerHTML = `<div style="color:${style.accentColor || 'var(--accent-yellow)'}; font-size:12px; font-weight:700; margin-bottom:2px;">💡 বিশেষ দ্রষ্টব্য / সূত্র:</div><div>${slide.theoryNote || '—'}</div>`;
+
+            if (state.currentViewMode === 'master') {
+              dom.boxOptionC.style.display = 'flex';
+              dom.boxOptionC.style.opacity = '0.35';
+              dom.boxOptionD.style.display = 'flex';
+              dom.boxOptionD.style.opacity = '0.35';
+            } else {
+              dom.boxOptionC.style.display = 'none';
+              dom.boxOptionD.style.display = 'none';
+            }
+          } else if (slideType === 'saq') {
+            // SAQ / CREATIVE SLIDE: Box A contains model answer & solution steps; Boxes B, C, D hidden in preview
+            dom.boxOptionA.style.display = 'flex';
+            dom.boxOptionA.style.opacity = '1';
+            dom.boxOptionA.style.backgroundColor = style.noOptionBox ? 'transparent' : style.boxBgColor;
+            dom.boxOptionA.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : boxBorder;
+            dom.boxOptionA.style.borderRadius = boxRadius;
+            dom.boxOptionA.style.padding = '0.65rem 0.85rem';
+            dom.contentOptionA.style.fontFamily = style.fontFamily;
+            dom.contentOptionA.style.fontSize = `${style.optionFontSize}px`;
+            dom.contentOptionA.style.color = style.optionColor;
+            dom.contentOptionA.style.fontWeight = '500';
+
+            let saqHtml = `<div style="color:${style.accentColor || 'var(--accent-yellow)'}; font-size:12px; font-weight:700; margin-bottom:4px;">📝 সমাধান ও উত্তর (Solution / Answer):</div>`;
+            if (slide.answer) {
+              saqHtml += `<div style="font-weight:600; margin-bottom:6px; color:${style.questionColor};">${slide.answer}</div>`;
+            }
+            if (slide.points && slide.points.length > 0) {
+              saqHtml += slide.points.map(p => `<div style="margin-bottom:3px; font-size:${Math.max(12, style.optionFontSize - 2)}px;">${p}</div>`).join('');
+            }
+            dom.contentOptionA.innerHTML = saqHtml;
+
+            if (state.currentViewMode === 'master') {
+              dom.boxOptionB.style.display = 'flex';
+              dom.boxOptionB.style.opacity = '0.35';
+              dom.boxOptionC.style.display = 'flex';
+              dom.boxOptionC.style.opacity = '0.35';
+              dom.boxOptionD.style.display = 'flex';
+              dom.boxOptionD.style.opacity = '0.35';
+            } else {
+              dom.boxOptionB.style.display = 'none';
+              dom.boxOptionC.style.display = 'none';
+              dom.boxOptionD.style.display = 'none';
+            }
+          } else {
+            // MCQ SLIDE: Standard 4 option boxes A, B, C, D
+            const optBoxes = [
+              { domBox: dom.boxOptionA, contentDom: dom.contentOptionA, opt: slide.options?.[0], defaultPrefix: 'A' },
+              { domBox: dom.boxOptionB, contentDom: dom.contentOptionB, opt: slide.options?.[1], defaultPrefix: 'B' },
+              { domBox: dom.boxOptionC, contentDom: dom.contentOptionC, opt: slide.options?.[2], defaultPrefix: 'C' },
+              { domBox: dom.boxOptionD, contentDom: dom.contentOptionD, opt: slide.options?.[3], defaultPrefix: 'D' }
+            ];
+
+            for (const item of optBoxes) {
+              item.domBox.style.display = 'flex';
+              item.domBox.style.opacity = '1';
+              item.domBox.style.backgroundColor = style.noOptionBox ? 'transparent' : style.boxBgColor;
+              item.domBox.style.border = state.currentViewMode === 'master' ? '1.5px dashed var(--accent-yellow)' : boxBorder;
+              item.domBox.style.borderRadius = boxRadius;
+              item.domBox.style.boxShadow = style.noOptionBox ? 'none' : (state.currentViewMode === 'master' ? 'none' : '0 1px 3px rgba(0,0,0,0.05)');
+              item.domBox.style.padding = style.noOptionBox ? '0.35rem 0.5rem' : '0.65rem 0.85rem';
+
+              item.contentDom.style.fontFamily = style.fontFamily;
+              item.contentDom.style.fontSize = `${style.optionFontSize}px`;
+              item.contentDom.style.color = style.optionColor;
+              item.contentDom.style.fontWeight = '500';
+
+              const optText = item.opt?.text || '';
+              item.contentDom.innerText = optText ? optText : `${item.defaultPrefix}) —`;
+            }
           }
 
           // Toggle Draggable / Master visual indicators
@@ -3191,11 +4437,11 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
         function updateCoordInspector(boxKey, rect) {
           const labelMap = {
-            question: 'Question Box',
-            A: 'Option A',
-            B: 'Option B',
-            C: 'Option C',
-            D: 'Option D'
+            question: 'Question / Header Box',
+            A: 'Box A / Points',
+            B: 'Box B / Note',
+            C: 'Box C',
+            D: 'Box D'
           };
           const keyName = labelMap[boxKey] || boxKey;
           const keyEl = document.getElementById('coordBoxKey');
@@ -3252,16 +4498,10 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
         window.nudgeSelectedBox = nudgeSelectedBox;
 
         function resetMasterLayoutDefault() {
-          state.masterLayout = {
-            question: { x: 0.06, y: 0.08, w: 0.88, h: 0.28 },
-            options: {
-              A: { x: 0.06, y: 0.40, w: 0.42, h: 0.22 },
-              B: { x: 0.52, y: 0.40, w: 0.42, h: 0.22 },
-              C: { x: 0.06, y: 0.68, w: 0.42, h: 0.22 },
-              D: { x: 0.52, y: 0.68, w: 0.42, h: 0.22 }
-            }
-          };
+          const curType = state.activeMasterScopeType || 'mcq';
+          state.masterLayouts[curType] = JSON.parse(JSON.stringify(DEFAULT_MASTER_LAYOUTS[curType] || DEFAULT_MASTER_LAYOUTS.mcq));
           renderActiveSlide();
+          showToast(`${curType.toUpperCase()} লেআউট রিসেট হয়েছে`, 'info');
         }
         window.resetMasterLayoutDefault = resetMasterLayoutDefault;
 
@@ -3296,6 +4536,8 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
            ========================================================================== */
         // Arrange Option A, B, C, D in 1 single horizontal row
         window.alignOptionsSingleRow = function() {
+          const curType = state.activeMasterScopeType || 'mcq';
+          const layout = getMasterLayout(curType);
           const margin = 0.06;
           const gap = 0.02;
           const availableWidth = 1.0 - (2 * margin); // 0.88
@@ -3304,59 +4546,67 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           const boxY = 0.58;
 
           // Expand question box height for single row layout
-          state.masterLayout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.44 };
+          layout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.44 };
 
-          state.masterLayout.options.A = { x: margin, y: boxY, w: boxW, h: boxH };
-          state.masterLayout.options.B = { x: parseFloat((margin + 1 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
-          state.masterLayout.options.C = { x: parseFloat((margin + 2 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
-          state.masterLayout.options.D = { x: parseFloat((margin + 3 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+          layout.options.A = { x: margin, y: boxY, w: boxW, h: boxH };
+          layout.options.B = { x: parseFloat((margin + 1 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+          layout.options.C = { x: parseFloat((margin + 2 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
+          layout.options.D = { x: parseFloat((margin + 3 * (boxW + gap)).toFixed(3)), y: boxY, w: boxW, h: boxH };
 
           renderActiveSlide();
         };
 
         // Arrange Option A, B, C, D in 2x2 grid
         window.alignOptionsGrid2x2 = function() {
-          state.masterLayout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.28 };
-          state.masterLayout.options.A = { x: 0.06, y: 0.40, w: 0.42, h: 0.24 };
-          state.masterLayout.options.B = { x: 0.52, y: 0.40, w: 0.42, h: 0.24 };
-          state.masterLayout.options.C = { x: 0.06, y: 0.68, w: 0.42, h: 0.24 };
-          state.masterLayout.options.D = { x: 0.52, y: 0.68, w: 0.42, h: 0.24 };
+          const curType = state.activeMasterScopeType || 'mcq';
+          const layout = getMasterLayout(curType);
+          layout.question = { x: 0.06, y: 0.08, w: 0.88, h: 0.28 };
+          layout.options.A = { x: 0.06, y: 0.40, w: 0.42, h: 0.24 };
+          layout.options.B = { x: 0.52, y: 0.40, w: 0.42, h: 0.24 };
+          layout.options.C = { x: 0.06, y: 0.68, w: 0.42, h: 0.24 };
+          layout.options.D = { x: 0.52, y: 0.68, w: 0.42, h: 0.24 };
           renderActiveSlide();
         };
 
         // Arrange Option A, B, C, D in 1 vertical column
         window.alignOptionsVertical1Col = function() {
-          state.masterLayout.question = { x: 0.06, y: 0.06, w: 0.88, h: 0.24 };
-          state.masterLayout.options.A = { x: 0.06, y: 0.33, w: 0.88, h: 0.13 };
-          state.masterLayout.options.B = { x: 0.06, y: 0.49, w: 0.88, h: 0.13 };
-          state.masterLayout.options.C = { x: 0.06, y: 0.65, w: 0.88, h: 0.13 };
-          state.masterLayout.options.D = { x: 0.06, y: 0.81, w: 0.88, h: 0.13 };
+          const curType = state.activeMasterScopeType || 'mcq';
+          const layout = getMasterLayout(curType);
+          layout.question = { x: 0.06, y: 0.06, w: 0.88, h: 0.24 };
+          layout.options.A = { x: 0.06, y: 0.33, w: 0.88, h: 0.13 };
+          layout.options.B = { x: 0.06, y: 0.49, w: 0.88, h: 0.13 };
+          layout.options.C = { x: 0.06, y: 0.65, w: 0.88, h: 0.13 };
+          layout.options.D = { x: 0.06, y: 0.81, w: 0.88, h: 0.13 };
           renderActiveSlide();
         };
 
         // Align all option boxes to the exact same Y baseline (horizontal row level)
         window.alignSelectedRowY = function() {
-          const targetY = state.masterLayout.options.A.y;
-          const targetH = state.masterLayout.options.A.h;
-          state.masterLayout.options.B.y = targetY;
-          state.masterLayout.options.B.h = targetH;
-          state.masterLayout.options.C.y = targetY;
-          state.masterLayout.options.C.h = targetH;
-          state.masterLayout.options.D.y = targetY;
-          state.masterLayout.options.D.h = targetH;
+          const curType = state.activeMasterScopeType || 'mcq';
+          const layout = getMasterLayout(curType);
+          const targetY = layout.options.A.y;
+          const targetH = layout.options.A.h;
+          layout.options.B.y = targetY;
+          layout.options.B.h = targetH;
+          layout.options.C.y = targetY;
+          layout.options.C.h = targetH;
+          layout.options.D.y = targetY;
+          layout.options.D.h = targetH;
           renderActiveSlide();
         };
 
         // Make all 4 option boxes have matching width and height
         window.makeOptionsEqualSize = function() {
-          const targetW = state.masterLayout.options.A.w;
-          const targetH = state.masterLayout.options.A.h;
-          state.masterLayout.options.B.w = targetW;
-          state.masterLayout.options.B.h = targetH;
-          state.masterLayout.options.C.w = targetW;
-          state.masterLayout.options.C.h = targetH;
-          state.masterLayout.options.D.w = targetW;
-          state.masterLayout.options.D.h = targetH;
+          const curType = state.activeMasterScopeType || 'mcq';
+          const layout = getMasterLayout(curType);
+          const targetW = layout.options.A.w;
+          const targetH = layout.options.A.h;
+          layout.options.B.w = targetW;
+          layout.options.B.h = targetH;
+          layout.options.C.w = targetW;
+          layout.options.C.h = targetH;
+          layout.options.D.w = targetW;
+          layout.options.D.h = targetH;
           renderActiveSlide();
         };
 
@@ -3379,18 +4629,26 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             card.className = `slide-thumb-card ${idx === state.activeSlideIndex ? 'active' : ''}`;
             card.onclick = () => {
               state.activeSlideIndex = idx;
+              const targetType = slide.type || 'mcq';
+              setMasterScopeType(targetType, false);
               renderSlideThumbnails();
               renderActiveSlide();
               updateEditorFields();
             };
 
+            const typeBadgeColor = slide.type === 'theory' ? 'var(--accent-yellow)' : (slide.type === 'saq' ? 'var(--accent-cyan)' : 'var(--accent-purple)');
+            const typeBadgeLabel = slide.type === 'theory' ? 'THEORY' : (slide.type === 'saq' ? 'SAQ' : 'MCQ');
+
             const header = document.createElement('div');
             header.className = 'slide-thumb-header';
-            header.innerHTML = `<span class="slide-badge">Slide ${idx + 1}</span>`;
+            header.innerHTML = `
+              <span class="slide-badge">Slide ${idx + 1}</span>
+              <span style="font-size:10px; font-weight:700; color:${typeBadgeColor}; background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">${typeBadgeLabel}</span>
+            `;
 
             const snippet = document.createElement('div');
             snippet.className = 'slide-snippet';
-            snippet.innerText = slide.question || '(Empty question)';
+            snippet.innerText = slide.question || slide.title || '(Empty title/question)';
 
             card.appendChild(header);
             card.appendChild(snippet);
@@ -3401,11 +4659,75 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
         function updateEditorFields() {
           if (state.slides.length === 0) return;
           const s = state.slides[state.activeSlideIndex];
-          dom.editQuestionText.value = s.question || '';
+          if (!s) return;
+
+          const sType = s.type || 'mcq';
+
+          // Sync Type Switcher Pills
+          if (dom.pillTypeMcq) dom.pillTypeMcq.classList.toggle('active', sType === 'mcq');
+          if (dom.pillTypeSaq) dom.pillTypeSaq.classList.toggle('active', sType === 'saq');
+          if (dom.pillTypeTheory) dom.pillTypeTheory.classList.toggle('active', sType === 'theory');
+
+          // Toggle Field Groups
+          if (dom.theorySubtitleGroup) dom.theorySubtitleGroup.style.display = sType === 'theory' ? 'block' : 'none';
+          if (dom.mcqOptionsGroup) dom.mcqOptionsGroup.style.display = sType === 'mcq' ? 'block' : 'none';
+          if (dom.saqContentGroup) dom.saqContentGroup.style.display = sType === 'saq' ? 'block' : 'none';
+          if (dom.theoryContentGroup) dom.theoryContentGroup.style.display = sType === 'theory' ? 'block' : 'none';
+
+          // Update Labels
+          if (dom.lblEditQuestion) {
+            dom.lblEditQuestion.innerText = sType === 'theory' ? 'থিওরি বা আলোচনার শিরোনাম (Title)' : (sType === 'saq' ? 'প্রশ্ন বা উদ্দীপক (Question / Stimulus)' : 'মূল প্রশ্ন (Question Text)');
+          }
+
+          // Populate Fields
+          dom.editQuestionText.value = s.question || s.title || '';
+
+          if (dom.editTheorySubtitleText) {
+            dom.editTheorySubtitleText.value = s.subtitle || '';
+          }
+
+          if (dom.editTableText) {
+            if (s.table && Array.isArray(s.table) && s.table.length > 0) {
+              dom.editTableText.value = s.table.map(r => Array.isArray(r) ? r.join(' | ') : String(r)).join('\n');
+            } else {
+              dom.editTableText.value = '';
+            }
+          }
+
+          // MCQ Options
           dom.editOptionAText.value = s.options?.[0]?.text || '';
           dom.editOptionBText.value = s.options?.[1]?.text || '';
           dom.editOptionCText.value = s.options?.[2]?.text || '';
           dom.editOptionDText.value = s.options?.[3]?.text || '';
+
+          // SAQ Fields
+          if (dom.editSaqAnswerText) dom.editSaqAnswerText.value = s.answer || '';
+          if (dom.editSaqPointsText) dom.editSaqPointsText.value = (s.points && Array.isArray(s.points)) ? s.points.join('\n') : '';
+
+          // Theory Fields
+          if (dom.editTheoryPointsText) dom.editTheoryPointsText.value = (s.points && Array.isArray(s.points)) ? s.points.join('\n') : '';
+          if (dom.editTheoryNoteText) dom.editTheoryNoteText.value = s.theoryNote || '';
+
+          // Image / Diagram Fields
+          const hasImage = Boolean(s.image);
+          if (dom.slideImagePreviewContainer) {
+            dom.slideImagePreviewContainer.style.display = hasImage ? 'block' : 'none';
+            if (hasImage && dom.imgSlidePreviewThumb) {
+              dom.imgSlidePreviewThumb.src = s.image;
+            }
+          }
+          if (dom.slideImageOptionsRow) {
+            dom.slideImageOptionsRow.style.display = hasImage ? 'grid' : 'none';
+          }
+          if (dom.btnRemoveSlideImage) {
+            dom.btnRemoveSlideImage.style.display = hasImage ? 'inline-flex' : 'none';
+          }
+          if (dom.editImageCaptionText) {
+            dom.editImageCaptionText.value = s.imageCaption || '';
+          }
+          if (dom.selectImagePosition) {
+            dom.selectImagePosition.value = s.imagePosition || 'right';
+          }
         }
 
         /* ==========================================================================
@@ -3641,6 +4963,35 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           });
         }
 
+        // Convert SVG data URL to raster PNG data URL for rock-solid PptxGenJS compatibility
+        function ensureRasterDataUrl(imageSrc) {
+          return new Promise((resolve) => {
+            if (!imageSrc) return resolve(null);
+            if (!String(imageSrc).startsWith('data:image/svg')) {
+              return resolve(imageSrc);
+            }
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = (img.naturalWidth || 800) * 2;
+              canvas.height = (img.naturalHeight || 440) * 2;
+              const ctx = canvas.getContext('2d');
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              try {
+                const pngUrl = canvas.toDataURL('image/png');
+                resolve(pngUrl);
+              } catch (e) {
+                resolve(imageSrc);
+              }
+            };
+            img.onerror = () => resolve(imageSrc);
+            img.src = imageSrc;
+          });
+        }
+
         /* ==========================================================================
            8. 100% FAITHFUL POWERPOINT EXPORT ENGINE (PPTXGENJS)
            ========================================================================== */
@@ -3672,8 +5023,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             const WIDE_WIDTH_INCHES = 13.333;
             const WIDE_HEIGHT_INCHES = 7.5;
 
-            const style = state.masterStyle;
-
             // Helper to clean hex color (PptxGenJS expects 6 chars without #)
             const cleanHex = (hex) => {
               if (!hex) return '000000';
@@ -3694,11 +5043,13 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               return fontFamilyStr.split(',')[0].replace(/['"]/g, '').trim();
             };
 
-            const chosenFontFace = getPptFontFace(style.fontFamily);
-
             for (let i = 0; i < state.slides.length; i++) {
               const slideData = state.slides[i];
-              showProgress(`Generating Slide ${i + 1}/${state.slides.length}`, i + 1, state.slides.length, 'Rendering geometry');
+              const slideType = slideData.type || 'mcq';
+              const style = getMasterStyle(slideType);
+              const chosenFontFace = getPptFontFace(style.fontFamily);
+
+              showProgress(`Generating Slide ${i + 1}/${state.slides.length}`, i + 1, state.slides.length, `Rendering ${slideType.toUpperCase()} geometry`);
 
               const pptSlide = pptx.addSlide();
 
@@ -3745,57 +5096,394 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                 });
               }
 
-              // 4. Question Box (1:1 with Master Layout)
-              const qRect = getMasterRect('question');
-              pptSlide.addText(slideData.question || '', {
-                x: qRect.x * WIDE_WIDTH_INCHES,
-                y: qRect.y * WIDE_HEIGHT_INCHES,
-                w: qRect.w * WIDE_WIDTH_INCHES,
-                h: qRect.h * WIDE_HEIGHT_INCHES,
-                fontFace: chosenFontFace,
-                fontSize: style.questionFontSize,
-                bold: true,
-                color: cleanHex(style.questionColor),
-                valign: 'top',
-                wrap: true
-              });
+              // 4. Header / Question / Title Box & Embedded Table + Diagram Image
+              const qRect = getMasterRect('question', slideType);
+              const qBoxX = qRect.x * WIDE_WIDTH_INCHES;
+              const qBoxY = qRect.y * WIDE_HEIGHT_INCHES;
+              const qBoxW = qRect.w * WIDE_WIDTH_INCHES;
+              const qBoxH = qRect.h * WIDE_HEIGHT_INCHES;
 
-              // 5. Options A, B, C, D (1:1 with Master Layout)
-              const optionKeys = ['A', 'B', 'C', 'D'];
-              for (let k = 0; k < 4; k++) {
-                const key = optionKeys[k];
-                const optRect = getMasterRect(key);
-                const optObj = slideData.options?.[k];
-                const optText = optObj?.text || `${key}) —`;
+              // Process Slide Image / Diagram if attached
+              const rasterImageUrl = slideData.image ? await ensureRasterDataUrl(slideData.image) : null;
+              const hasDiagram = Boolean(rasterImageUrl);
+              const imgPos = slideData.imagePosition || 'right';
 
-                const textProps = {
-                  x: optRect.x * WIDE_WIDTH_INCHES,
-                  y: optRect.y * WIDE_HEIGHT_INCHES,
-                  w: optRect.w * WIDE_WIDTH_INCHES,
-                  h: optRect.h * WIDE_HEIGHT_INCHES,
-                  fontFace: chosenFontFace,
-                  fontSize: style.optionFontSize,
-                  bold: false,
-                  color: cleanHex(style.optionColor),
-                  valign: 'middle',
-                  wrap: true
-                };
+              // Compute available text width based on image layout
+              const effectiveQBoxW = (hasDiagram && imgPos === 'right') ? (qBoxW * 0.60) : qBoxW;
 
-                if (style.noOptionBox) {
-                  // Borderless / Plain text options mode
-                  textProps.margin = [4, 6, 4, 6];
+              // Render Diagram in PPTX if present
+              if (hasDiagram) {
+                if (imgPos === 'right') {
+                  const imgX = qBoxX + (qBoxW * 0.63);
+                  const imgY = qBoxY;
+                  const imgW = qBoxW * 0.36;
+                  const imgH = Math.min(2.15, qBoxH * 0.86);
+
+                  pptSlide.addImage({
+                    data: rasterImageUrl,
+                    x: imgX,
+                    y: imgY,
+                    w: imgW,
+                    h: imgH,
+                    sizing: { type: 'contain', w: imgW, h: imgH }
+                  });
+
+                  if (slideData.imageCaption && slideData.imageCaption.trim()) {
+                    pptSlide.addText(slideData.imageCaption, {
+                      x: imgX,
+                      y: imgY + imgH + 0.04,
+                      w: imgW,
+                      h: 0.3,
+                      fontFace: chosenFontFace,
+                      fontSize: Math.max(9, style.questionFontSize - 8),
+                      bold: true,
+                      color: cleanHex(style.accentColor || '#F59E0B'),
+                      align: 'center',
+                      valign: 'top'
+                    });
+                  }
                 } else {
-                  // Standard styled option box with background and border
-                  textProps.fill = { color: cleanHex(style.boxBgColor) };
-                  textProps.line = {
-                    color: cleanHex(style.boxBorderColor),
-                    width: style.boxBorderWidth || 1
-                  };
-                  textProps.rectRadius = (style.boxBorderRadius || 8) / 20; // normalized radius
-                  textProps.margin = [6, 12, 6, 12];
+                  // below / center
+                  const imgW = qBoxW * 0.44;
+                  const imgH = qBoxH * 0.46;
+                  const imgX = qBoxX + (qBoxW - imgW) / 2;
+                  const imgY = qBoxY + (qBoxH * 0.49);
+
+                  pptSlide.addImage({
+                    data: rasterImageUrl,
+                    x: imgX,
+                    y: imgY,
+                    w: imgW,
+                    h: imgH,
+                    sizing: { type: 'contain', w: imgW, h: imgH }
+                  });
+
+                  if (slideData.imageCaption && slideData.imageCaption.trim()) {
+                    pptSlide.addText(slideData.imageCaption, {
+                      x: qBoxX,
+                      y: imgY + imgH + 0.03,
+                      w: qBoxW,
+                      h: 0.28,
+                      fontFace: chosenFontFace,
+                      fontSize: Math.max(9, style.questionFontSize - 8),
+                      bold: true,
+                      color: cleanHex(style.accentColor || '#F59E0B'),
+                      align: 'center',
+                      valign: 'top'
+                    });
+                  }
+                }
+              }
+
+              if (slideType === 'theory') {
+                // Theory slide header with Title and Subtitle
+                const titleText = slideData.question || slideData.title || 'থিওরি আলোচনা';
+                const hasSubtitle = Boolean(slideData.subtitle && slideData.subtitle.trim());
+
+                if (hasSubtitle) {
+                  pptSlide.addText([
+                    { text: titleText + '\n', options: { fontFace: chosenFontFace, fontSize: style.questionFontSize, bold: true, color: cleanHex(style.questionColor) } },
+                    { text: '📌 ' + slideData.subtitle, options: { fontFace: chosenFontFace, fontSize: Math.max(12, style.questionFontSize - 6), bold: false, color: cleanHex(style.accentColor || '#F59E0B') } }
+                  ], {
+                    x: qBoxX,
+                    y: qBoxY,
+                    w: effectiveQBoxW,
+                    h: hasSubtitle ? Math.min(1.2, qBoxH * 0.5) : qBoxH,
+                    valign: 'top',
+                    wrap: true
+                  });
+                } else {
+                  pptSlide.addText(titleText, {
+                    x: qBoxX,
+                    y: qBoxY,
+                    w: effectiveQBoxW,
+                    h: Math.min(1.0, qBoxH),
+                    fontFace: chosenFontFace,
+                    fontSize: style.questionFontSize,
+                    bold: true,
+                    color: cleanHex(style.questionColor),
+                    valign: 'top',
+                    wrap: true
+                  });
                 }
 
-                pptSlide.addText(optText, textProps);
+                // Theory Embedded Comparative Table (if present)
+                if (slideData.table && Array.isArray(slideData.table) && slideData.table.length > 0) {
+                  const tableRows = slideData.table.map((row, rIdx) => {
+                    const isHeader = rIdx === 0;
+                    const rowArr = Array.isArray(row) ? row : [String(row)];
+                    return rowArr.map(cell => {
+                      const cellText = String(cell != null ? cell : '').trim();
+                      return {
+                        text: cellText,
+                        options: {
+                          fontFace: chosenFontFace,
+                          fontSize: isHeader ? Math.max(10, style.questionFontSize - 5) : Math.max(9, style.questionFontSize - 7),
+                          bold: isHeader,
+                          color: isHeader ? (cleanHex(style.accentColor) === 'FFFFFF' ? '000000' : 'FFFFFF') : cleanHex(style.questionColor),
+                          fill: isHeader
+                            ? { color: cleanHex(style.accentColor) }
+                            : (rIdx % 2 === 1 ? { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'F8FAFC' : '1A1A2C' } : { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'FFFFFF' : '121220' }),
+                          align: 'center',
+                          valign: 'middle',
+                          border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                        }
+                      };
+                    });
+                  });
+
+                  pptSlide.addTable(tableRows, {
+                    x: qBoxX,
+                    y: qBoxY + (hasSubtitle ? 1.25 : 1.05),
+                    w: effectiveQBoxW,
+                    h: Math.max(0.6, qBoxH - (hasSubtitle ? 1.3 : 1.1)),
+                    align: 'center',
+                    valign: 'middle',
+                    border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                  });
+                }
+
+                // Theory Box A: Key Bullet Points
+                const rectA = getMasterRect('A', slideType);
+                const pointsList = (slideData.points && slideData.points.length > 0) ? slideData.points : ['• মূল তত্ত্ব ও ধারণার বিবরণ'];
+                const formattedPoints = pointsList.map(p => ({ text: (p.startsWith('•') ? p : `• ${p}`) + '\n', options: { fontFace: chosenFontFace, fontSize: style.optionFontSize, color: cleanHex(style.optionColor) } }));
+
+                pptSlide.addText(formattedPoints, {
+                  x: rectA.x * WIDE_WIDTH_INCHES,
+                  y: rectA.y * WIDE_HEIGHT_INCHES,
+                  w: rectA.w * WIDE_WIDTH_INCHES,
+                  h: rectA.h * WIDE_HEIGHT_INCHES,
+                  fill: style.noOptionBox ? undefined : { color: cleanHex(style.boxBgColor) },
+                  line: style.noOptionBox ? undefined : { color: cleanHex(style.boxBorderColor), width: style.boxBorderWidth || 1 },
+                  rectRadius: (style.boxBorderRadius || 8) / 20,
+                  margin: [8, 14, 8, 14],
+                  valign: 'top',
+                  wrap: true
+                });
+
+                // Theory Box B: Formula / Key Note Callout Box
+                if (slideData.theoryNote && slideData.theoryNote.trim()) {
+                  const rectB = getMasterRect('B', slideType);
+                  pptSlide.addText([
+                    { text: '💡 বিশেষ দ্রষ্টব্য / সূত্র:\n', options: { fontFace: chosenFontFace, fontSize: Math.max(11, style.optionFontSize - 2), bold: true, color: cleanHex(style.accentColor || '#F59E0B') } },
+                    { text: slideData.theoryNote, options: { fontFace: chosenFontFace, fontSize: style.optionFontSize, bold: true, color: cleanHex(style.optionColor) } }
+                  ], {
+                    x: rectB.x * WIDE_WIDTH_INCHES,
+                    y: rectB.y * WIDE_HEIGHT_INCHES,
+                    w: rectB.w * WIDE_WIDTH_INCHES,
+                    h: rectB.h * WIDE_HEIGHT_INCHES,
+                    fill: { color: cleanHex(style.boxBgColor) },
+                    line: { color: cleanHex(style.accentColor || style.boxBorderColor), width: 1.5 },
+                    rectRadius: (style.boxBorderRadius || 8) / 20,
+                    margin: [8, 14, 8, 14],
+                    valign: 'top',
+                    wrap: true
+                  });
+                }
+              } else if (slideType === 'saq') {
+                // SAQ Header (Question / Stimulus + Table)
+                if (slideData.table && Array.isArray(slideData.table) && slideData.table.length > 0) {
+                  const hasQText = Boolean(slideData.question && slideData.question.trim());
+                  const textHeight = hasQText ? Math.min(0.85, qBoxH * 0.38) : 0;
+
+                  if (hasQText) {
+                    pptSlide.addText(slideData.question, {
+                      x: qBoxX,
+                      y: qBoxY,
+                      w: effectiveQBoxW,
+                      h: textHeight,
+                      fontFace: chosenFontFace,
+                      fontSize: style.questionFontSize,
+                      bold: true,
+                      color: cleanHex(style.questionColor),
+                      valign: 'top',
+                      wrap: true
+                    });
+                  }
+
+                  const tableTop = qBoxY + (hasQText ? textHeight + 0.08 : 0);
+                  const tableHeight = Math.max(0.6, qBoxH - (hasQText ? textHeight + 0.08 : 0));
+
+                  const tableRows = slideData.table.map((row, rIdx) => {
+                    const isHeader = rIdx === 0;
+                    const rowArr = Array.isArray(row) ? row : [String(row)];
+                    return rowArr.map(cell => {
+                      const cellText = String(cell != null ? cell : '').trim();
+                      return {
+                        text: cellText,
+                        options: {
+                          fontFace: chosenFontFace,
+                          fontSize: isHeader ? Math.max(10, style.questionFontSize - 4) : Math.max(9, style.questionFontSize - 6),
+                          bold: isHeader,
+                          color: isHeader ? (cleanHex(style.accentColor) === 'FFFFFF' ? '000000' : 'FFFFFF') : cleanHex(style.questionColor),
+                          fill: isHeader
+                            ? { color: cleanHex(style.accentColor) }
+                            : (rIdx % 2 === 1 ? { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'F8FAFC' : '1A1A2C' } : { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'FFFFFF' : '121220' }),
+                          align: 'center',
+                          valign: 'middle',
+                          border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                        }
+                      };
+                    });
+                  });
+
+                  pptSlide.addTable(tableRows, {
+                    x: qBoxX,
+                    y: tableTop,
+                    w: effectiveQBoxW,
+                    h: tableHeight,
+                    align: 'center',
+                    valign: 'middle',
+                    border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                  });
+                } else {
+                  pptSlide.addText(slideData.question || '', {
+                    x: qBoxX,
+                    y: qBoxY,
+                    w: effectiveQBoxW,
+                    h: (hasDiagram && imgPos !== 'right') ? qBoxH * 0.45 : qBoxH,
+                    fontFace: chosenFontFace,
+                    fontSize: style.questionFontSize,
+                    bold: true,
+                    color: cleanHex(style.questionColor),
+                    valign: 'top',
+                    wrap: true
+                  });
+                }
+
+                // SAQ Box A: Solution & Step-by-Step Answer
+                const rectA = getMasterRect('A', slideType);
+                const rectB = getMasterRect('B', slideType);
+                const saqRuns = [
+                  { text: '📝 সমাধান ও উত্তর (Solution & Answer):\n', options: { fontFace: chosenFontFace, fontSize: Math.max(11, style.optionFontSize - 2), bold: true, color: cleanHex(style.accentColor || '#F59E0B') } }
+                ];
+                if (slideData.answer) {
+                  saqRuns.push({ text: slideData.answer + '\n\n', options: { fontFace: chosenFontFace, fontSize: style.optionFontSize, bold: true, color: cleanHex(style.questionColor) } });
+                }
+                if (slideData.points && Array.isArray(slideData.points) && slideData.points.length > 0) {
+                  slideData.points.forEach(p => {
+                    saqRuns.push({ text: (p.startsWith('•') ? p : `• ${p}`) + '\n', options: { fontFace: chosenFontFace, fontSize: Math.max(11, style.optionFontSize - 2), color: cleanHex(style.optionColor) } });
+                  });
+                }
+
+                pptSlide.addText(saqRuns, {
+                  x: rectA.x * WIDE_WIDTH_INCHES,
+                  y: rectA.y * WIDE_HEIGHT_INCHES,
+                  w: (rectA.w + (rectB.w * 0.95)) * WIDE_WIDTH_INCHES, // Utilize generous width for SAQ answers
+                  h: rectA.h * WIDE_HEIGHT_INCHES,
+                  fill: style.noOptionBox ? undefined : { color: cleanHex(style.boxBgColor) },
+                  line: style.noOptionBox ? undefined : { color: cleanHex(style.boxBorderColor), width: style.boxBorderWidth || 1 },
+                  rectRadius: (style.boxBorderRadius || 8) / 20,
+                  margin: [8, 14, 8, 14],
+                  valign: 'top',
+                  wrap: true
+                });
+              } else {
+                // MCQ SLIDE EXPORT
+                if (slideData.table && Array.isArray(slideData.table) && slideData.table.length > 0) {
+                  const hasQText = Boolean(slideData.question && slideData.question.trim());
+                  const textHeight = hasQText ? Math.min(0.85, qBoxH * 0.38) : 0;
+
+                  if (hasQText) {
+                    pptSlide.addText(slideData.question, {
+                      x: qBoxX,
+                      y: qBoxY,
+                      w: effectiveQBoxW,
+                      h: textHeight,
+                      fontFace: chosenFontFace,
+                      fontSize: style.questionFontSize,
+                      bold: true,
+                      color: cleanHex(style.questionColor),
+                      valign: 'top',
+                      wrap: true
+                    });
+                  }
+
+                  const tableTop = qBoxY + (hasQText ? textHeight + 0.08 : 0);
+                  const tableHeight = Math.max(0.6, qBoxH - (hasQText ? textHeight + 0.08 : 0));
+
+                  const tableRows = slideData.table.map((row, rIdx) => {
+                    const isHeader = rIdx === 0;
+                    const rowArr = Array.isArray(row) ? row : [String(row)];
+                    return rowArr.map(cell => {
+                      const cellText = String(cell != null ? cell : '').trim();
+                      return {
+                        text: cellText,
+                        options: {
+                          fontFace: chosenFontFace,
+                          fontSize: isHeader ? Math.max(10, style.questionFontSize - 4) : Math.max(9, style.questionFontSize - 6),
+                          bold: isHeader,
+                          color: isHeader ? (cleanHex(style.accentColor) === 'FFFFFF' ? '000000' : 'FFFFFF') : cleanHex(style.questionColor),
+                          fill: isHeader
+                            ? { color: cleanHex(style.accentColor) }
+                            : (rIdx % 2 === 1 ? { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'F8FAFC' : '1A1A2C' } : { color: cleanHex(style.slideBgColor) === 'FFFFFF' ? 'FFFFFF' : '121220' }),
+                          align: 'center',
+                          valign: 'middle',
+                          border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                        }
+                      };
+                    });
+                  });
+
+                  pptSlide.addTable(tableRows, {
+                    x: qBoxX,
+                    y: tableTop,
+                    w: effectiveQBoxW,
+                    h: tableHeight,
+                    align: 'center',
+                    valign: 'middle',
+                    border: { pt: 1, color: cleanHex(style.boxBorderColor || '#CBD5E1') }
+                  });
+                } else {
+                  pptSlide.addText(slideData.question || '', {
+                    x: qBoxX,
+                    y: qBoxY,
+                    w: effectiveQBoxW,
+                    h: (hasDiagram && imgPos !== 'right') ? qBoxH * 0.45 : qBoxH,
+                    fontFace: chosenFontFace,
+                    fontSize: style.questionFontSize,
+                    bold: true,
+                    color: cleanHex(style.questionColor),
+                    valign: 'top',
+                    wrap: true
+                  });
+                }
+
+                // 5. Options A, B, C, D (1:1 with Master Layout)
+                const optionKeys = ['A', 'B', 'C', 'D'];
+                for (let k = 0; k < 4; k++) {
+                  const key = optionKeys[k];
+                  const optRect = getMasterRect(key, slideType);
+                  const optObj = slideData.options?.[k];
+                  const optText = optObj?.text || `${key}) —`;
+
+                  const textProps = {
+                    x: optRect.x * WIDE_WIDTH_INCHES,
+                    y: optRect.y * WIDE_HEIGHT_INCHES,
+                    w: optRect.w * WIDE_WIDTH_INCHES,
+                    h: optRect.h * WIDE_HEIGHT_INCHES,
+                    fontFace: chosenFontFace,
+                    fontSize: style.optionFontSize,
+                    bold: false,
+                    color: cleanHex(style.optionColor),
+                    valign: 'middle',
+                    wrap: true
+                  };
+
+                  if (style.noOptionBox) {
+                    textProps.margin = [4, 6, 4, 6];
+                  } else {
+                    textProps.fill = { color: cleanHex(style.boxBgColor) };
+                    textProps.line = {
+                      color: cleanHex(style.boxBorderColor),
+                      width: style.boxBorderWidth || 1
+                    };
+                    textProps.rectRadius = (style.boxBorderRadius || 8) / 20;
+                    textProps.margin = [6, 12, 6, 12];
+                  }
+
+                  pptSlide.addText(optText, textProps);
+                }
               }
             }
 
@@ -3917,13 +5605,17 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           const p = presets[presetName];
           if (!p) return;
 
-          Object.assign(state.masterStyle, p);
+          const curType = getCurrentMasterScopeType();
+          const targetStyle = getMasterStyle(curType);
+          Object.assign(targetStyle, p);
           syncControlsFromState();
           renderActiveSlide();
+          showToast(`Preset "${presetName}" applied to ${curType.toUpperCase()}`, 'info');
         };
 
         function syncControlsFromState() {
-          const s = state.masterStyle;
+          const curType = getCurrentMasterScopeType();
+          const s = getMasterStyle(curType);
           dom.fontFamilySelect.value = s.fontFamily;
           dom.questionFontSizeInput.value = s.questionFontSize;
           dom.optionFontSizeInput.value = s.optionFontSize;
@@ -4029,11 +5721,39 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           });
         }
 
-        // Built-in Sample Questions
+        const SAMPLE_CIRCUIT_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#0f172a" rx="12"/>
+  <rect x="15" y="15" width="470" height="250" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4" rx="8"/>
+  <path d="M 60 70 L 440 70 L 440 210 L 60 210 Z" fill="none" stroke="#38bdf8" stroke-width="3.5" stroke-linejoin="round"/>
+  <line x1="60" y1="125" x2="60" y2="135" stroke="#38bdf8" stroke-width="3.5"/>
+  <line x1="42" y1="135" x2="78" y2="135" stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="50" y1="145" x2="70" y2="145" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+  <text x="22" y="143" fill="#fbbf24" font-family="sans-serif" font-size="13" font-weight="bold">E = 12V</text>
+  <text x="22" y="160" fill="#94a3b8" font-family="sans-serif" font-size="11">r = 1 Ω</text>
+  <polygon points="210,65 225,70 210,75" fill="#f43f5e"/>
+  <text x="205" y="58" fill="#f43f5e" font-family="sans-serif" font-size="12" font-weight="bold">I →</text>
+  <rect x="270" y="58" width="80" height="24" fill="#1e293b" stroke="#38bdf8" stroke-width="2" rx="4"/>
+  <text x="286" y="74" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="bold">R₁ = 4 Ω</text>
+  <circle cx="390" cy="70" r="4.5" fill="#38bdf8"/>
+  <circle cx="390" cy="210" r="4.5" fill="#38bdf8"/>
+  <text x="395" y="65" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="bold">A</text>
+  <text x="395" y="225" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="bold">B</text>
+  <path d="M 390 70 L 390 95 L 430 95 L 430 185 L 390 185 L 390 210" fill="none" stroke="#38bdf8" stroke-width="3"/>
+  <rect x="405" y="125" width="50" height="30" fill="#1e293b" stroke="#a855f7" stroke-width="2" rx="4"/>
+  <text x="413" y="144" fill="#a855f7" font-family="sans-serif" font-size="11" font-weight="bold">R₂=6Ω</text>
+  <path d="M 390 70 L 350 70 L 350 95 L 350 185 L 350 210 L 390 210" fill="none" stroke="#38bdf8" stroke-width="3"/>
+  <rect x="325" y="125" width="50" height="30" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="4"/>
+  <text x="333" y="144" fill="#10b981" font-family="sans-serif" font-size="11" font-weight="bold">R₃=3Ω</text>
+  <rect x="25" y="235" width="450" height="22" fill="#1e293b" rx="4"/>
+  <text x="250" y="250" fill="#cbd5e1" font-family="sans-serif" font-size="11" text-anchor="middle">তড়িৎ বর্তনী (Electrical Circuit Diagram)</text>
+</svg>`);
+
+        // Built-in Sample Questions (Polymorphic: MCQ, Diagram, Table, SAQ, Theory)
         function loadSampleQuestions() {
           state.slides = [
             {
-              id: 'sample_1',
+              id: 'sample_mcq_1',
+              type: 'mcq',
               question: 'একটি তড়িৎক্ষেত্রে 2.5×10⁻³ C আধানের উপর 7.5 N বল ক্রিয়া করলে উক্ত বিন্দুতে তড়িৎক্ষেত্রের তীব্রতা E⃗ এর মান কত?',
               options: [
                 { label: 'A', text: 'A) 3.0×10³ N·C⁻¹' },
@@ -4043,45 +5763,86 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               ]
             },
             {
-              id: 'sample_2',
-              question: 'For two vectors A⃗ and B⃗ perpendicular to each other, which of the following vector relationships is strictly correct?',
+              id: 'sample_diagram_mcq',
+              type: 'mcq',
+              question: 'পাশের তড়িৎ বর্তনীটি লক্ষ্য করো এবং A ও B বিন্দুর মধ্যকার তুল্য রোধ (R_AB) এবং মোট বিদ্যুৎ প্রবাহ (I) নির্ণয় করো:',
+              image: SAMPLE_CIRCUIT_SVG,
+              imageCaption: 'চিত্র: তড়িৎ বর্তনী (Circuit Analysis)',
+              imagePosition: 'right',
               options: [
-                { label: 'A', text: 'A) A⃗ · B⃗ = 0' },
-                { label: 'B', text: 'B) A⃗ × B⃗ = 0' },
-                { label: 'C', text: 'C) |A⃗ + B⃗| = |A⃗ - B⃗|' },
-                { label: 'D', text: 'D) Both A and C' }
+                { label: 'A', text: 'A) R_AB = 2 Ω, I = 1.71 A' },
+                { label: 'B', text: 'B) R_AB = 4.5 Ω, I = 2.0 A' },
+                { label: 'C', text: 'C) R_AB = 9 Ω, I = 0.85 A' },
+                { label: 'D', text: 'D) R_AB = 3 Ω, I = 1.5 A' }
               ]
             },
             {
-              id: 'sample_3',
-              question: 'যদি f(x) = √(x² - 9) হয়, তবে অপেক্ষকটির বাস্তব ডোমেন (Domain) কোনটি?',
+              id: 'sample_table_1',
+              type: 'mcq',
+              question: 'নিচের উদ্দীপকের ছকটি লক্ষ্য করো এবং প্রশ্নটির উত্তর দাও:',
+              table: [
+                ['বস্তু', 'ভর (m / kg)', 'আদিবেগ (u / ms⁻¹)', 'বল (F / N)'],
+                ['P', '10', '0', '50'],
+                ['Q', '15', '5', '45'],
+                ['R', '20', '2', '80']
+              ],
               options: [
-                { label: 'A', text: 'A) (-∞, -3] ∪ [3, ∞)' },
-                { label: 'B', text: 'B) [-3, 3]' },
-                { label: 'C', text: 'C) (-3, 3)' },
-                { label: 'D', text: 'D) [0, ∞)' }
+                { label: 'A', text: 'A) P বস্তুর ত্বরণ সর্বাধিক (5 m·s⁻²)' },
+                { label: 'B', text: 'B) Q বস্তুর ত্বরণ সর্বাধিক' },
+                { label: 'C', text: 'C) R বস্তুর ভরবেগ সর্বনিম্ন' },
+                { label: 'D', text: 'D) P ও R এর ত্বরণ সমান' }
               ]
             },
             {
-              id: 'sample_4',
-              question: 'একটি আদর্শ গ্যাসের রুদ্ধতাপীয় (Adiabatic) প্রসারণ প্রক্রিয়ায় তাপমাত্রা ও আয়তনের সঠিক সম্পর্ক কোনটি?',
-              options: [
-                { label: 'A', text: 'A) T·V^(γ-1) = ধ্রুবক' },
-                { label: 'B', text: 'B) P·V^γ = ধ্রুবক' },
-                { label: 'C', text: 'C) T^γ·P^(1-γ) = ধ্রুবক' },
-                { label: 'D', text: 'D) উপরের সবকয়টি' }
+              id: 'sample_saq_1',
+              type: 'saq',
+              question: 'গাণিতিক সমস্যা: একটি 200 g ভরের ক্রিকেট বলকে 30 m·s⁻¹ বেগে খাড়া উপরের দিকে নিক্ষেপ করা হলো। সর্বোচ্চ উচ্চতায় বলটির মোট শক্তি কত হবে এবং বলটি কত সময় পর ভূ-পৃষ্ঠে ফিরে আসবে? [g = 9.8 m·s⁻²]',
+              answer: 'সর্বোচ্চ উচ্চতায় মোট শক্তি = 90 J এবং ভূ-পৃষ্ঠে ফিরে আসার সময় t = 6.12 s',
+              points: [
+                '1. সর্বোচ্চ উচ্চতায় মোট শক্তি = প্রাথমিক গতিশক্তি = ½ mv² = ½ × 0.2 kg × (30 m/s)² = 90 J',
+                '2. সর্বোচ্চ উচ্চতায় উঠার সময় t₁ = u / g = 30 / 9.8 = 3.06 s',
+                '3. মোট বিচরণ কাল T = 2u / g = 2 × 3.06 s = 6.12 s (বাতাসের বাধা উপেক্ষা করে)'
               ]
+            },
+            {
+              id: 'sample_theory_1',
+              type: 'theory',
+              question: 'নিউটনের গতির ৩টি মৌলিক সূত্র ও বাস্তবিক প্রয়োগ',
+              subtitle: 'পদার্থবিজ্ঞান ১ম পত্র • অধ্যায় ৪: নিউটনিয়ান বলবিদ্যা',
+              points: [
+                '১ম সূত্র (জড়তার সূত্র): বাহ্যিক বল প্রয়োগ না করলে স্থির বস্তু চিরকাল স্থির এবং গতিশীল বস্তু সমবেগে সরলরেখায় চলতে থাকে।',
+                '২য় সূত্র (বলের পরিমাপ): বস্তুর ভরবেগের পরিবর্তনের হার তার ওপর প্রযুক্ত বলের সমানুপাতিক (F⃗ = dp⃗/dt = ma⃗)।',
+                '৩য় সূত্র (ক্রিয়া-প্রতিক্রিয়া): প্রত্যেক ক্রিয়ারই একটি সমান ও বিপরীত প্রতিক্রিয়া আছে (F⃗₁₂ = -F⃗₂₁)।'
+              ],
+              theoryNote: 'গুরুত্বপূর্ণ সম্পর্ক: F = ma শুধুমাত্র ধ্রুব ভরের (Constant mass) ক্ষেত্রে প্রযোজ্য। পরিবর্তনশীল ভরের রকেটের ক্ষেত্রে F = v_rel × (dm/dt) সূত্র ব্যবহৃত হয়।'
+            },
+            {
+              id: 'sample_theory_table',
+              type: 'theory',
+              question: 'মৌলের পর্যায়বৃত্ত ধর্ম ও তুলনামূলক বিশ্লেষণ',
+              subtitle: 'রসায়ন ১ম পত্র • অধ্যায় ৩: পর্যায়বৃত্ত ধর্ম',
+              table: [
+                ['ধর্ম (Property)', 'পর্যায়ে বাম থেকে ডানে', 'গ্রুপে উপর থেকে নিচে'],
+                ['পারমাণবিক ব্যাসার্ধ', 'হ্রাস পায় (↓)', 'বৃদ্ধি পায় (↑)'],
+                ['আয়নীকরণ শক্তি', 'বৃদ্ধি পায় (↑)', 'হ্রাস পায় (↓)'],
+                ['তড়িৎ ঋণাত্মকতা', 'বৃদ্ধি পায় (↑)', 'হ্রাস পায় (↓)']
+              ],
+              points: [
+                '• পর্যায়ে নিউক্লীয় চার্জ বৃদ্ধি পাওয়ায় ইলেকট্রন মেঘ কেন্দ্রের দিকে অধিক সংকুচিত হয়।',
+                '• গ্রুপে নতুন শক্তিস্তর যুক্ত হওয়ায় কার্যকর নিউক্লীয় আকর্ষণ হ্রাস পায় ও আকার বৃদ্ধি পায়।'
+              ],
+              theoryNote: 'ব্যতিক্রম: ২য় পর্যায়ের ক্ষেত্রে Be ও B এবং N ও O এর আয়নীকরণ শক্তিতে পূর্ণ ও অর্ধপূর্ণ p-অরবিটালের অতিরিক্ত স্থিতিশীলতার কারণে সাধারণ নিয়মের ব্যতিক্রম ঘটে।'
             }
           ];
 
           state.activeSlideIndex = 0;
           showPage('studio');
           showNotification({
-            title: 'নমুনা প্রশ্ন লোড সম্পন্ন! 📚',
-            message: '৪টি সমৃদ্ধ Physics, Math এবং Bengali MCQ নমুনা স্লাইড সফলভাবে লোড করা হয়েছে। আপনি এখন প্রতিটি স্লাইড প্রিভিউ, মাস্টার লেআউটে ড্র্যাগ-অ্যান্ড-ড্রপ অথবা সরাসরি PPTX এক্সপোর্ট করতে পারবেন!',
+            title: 'নমুনা স্লাইড লোড সম্পন্ন! 📚',
+            message: '৫টি সমৃদ্ধ নমুনা স্লাইড সফলভাবে লোড করা হয়েছে:\n• Physics MCQ (Unicode Math সহ)\n• উদ্দীপকের ছক (Data Table) ভিত্তিক MCQ\n• গাণিতিক সমস্যার SAQ (Model Solution সহ)\n• টপিকভিত্তিক থিওরি প্রেজেন্টেশন স্লাইড\n• তুলনামূলক ছকযুক্ত কেমিস্ট্রি থিওরি স্লাইড',
             type: 'success'
           });
-          showToast('Loaded 4 sample slides ready for edit & export', 'success');
+          showToast('Loaded 5 diverse slides (MCQ, Table, SAQ, Theory)', 'success');
         }
 
         /* ==========================================================================
@@ -4351,6 +6112,8 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             btn.onclick = () => {
               if (state.slides.length === 0) return;
               state.activeSlideIndex = (state.activeSlideIndex - 1 + state.slides.length) % state.slides.length;
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide && curSlide.type) setMasterScopeType(curSlide.type, false);
               renderSlideThumbnails();
               renderActiveSlide();
               updateEditorFields();
@@ -4361,6 +6124,8 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             btn.onclick = () => {
               if (state.slides.length === 0) return;
               state.activeSlideIndex = (state.activeSlideIndex + 1) % state.slides.length;
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide && curSlide.type) setMasterScopeType(curSlide.type, false);
               renderSlideThumbnails();
               renderActiveSlide();
               updateEditorFields();
@@ -4374,6 +6139,8 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               if (state.activeSlideIndex >= state.slides.length) {
                 state.activeSlideIndex = Math.max(0, state.slides.length - 1);
               }
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide && curSlide.type) setMasterScopeType(curSlide.type, false);
               renderSlideThumbnails();
               renderActiveSlide();
               updateEditorFields();
@@ -4384,6 +6151,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             btn.onclick = () => {
               state.slides.push({
                 id: 'slide_' + Math.random().toString(36).substring(2, 9),
+                type: 'mcq',
                 question: 'New Question Text Here',
                 options: [
                   { label: 'A', text: 'A) Option A' },
@@ -4393,6 +6161,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                 ]
               });
               state.activeSlideIndex = state.slides.length - 1;
+              setMasterScopeType('mcq', false);
               renderSlideThumbnails();
               renderActiveSlide();
               updateEditorFields();
@@ -4405,122 +6174,130 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           });
 
           document.querySelectorAll('.btn-mode-master').forEach(btn => {
-            btn.onclick = () => setViewMode('master');
+            btn.onclick = () => {
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide && curSlide.type) setMasterScopeType(curSlide.type, false);
+              setViewMode('master');
+            };
           });
 
           // Tabs
           dom.tabBtnAi.onclick = () => switchTab('ai');
           dom.tabBtnMaster.onclick = () => {
+            const curSlide = state.slides[state.activeSlideIndex];
+            if (curSlide && curSlide.type) setMasterScopeType(curSlide.type, false);
             switchTab('master');
             setViewMode('master');
           };
           dom.tabBtnSlideEdit.onclick = () => switchTab('edit');
 
-          // Styling Inputs
+          // Styling Inputs (Scoped to Current Master Type)
+          const getCurStyle = () => getMasterStyle(getCurrentMasterScopeType());
+
           dom.fontFamilySelect.onchange = (e) => {
-            state.masterStyle.fontFamily = e.target.value;
+            getCurStyle().fontFamily = e.target.value;
             renderActiveSlide();
           };
 
           dom.questionFontSizeInput.oninput = (e) => {
-            state.masterStyle.questionFontSize = parseInt(e.target.value) || 22;
+            getCurStyle().questionFontSize = parseInt(e.target.value) || 22;
             renderActiveSlide();
           };
 
           dom.optionFontSizeInput.oninput = (e) => {
-            state.masterStyle.optionFontSize = parseInt(e.target.value) || 18;
+            getCurStyle().optionFontSize = parseInt(e.target.value) || 18;
             renderActiveSlide();
           };
 
           dom.questionColorPicker.oninput = (e) => {
-            state.masterStyle.questionColor = e.target.value;
+            getCurStyle().questionColor = e.target.value;
             dom.questionColorHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.questionColorHex.onchange = (e) => {
-            state.masterStyle.questionColor = e.target.value;
+            getCurStyle().questionColor = e.target.value;
             dom.questionColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.optionColorPicker.oninput = (e) => {
-            state.masterStyle.optionColor = e.target.value;
+            getCurStyle().optionColor = e.target.value;
             dom.optionColorHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.optionColorHex.onchange = (e) => {
-            state.masterStyle.optionColor = e.target.value;
+            getCurStyle().optionColor = e.target.value;
             dom.optionColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.boxBgColorPicker.oninput = (e) => {
-            state.masterStyle.boxBgColor = e.target.value;
+            getCurStyle().boxBgColor = e.target.value;
             dom.boxBgHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.boxBgHex.onchange = (e) => {
-            state.masterStyle.boxBgColor = e.target.value;
+            getCurStyle().boxBgColor = e.target.value;
             dom.boxBgColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.boxBorderColorPicker.oninput = (e) => {
-            state.masterStyle.boxBorderColor = e.target.value;
+            getCurStyle().boxBorderColor = e.target.value;
             dom.boxBorderHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.boxBorderHex.onchange = (e) => {
-            state.masterStyle.boxBorderColor = e.target.value;
+            getCurStyle().boxBorderColor = e.target.value;
             dom.boxBorderColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.boxBorderWidthInput.oninput = (e) => {
-            state.masterStyle.boxBorderWidth = parseFloat(e.target.value) || 1;
+            getCurStyle().boxBorderWidth = parseFloat(e.target.value) || 1;
             renderActiveSlide();
           };
 
           dom.boxBorderRadiusInput.oninput = (e) => {
-            state.masterStyle.boxBorderRadius = parseInt(e.target.value) || 8;
+            getCurStyle().boxBorderRadius = parseInt(e.target.value) || 8;
             renderActiveSlide();
           };
 
           dom.slideBgColorPicker.oninput = (e) => {
-            state.masterStyle.slideBgColor = e.target.value;
+            getCurStyle().slideBgColor = e.target.value;
             dom.slideBgHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.slideBgHex.onchange = (e) => {
-            state.masterStyle.slideBgColor = e.target.value;
+            getCurStyle().slideBgColor = e.target.value;
             dom.slideBgColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.accentBarSelect.onchange = (e) => {
-            state.masterStyle.accentBar = e.target.value;
+            getCurStyle().accentBar = e.target.value;
             renderActiveSlide();
           };
 
           dom.accentColorPicker.oninput = (e) => {
-            state.masterStyle.accentColor = e.target.value;
+            getCurStyle().accentColor = e.target.value;
             dom.accentColorHex.value = e.target.value.toUpperCase();
             renderActiveSlide();
           };
           dom.accentColorHex.onchange = (e) => {
-            state.masterStyle.accentColor = e.target.value;
+            getCurStyle().accentColor = e.target.value;
             dom.accentColorPicker.value = e.target.value;
             renderActiveSlide();
           };
 
           dom.chkBrandingEnabled.onchange = (e) => {
-            state.masterStyle.brandingEnabled = e.target.checked;
+            getCurStyle().brandingEnabled = e.target.checked;
             dom.brandingControls.style.display = e.target.checked ? 'flex' : 'none';
             renderActiveSlide();
           };
 
           dom.inputBrandingText.oninput = (e) => {
-            state.masterStyle.brandingText = e.target.value;
+            getCurStyle().brandingText = e.target.value;
             renderActiveSlide();
           };
 
@@ -4538,7 +6315,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           // Option Boxes Disabled / Borderless Toggle ("ar option er box lagbe na")
           if (dom.chkNoOptionBox) {
             dom.chkNoOptionBox.onchange = (e) => {
-              state.masterStyle.noOptionBox = e.target.checked;
+              getCurStyle().noOptionBox = e.target.checked;
               if (dom.optionBoxCustomControls) {
                 dom.optionBoxCustomControls.style.opacity = e.target.checked ? '0.4' : '1';
                 dom.optionBoxCustomControls.style.pointerEvents = e.target.checked ? 'none' : 'auto';
@@ -4574,6 +6351,50 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             }
           };
 
+          // Slide Editor Table / ছক Handlers
+          if (dom.editTableText) {
+            dom.editTableText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                const val = e.target.value.trim();
+                if (!val) {
+                  state.slides[state.activeSlideIndex].table = null;
+                } else {
+                  const parsed = parseTableData(val, '');
+                  state.slides[state.activeSlideIndex].table = parsed.table;
+                }
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.btnInsertSampleTable) {
+            dom.btnInsertSampleTable.onclick = () => {
+              if (!state.slides[state.activeSlideIndex]) return;
+              const sampleTableData = [
+                ['বস্তু', 'ভর (kg)', 'বেগ (m/s)', 'গতিশক্তি (J)'],
+                ['P', '10', '4', '80'],
+                ['Q', '15', '2', '30'],
+                ['R', '8', '6', '144']
+              ];
+              state.slides[state.activeSlideIndex].table = sampleTableData;
+              if (dom.editTableText) {
+                dom.editTableText.value = sampleTableData.map(r => r.join(' | ')).join('\n');
+              }
+              renderActiveSlide();
+              showToast('ছক যোগ করা হয়েছে!', 'success');
+            };
+          }
+
+          if (dom.btnClearTable) {
+            dom.btnClearTable.onclick = () => {
+              if (!state.slides[state.activeSlideIndex]) return;
+              state.slides[state.activeSlideIndex].table = null;
+              if (dom.editTableText) dom.editTableText.value = '';
+              renderActiveSlide();
+              showToast('ছক মুছে ফেলা হয়েছে', 'info');
+            };
+          }
+
           const setupOptionEdit = (inputDom, index, prefix) => {
             inputDom.oninput = (e) => {
               if (state.slides[state.activeSlideIndex]) {
@@ -4590,6 +6411,167 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           setupOptionEdit(dom.editOptionBText, 1, 'B');
           setupOptionEdit(dom.editOptionCText, 2, 'C');
           setupOptionEdit(dom.editOptionDText, 3, 'D');
+
+          // Setup Mode Switcher Tabs
+          if (dom.tabModeOcr) dom.tabModeOcr.onclick = () => switchSetupMode('ocr');
+          if (dom.tabModeTheory) dom.tabModeTheory.onclick = () => switchSetupMode('theory');
+          if (dom.btnGenerateTheorySlides) dom.btnGenerateTheorySlides.onclick = generateTheorySlides;
+
+          // Studio Slide Type Switcher Pills
+          if (dom.pillTypeMcq) dom.pillTypeMcq.onclick = () => setActiveSlideType('mcq');
+          if (dom.pillTypeSaq) dom.pillTypeSaq.onclick = () => setActiveSlideType('saq');
+          if (dom.pillTypeTheory) dom.pillTypeTheory.onclick = () => setActiveSlideType('theory');
+
+          // SAQ & Theory Input Handlers
+          if (dom.editTheorySubtitleText) {
+            dom.editTheorySubtitleText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                state.slides[state.activeSlideIndex].subtitle = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.editSaqAnswerText) {
+            dom.editSaqAnswerText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                state.slides[state.activeSlideIndex].answer = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.editSaqPointsText) {
+            dom.editSaqPointsText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                state.slides[state.activeSlideIndex].points = e.target.value.split('\n').filter(p => p.trim());
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.editTheoryPointsText) {
+            dom.editTheoryPointsText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                state.slides[state.activeSlideIndex].points = e.target.value.split('\n').filter(p => p.trim());
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.editTheoryNoteText) {
+            dom.editTheoryNoteText.oninput = (e) => {
+              if (state.slides[state.activeSlideIndex]) {
+                state.slides[state.activeSlideIndex].theoryNote = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          }
+
+          // Slide Image & Diagram Handlers
+          if (dom.slideImageFileInput) {
+            dom.slideImageFileInput.onchange = async (e) => {
+              const file = e.target.files && e.target.files[0];
+              if (!file) return;
+              const dataUrl = await readFileAsDataUrl(file);
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide) {
+                curSlide.image = dataUrl;
+                if (!curSlide.imagePosition) curSlide.imagePosition = 'right';
+                updateEditorFields();
+                renderActiveSlide();
+                showNotification({
+                  title: 'চিত্র সংযুক্ত হয়েছে',
+                  message: 'প্রশ্নটিতে চিত্র/ডায়াগ্রাম সফলভাবে যুক্ত করা হয়েছে।',
+                  type: 'success'
+                });
+              }
+            };
+          }
+
+          if (dom.btnInsertSampleCircuit) {
+            dom.btnInsertSampleCircuit.onclick = () => {
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide) {
+                curSlide.image = SAMPLE_CIRCUIT_SVG;
+                if (!curSlide.imageCaption) curSlide.imageCaption = 'চিত্র: তড়িৎ বর্তনী (Circuit Analysis)';
+                if (!curSlide.imagePosition) curSlide.imagePosition = 'right';
+                updateEditorFields();
+                renderActiveSlide();
+                showNotification({
+                  title: 'ডেমো সার্কিট চিত্র যুক্ত হয়েছে',
+                  message: 'একটি নমুনা পদার্থবিজ্ঞান বর্তনী ডায়াগ্রাম স্লাইডে যুক্ত হয়েছে।',
+                  type: 'success'
+                });
+              }
+            };
+          }
+
+          if (dom.btnRemoveSlideImage) {
+            dom.btnRemoveSlideImage.onclick = () => {
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide) {
+                curSlide.image = null;
+                curSlide.imageCaption = '';
+                if (dom.slideImageFileInput) dom.slideImageFileInput.value = '';
+                updateEditorFields();
+                renderActiveSlide();
+                showNotification({
+                  title: 'চিত্র অপসারিত',
+                  message: 'স্লাইড থেকে চিত্রটি মুছে ফেলা হয়েছে।',
+                  type: 'info'
+                });
+              }
+            };
+          }
+
+          if (dom.editImageCaptionText) {
+            dom.editImageCaptionText.oninput = (e) => {
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide) {
+                curSlide.imageCaption = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          }
+
+          if (dom.selectImagePosition) {
+            dom.selectImagePosition.onchange = (e) => {
+              const curSlide = state.slides[state.activeSlideIndex];
+              if (curSlide) {
+                curSlide.imagePosition = e.target.value;
+                renderActiveSlide();
+              }
+            };
+          }
+
+          // Global Clipboard Paste for Fast Diagram Addition (Screenshots, Copied diagrams)
+          window.addEventListener('paste', async (e) => {
+            if (state.currentPage !== 'studio') return;
+            const items = (e.clipboardData || e.originalEvent.clipboardData)?.items;
+            if (!items) return;
+            for (let i = 0; i < items.length; i++) {
+              if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                if (blob) {
+                  const dataUrl = await readFileAsDataUrl(blob);
+                  const curSlide = state.slides[state.activeSlideIndex];
+                  if (curSlide) {
+                    curSlide.image = dataUrl;
+                    if (!curSlide.imagePosition) curSlide.imagePosition = 'right';
+                    updateEditorFields();
+                    renderActiveSlide();
+                    showNotification({
+                      title: 'ক্লিপবোর্ড চিত্র পেস্ট করা হয়েছে',
+                      message: 'ক্লিপবোর্ড থেকে স্ক্রিনশট/চিত্র সফলভাবে স্লাইডে যুক্ত হয়েছে!',
+                      type: 'success'
+                    });
+                  }
+                  break;
+                }
+              }
+            }
+          });
 
           // Initialize Interactive Drag
           initMasterDragEngine();
