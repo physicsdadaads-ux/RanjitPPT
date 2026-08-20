@@ -1921,15 +1921,11 @@
             <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); padding:0.4rem 0.6rem; border-radius:8px; border:1px solid var(--border-color);">
               <span style="font-size:0.75rem; color:var(--accent-yellow); white-space:nowrap; font-weight:700;">⚡ Model:</span>
               <select id="selectModel" class="form-select" style="font-size:0.8rem; font-weight:600; background-color:#161626; border:1px solid #334155; width:100%; border-radius:6px; color:#F8FAFC;">
-                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
-                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
-                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
-                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
-                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
-                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
+                <option value="gemini-2.5-flash" selected>gemini-2.5-flash (Gemini 2.5 Flash • Smart, Fast & Accurate ⚡)</option>
+                <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Gemini 2.5 Flash Lite • Ultra Fast 🚀)</option>
+                <option value="gemini-2.5-pro">gemini-2.5-pro (Gemini 2.5 Pro • Complex Math & Deep Reasoning 🧠)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash • Stable)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite • Stable)</option>
               </select>
             </div>
           </div>
@@ -2329,15 +2325,11 @@
             <div class="form-group">
               <label class="form-label">Gemini OCR Model</label>
               <select id="selectModelStudio" class="form-select" onchange="if(dom.selectModel) dom.selectModel.value = this.value">
-                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
-                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
-                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
-                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
-                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
-                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
+                <option value="gemini-2.5-flash" selected>gemini-2.5-flash (Gemini 2.5 Flash • Smart, Fast & Accurate ⚡)</option>
+                <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Gemini 2.5 Flash Lite • Ultra Fast 🚀)</option>
+                <option value="gemini-2.5-pro">gemini-2.5-pro (Gemini 2.5 Pro • Complex Math & Deep Reasoning 🧠)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash • Stable)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite • Stable)</option>
               </select>
             </div>
 
@@ -3504,7 +3496,7 @@
           const slideCount = parseInt(dom.selectTheorySlideCount?.value || '5', 10);
           const academicLevel = dom.selectTheoryLevel?.value || 'HSC (Higher Secondary)';
           const language = dom.selectTheoryLanguage?.value || 'Bengali with English Terms';
-          const selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
+          const selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash';
 
           const outlineNotes = (dom.inputTheoryOutline ? dom.inputTheoryOutline.value : '').trim();
 
@@ -3675,12 +3667,11 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           dom.btnStartOcr.disabled = true;
           document.querySelectorAll('.btn-large-ocr').forEach(btn => btn.disabled = true);
 
-          let selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
+          let selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash';
           const shouldEnhance = dom.chkEnhanceQuality ? dom.chkEnhanceQuality.checked : true;
           const totalImages = state.images.length;
-          let completedCount = 0;
 
-          showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
+          showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) sequentially (10s delay between images)`);
 
           const promptText = `
 You are an expert multi-modal educational exam parser for Physics, Mathematics, Chemistry, Biology, Bengali, and English.
@@ -3741,8 +3732,20 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 `.trim();
 
           try {
-            const ocrTasks = state.images.map(async (imgObj, idx) => {
+            const allDetectedSlides = [];
+            const failedImages = [];
+
+            for (let idx = 0; idx < totalImages; idx++) {
               const currentNum = idx + 1;
+              const imgObj = state.images[idx];
+
+              showProgress(
+                `Google Flash OCR: Image ${currentNum}/${totalImages}`,
+                idx,
+                totalImages,
+                `Parsing questions and tables from image #${currentNum} of ${totalImages}...`
+              );
+
               const targetDataUrl = (shouldEnhance && imgObj.enhancedDataUrl) ? imgObj.enhancedDataUrl : imgObj.originalDataUrl;
               const base64Data = targetDataUrl.split(',')[1];
               const mimeType = targetDataUrl.substring(targetDataUrl.indexOf(':') + 1, targetDataUrl.indexOf(';')) || 'image/jpeg';
@@ -3758,75 +3761,123 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               ];
 
               let currentModelToUse = selectedModel;
-              let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+              let response = null;
+              let success = false;
+              let attempt = 0;
 
-              let response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{ parts: parts }],
-                  generationConfig: {
-                    temperature: 0.1,
-                    maxOutputTokens: 3000,
-                    responseMimeType: 'application/json'
+              while (!success && attempt < 3) {
+                attempt++;
+                try {
+                  let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                  response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      contents: [{ parts: parts }],
+                      generationConfig: {
+                        temperature: 0.1,
+                        maxOutputTokens: 3000,
+                        responseMimeType: 'application/json'
+                      }
+                    })
+                  });
+
+                  if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
+                    console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
+                    currentModelToUse = 'gemini-2.5-flash-lite';
+                    apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                    response = await fetch(apiUrl, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        contents: [{ parts: parts }],
+                        generationConfig: {
+                          temperature: 0.1,
+                          maxOutputTokens: 3000,
+                          responseMimeType: 'application/json'
+                        }
+                      })
+                    });
                   }
-                })
-              });
 
-              if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
-                console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
-                currentModelToUse = 'gemini-2.5-flash-lite';
-                apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-                response = await fetch(apiUrl, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    contents: [{ parts: parts }],
-                    generationConfig: {
-                      temperature: 0.1,
-                      maxOutputTokens: 3000,
-                      responseMimeType: 'application/json'
+                  // Handle Rate Limit (HTTP 429) gracefully with backoff
+                  if (response.status === 429) {
+                    console.warn(`Rate limit 429 hit on image #${currentNum}, waiting 15s backoff...`);
+                    for (let sec = 15; sec >= 1; sec--) {
+                      showProgress(
+                        `Rate Limit Detected (Backoff ${sec}s)...`,
+                        idx,
+                        totalImages,
+                        `API Rate Limit hit. Waiting ${sec}s before retrying image #${currentNum}...`
+                      );
+                      await new Promise(r => setTimeout(r, 1000));
                     }
-                  })
-                });
-              }
+                    continue;
+                  }
 
-              if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
-                throw new Error(`Google Gemini API Error on image #${currentNum} (${currentModelToUse}): ${errMsg}`);
-              }
+                  if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
+                    throw new Error(`Google Gemini API Error on image #${currentNum} (${currentModelToUse}): ${errMsg}`);
+                  }
 
-              const data = await response.json();
-              completedCount++;
-              showProgress(`Google Flash OCR: ${completedCount}/${totalImages}`, completedCount, totalImages, `Parsed image #${currentNum}`);
-
-              const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-              let cleanJson = textOutput.trim();
-              if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
-              if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
-              if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
-              cleanJson = cleanJson.trim();
-
-              let parsed;
-              try {
-                parsed = JSON.parse(cleanJson);
-              } catch (jsonErr) {
-                console.error('Failed to parse Gemini JSON output:', cleanJson);
-                throw new Error(`Failed to parse OCR structured output for image #${currentNum}.`);
-              }
-
-              const slidesFromImage = [];
-              if (parsed && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
-                for (const rawSlide of parsed.slides) {
-                  slidesFromImage.push(normalizeSlideData(rawSlide));
+                  success = true;
+                } catch (err) {
+                  console.error(`Attempt ${attempt} failed for image #${currentNum}:`, err);
+                  if (attempt >= 3) {
+                    failedImages.push({ index: currentNum, error: err.message });
+                    showToast(`⚠️ ছবি #${currentNum} স্ক্যানে সমস্যা: ${err.message}`, 'warning', 4000);
+                  } else {
+                    await new Promise(r => setTimeout(r, 3000));
+                  }
                 }
               }
-              return slidesFromImage;
-            });
 
-            const results = await Promise.all(ocrTasks);
-            const allDetectedSlides = results.flat();
+              if (success && response) {
+                const data = await response.json();
+                const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+                let cleanJson = textOutput.trim();
+                if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+                if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+                if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+                cleanJson = cleanJson.trim();
+
+                let parsed;
+                try {
+                  parsed = JSON.parse(cleanJson);
+                } catch (jsonErr) {
+                  console.error('Failed to parse Gemini JSON output:', cleanJson);
+                }
+
+                let countThisImg = 0;
+                if (parsed && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
+                  for (const rawSlide of parsed.slides) {
+                    allDetectedSlides.push(normalizeSlideData(rawSlide));
+                    countThisImg++;
+                  }
+                }
+
+                showProgress(
+                  `Image ${currentNum}/${totalImages} Complete (${allDetectedSlides.length} slides)`,
+                  currentNum,
+                  totalImages,
+                  `Extracted ${countThisImg} slide(s) from image #${currentNum}`
+                );
+              }
+
+              // 10-Second Cooldown Delay between successive images in the loop
+              if (idx < totalImages - 1) {
+                for (let sec = 10; sec >= 1; sec--) {
+                  showProgress(
+                    `10s Cooldown (${sec}s বাকি)...`,
+                    currentNum,
+                    totalImages,
+                    `পরবর্তী ছবি #${currentNum + 1} প্রসেস শুরু হতে ${sec} সেকেন্ড অপেক্ষা করা হচ্ছে (API Rate Limit রোধে)...`
+                  );
+                  await new Promise(r => setTimeout(r, 1000));
+                }
+              }
+            }
 
             if (allDetectedSlides.length === 0) {
               showNotification({
