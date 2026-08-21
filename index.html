@@ -438,24 +438,6 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       }
 
-      /* MCQ Answer Key Box (Draggable & Resizable in Master Mode) */
-      .slide-box.box-ans-key {
-        z-index: 9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2px 6px;
-      }
-
-      .slide-box.box-ans-key .box-label-badge {
-        background: #10B981 !important;
-        color: #FFFFFF !important;
-      }
-
-      .slide-box.box-ans-key.selected {
-        box-shadow: 0 0 0 3px #10B981 !important;
-      }
-
       .box-inner-content {
         width: 100%;
         height: 100%;
@@ -1939,15 +1921,15 @@
             <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); padding:0.4rem 0.6rem; border-radius:8px; border:1px solid var(--border-color);">
               <span style="font-size:0.75rem; color:var(--accent-yellow); white-space:nowrap; font-weight:700;">⚡ Model:</span>
               <select id="selectModel" class="form-select" style="font-size:0.8rem; font-weight:600; background-color:#161626; border:1px solid #334155; width:100%; border-radius:6px; color:#F8FAFC;">
-                <option value="gemini-2.5-flash" selected>gemini-2.5-flash (Gemini 2.5 Flash • Smart & Fast ⚡)</option>
-                <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Gemini 2.5 Flash Lite • Ultra Fast 🚀)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite • Fast OCR 🏎️)</option>
-                <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Gemini 3.5 Flash Lite • Ultra Fast ⚡)</option>
-                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Next Gen 💡)</option>
-                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • High Speed & Vision 🚀)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning 🧠)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas 🔬)</option>
-                <option value="gemini-2.5-pro">gemini-2.5-pro (Gemini 2.5 Pro • Deep Reasoning 🧠)</option>
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
+                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
+                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
               </select>
             </div>
           </div>
@@ -2187,14 +2169,9 @@
             <button id="btnDeleteSlide" class="btn btn-danger btn-sm btn-delete-slide" title="Delete current slide" style="margin-left:0.5rem;">Delete</button>
           </div>
 
-          <div style="display:flex; align-items:center; gap:0.5rem;">
-            <button id="btnToggleAnsKey" class="btn btn-secondary btn-sm" title="MCQ উত্তর কী দেখানো / লুকানো" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; border-color: rgba(16,185,129,0.4); color: #10b981;">
-              <span id="iconAnsKeyToggle">🎯</span> <span id="labelAnsKeyToggle">উত্তর কী: চালু</span>
-            </button>
-            <div class="view-modes">
-              <button id="modeLivePreview" class="view-mode-btn btn-mode-preview active" onclick="setViewMode('preview')">Live Slide Preview</button>
-              <button id="modeMasterDrag" class="view-mode-btn btn-mode-master" onclick="setViewMode('master')">Master Drag & Resize</button>
-            </div>
+          <div class="view-modes">
+            <button id="modeLivePreview" class="view-mode-btn btn-mode-preview active" onclick="setViewMode('preview')">Live Slide Preview</button>
+            <button id="modeMasterDrag" class="view-mode-btn btn-mode-master" onclick="setViewMode('master')">Master Drag & Resize</button>
           </div>
         </div>
 
@@ -2265,16 +2242,6 @@
             <div id="boxOptionD" class="slide-box" data-box="D" onclick="selectMasterBox('D')">
               <span class="box-label-badge" style="display:none;">Option D</span>
               <div class="box-inner-content" id="contentOptionD"></div>
-              <div class="resize-handle tl" data-handle="tl"></div>
-              <div class="resize-handle tr" data-handle="tr"></div>
-              <div class="resize-handle bl" data-handle="bl"></div>
-              <div class="resize-handle br" data-handle="br"></div>
-            </div>
-
-            <!-- MCQ Answer Key Box (Draggable & Resizable in Master Mode) -->
-            <div id="boxAnsKey" class="slide-box box-ans-key" data-box="ansKey" onclick="selectMasterBox('ansKey')" style="display:none;">
-              <span class="box-label-badge" style="display:none;">Ans Key</span>
-              <div class="box-inner-content" id="contentAnsKey" style="display:flex; align-items:center; justify-content:center;"></div>
               <div class="resize-handle tl" data-handle="tl"></div>
               <div class="resize-handle tr" data-handle="tr"></div>
               <div class="resize-handle bl" data-handle="bl"></div>
@@ -2362,15 +2329,15 @@
             <div class="form-group">
               <label class="form-label">Gemini OCR Model</label>
               <select id="selectModelStudio" class="form-select" onchange="if(dom.selectModel) dom.selectModel.value = this.value">
-                <option value="gemini-2.5-flash" selected>gemini-2.5-flash (Gemini 2.5 Flash • Smart & Fast ⚡)</option>
-                <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Gemini 2.5 Flash Lite • Ultra Fast 🚀)</option>
-                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite • Fast OCR 🏎️)</option>
-                <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Gemini 3.5 Flash Lite • Ultra Fast ⚡)</option>
-                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Next Gen 💡)</option>
-                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • High Speed & Vision 🚀)</option>
-                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning 🧠)</option>
-                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas 🔬)</option>
-                <option value="gemini-2.5-pro">gemini-2.5-pro (Gemini 2.5 Pro • Deep Reasoning 🧠)</option>
+                <option value="gemini-2.5-flash-lite" selected>gemini-2.5-flash-lite (Flash Lite 2.5 • Ultra Fast ⚡)</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Accurate)</option>
+                <option value="gemini-3.7-flash">gemini-3.7-flash (Gemini 3.7 Flash • High Reasoning)</option>
+                <option value="gemini-3.6-flash">gemini-3.6-flash (Gemini 3.6 Flash • New Generation)</option>
+                <option value="gemini-3.5-flash">gemini-3.5-flash (Gemini 3.5 Flash • Smart & Fast)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Gemini 3.1 Flash Lite)</option>
+                <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (Gemini 3.1 Pro • Complex Formulas)</option>
+                <option value="gemini-2.0-flash">gemini-2.0-flash (Gemini 2.0 Flash)</option>
+                <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (Gemini 2.0 Flash Lite)</option>
               </select>
             </div>
 
@@ -2426,13 +2393,12 @@
             </div>
 
             <!-- Target Box Selector Pills -->
-            <div style="display:grid; grid-template-columns: repeat(6, 1fr); gap:0.25rem; margin-bottom:0.75rem;">
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn active" data-target="question" onclick="selectMasterBox('question')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center;">Q</button>
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="A" onclick="selectMasterBox('A')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center;">A</button>
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="B" onclick="selectMasterBox('B')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center;">B</button>
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="C" onclick="selectMasterBox('C')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center;">C</button>
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="D" onclick="selectMasterBox('D')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center;">D</button>
-              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="ansKey" onclick="selectMasterBox('ansKey')" style="font-weight:700; padding:0.35rem 0.1rem; text-align:center; font-size:0.7rem; color:#10B981;">Ans</button>
+            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:0.3rem; margin-bottom:0.75rem;">
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn active" data-target="question" onclick="selectMasterBox('question')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">Q</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="A" onclick="selectMasterBox('A')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">A</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="B" onclick="selectMasterBox('B')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">B</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="C" onclick="selectMasterBox('C')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">C</button>
+              <button type="button" class="btn btn-secondary btn-sm box-select-btn" data-target="D" onclick="selectMasterBox('D')" style="font-weight:700; padding:0.35rem 0.2rem; text-align:center;">D</button>
             </div>
 
             <!-- X, Y, Width, Height Numeric Inputs -->
@@ -2793,32 +2759,6 @@
                 <label class="form-label">Option D</label>
                 <input type="text" id="editOptionDText" class="form-input">
               </div>
-
-              <!-- MCQ Answer Key & Source Tag -->
-              <div style="margin-top:0.75rem; padding:0.65rem; background:rgba(16, 185, 129, 0.08); border:1px solid rgba(16, 185, 129, 0.25); border-radius:8px;">
-                <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:0.5rem; align-items:center;">
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label class="form-label" style="color:#10b981; font-weight:700; margin-bottom:2px; font-size:0.75rem;">
-                      🎯 সঠিক উত্তর (Answer Key)
-                    </label>
-                    <select id="editMcqAnswerKey" class="form-select" style="font-weight:700; color:#10b981; border-color:rgba(16,185,129,0.5); font-size:0.8rem;">
-                      <option value="">(চিহ্নিত নয় / None)</option>
-                      <option value="A">A / (ক)</option>
-                      <option value="B">B / (খ)</option>
-                      <option value="C">C / (গ)</option>
-                      <option value="D">D / (ঘ)</option>
-                    </select>
-                  </div>
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label class="form-label" style="font-size:0.72rem; margin-bottom:2px;">স্কুল / বোর্ড / সাল (Source Tag)</label>
-                    <input type="text" id="editSourceTag" class="form-input" placeholder="e.g. [ঢাকা বোর্ড ২০২৩]" style="font-size:0.78rem;">
-                  </div>
-                </div>
-                <div class="form-group" style="margin-top:0.5rem; margin-bottom:0;">
-                  <label class="form-label" style="font-size:0.72rem; margin-bottom:2px;">উত্তর ব্যাখ্যা / সমাধান নোট (Explanation - ঐচ্ছিক)</label>
-                  <input type="text" id="editMcqExplanationText" class="form-input" placeholder="e.g. সমীকরণ E = F/q থেকে নির্ণীত..." style="font-size:0.78rem;">
-                </div>
-              </div>
             </div>
 
             <!-- 4. SAQ / CQ SPECIFIC: Model Answer & Explanation -->
@@ -3000,8 +2940,7 @@
               B: { x: 0.52, y: 0.40, w: 0.42, h: 0.24 },
               C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
               D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
-            },
-            ansKey: { x: 0.85, y: 0.90, w: 0.10, h: 0.06 }
+            }
           },
           saq: {
             question: { x: 0.06, y: 0.08, w: 0.88, h: 0.30 },
@@ -3010,8 +2949,7 @@
               B: { x: 0.52, y: 0.42, w: 0.42, h: 0.24 },
               C: { x: 0.06, y: 0.70, w: 0.42, h: 0.22 },
               D: { x: 0.52, y: 0.70, w: 0.42, h: 0.22 }
-            },
-            ansKey: { x: 0.85, y: 0.90, w: 0.10, h: 0.06 }
+            }
           },
           theory: {
             question: { x: 0.06, y: 0.08, w: 0.88, h: 0.26 },
@@ -3020,8 +2958,7 @@
               B: { x: 0.61, y: 0.38, w: 0.33, h: 0.54 },
               C: { x: 0.06, y: 0.68, w: 0.42, h: 0.24 },
               D: { x: 0.52, y: 0.68, w: 0.42, h: 0.24 }
-            },
-            ansKey: { x: 0.85, y: 0.90, w: 0.10, h: 0.06 }
+            }
           }
         };
 
@@ -3090,7 +3027,6 @@
           isDragging: false,
           isResizing: false,
           magneticSnapEnabled: true,
-          showAnswerKey: true,
           dragStart: { x: 0, y: 0, initialBox: null },
           exportedBlob: null,
           activeMasterScopeType: 'mcq', // 'mcq' | 'saq' | 'theory'
@@ -3130,8 +3066,6 @@
           slideBgLayer: document.getElementById('slideBgLayer'),
           slideAccentBar: document.getElementById('slideAccentBar'),
           slideWatermark: document.getElementById('slideWatermark'),
-          boxAnsKey: document.getElementById('boxAnsKey'),
-          contentAnsKey: document.getElementById('contentAnsKey'),
           snapGuideV: document.getElementById('snapGuideV'),
           snapGuideH: document.getElementById('snapGuideH'),
           coordMagnetStatus: document.getElementById('coordMagnetStatus'),
@@ -3257,12 +3191,6 @@
           editOptionBText: document.getElementById('editOptionBText'),
           editOptionCText: document.getElementById('editOptionCText'),
           editOptionDText: document.getElementById('editOptionDText'),
-          editMcqAnswerKey: document.getElementById('editMcqAnswerKey'),
-          editSourceTag: document.getElementById('editSourceTag'),
-          editMcqExplanationText: document.getElementById('editMcqExplanationText'),
-          btnToggleAnsKey: document.getElementById('btnToggleAnsKey'),
-          labelAnsKeyToggle: document.getElementById('labelAnsKeyToggle'),
-          iconAnsKeyToggle: document.getElementById('iconAnsKeyToggle'),
           saqContentGroup: document.getElementById('saqContentGroup'),
           editSaqAnswerText: document.getElementById('editSaqAnswerText'),
           editSaqPointsText: document.getElementById('editSaqPointsText'),
@@ -3576,7 +3504,7 @@
           const slideCount = parseInt(dom.selectTheorySlideCount?.value || '5', 10);
           const academicLevel = dom.selectTheoryLevel?.value || 'HSC (Higher Secondary)';
           const language = dom.selectTheoryLanguage?.value || 'Bengali with English Terms';
-          const selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash';
+          const selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
 
           const outlineNotes = (dom.inputTheoryOutline ? dom.inputTheoryOutline.value : '').trim();
 
@@ -3747,11 +3675,12 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           dom.btnStartOcr.disabled = true;
           document.querySelectorAll('.btn-large-ocr').forEach(btn => btn.disabled = true);
 
-          let selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash';
+          let selectedModel = dom.selectModel?.value || dom.selectModelStudio?.value || 'gemini-2.5-flash-lite';
           const shouldEnhance = dom.chkEnhanceQuality ? dom.chkEnhanceQuality.checked : true;
           const totalImages = state.images.length;
+          let completedCount = 0;
 
-          showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) sequentially (10s delay between images)`);
+          showProgress(`Google Flash OCR (${selectedModel})...`, 0, totalImages, `Processing ${totalImages} image(s) concurrently`);
 
           const promptText = `
 You are an expert multi-modal educational exam parser for Physics, Mathematics, Chemistry, Biology, Bengali, and English.
@@ -3766,22 +3695,15 @@ CRITICAL PARSING RULES:
    - If the question is a Creative Question (সৃজনশীল), Math Problem, or Short Answer Question (without 4 choices), classify as "type": "saq".
 3. COMPLETE QUESTION TEXT / উদ্দীপক:
    - Capture the full question stem and sub-questions (e.g. উদ্দীপক + (ক), (খ), (গ), (ঘ) or math problem).
-4. PRESERVE ALL SCHOOL NAMES, BOARD NAMES, AND EXAM YEARS (DO NOT DROP OR OMIT):
-   - In examination question papers, questions often contain metadata tags such as: [ঢাকা বোর্ড ২০১৯], [রাজশাহী ক্যাডেট কলেজ ২০২২], [Ideal School & College 2021], [CBSE 2020], [WBBSE Madhyamik 2019], [কু. বো. ২৩].
-   - CRITICAL: DO NOT DROP OR OMIT THESE SCHOOL/BOARD/YEAR NAMES. Preserve them at the end of the question text (e.g. "...বিন্দুতে তীব্রতা কত? [ঢাকা বোর্ড ২০১৯]") AND include them in the "source" field (e.g. "[ঢাকা বোর্ড ২০১৯]").
-5. MCQ ANSWER KEY (সঠিক উত্তর) & EXPLANATION:
-   - For every MCQ question, identify the correct answer if marked/ticked/underlined in the image, OR solve the scientific/mathematical problem to determine the correct option ('A', 'B', 'C', or 'D').
-   - Return "answerKey": "A" (or "B", "C", "D").
-   - Return "answerExplanation": "সংক্ষিপ্ত সমাধান বা ব্যাখ্যার কারণ...".
-6. TABLE / ছক DETECTION:
+4. TABLE / ছক DETECTION:
    - If a question contains a table, chart, or data matrix (e.g. উদ্দীপকের ছক, বস্তু/ভর/বেগ তালিকা, সত্যক সারণি):
    - Extract the table as a clean 2D array of strings in "table": [ ["কলাম ১", "কলাম ২", ...], ["মান ১", "মান ২", ...] ].
    - Omit the table lines from the "question" text so it remains clean. If there is no table, set "table": null.
-7. SAQ MODEL ANSWER & STEP-BY-STEP POINTS:
+5. SAQ MODEL ANSWER & STEP-BY-STEP POINTS:
    - For non-MCQ / SAQ questions, generate or extract a clean model answer / solution in "answer" and step-by-step solution steps in "points": [ "• ১ম ধাপ...", "• ২য় ধাপ..." ].
-8. MCQ OPTIONS:
+6. MCQ OPTIONS:
    - For MCQ questions, extract up to 4 options into "options": [ {"text": "A) ..."}, ... ].
-9. UNICODE MATH ONLY (NO RAW LATEX):
+7. UNICODE MATH ONLY (NO RAW LATEX):
    - Convert equations, vectors, fractions, powers, subscripts, and Greek symbols into clean UNICODE plain text.
    - Examples: \\vec{E} -> E⃗, x^2 -> x², 10^12 -> 10¹², v_0 -> v₀, \\frac{a}{b} -> (a/b), \\theta -> θ, \\Delta -> Δ, \\lambda -> λ, \\omega -> ω, m/s -> m·s⁻¹.
    - DO NOT output $...$ LaTeX delimiters.
@@ -3791,10 +3713,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
   "slides": [
     {
       "type": "mcq",
-      "question": "Full question text in Unicode [স্কুল/বোর্ড/সাল]",
-      "source": "[ঢাকা বোর্ড ২০১৯]",
-      "answerKey": "A",
-      "answerExplanation": "E = F/q = 7.5 / (2.5×10⁻³) = 3000 N/C",
+      "question": "Full question text in Unicode",
       "table": [
         ["কলাম ১", "কলাম ২", "কলাম ৩"],
         ["মান ১", "মান ২", "মান ৩"]
@@ -3808,8 +3727,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
     },
     {
       "type": "saq",
-      "question": "Creative question / SAQ stem in Unicode [স্কুল/বোর্ড/সাল]",
-      "source": "[রাজশাহী ক্যাডেট কলেজ ২০২২]",
+      "question": "Creative question / SAQ stem in Unicode",
       "table": null,
       "answer": "আদর্শ উত্তর বা গাণিতিক চূড়ান্ত সমাধান",
       "points": [
@@ -3823,20 +3741,8 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 `.trim();
 
           try {
-            const allDetectedSlides = [];
-            const failedImages = [];
-
-            for (let idx = 0; idx < totalImages; idx++) {
+            const ocrTasks = state.images.map(async (imgObj, idx) => {
               const currentNum = idx + 1;
-              const imgObj = state.images[idx];
-
-              showProgress(
-                `Google Flash OCR: Image ${currentNum}/${totalImages}`,
-                idx,
-                totalImages,
-                `Parsing questions and tables from image #${currentNum} of ${totalImages}...`
-              );
-
               const targetDataUrl = (shouldEnhance && imgObj.enhancedDataUrl) ? imgObj.enhancedDataUrl : imgObj.originalDataUrl;
               const base64Data = targetDataUrl.split(',')[1];
               const mimeType = targetDataUrl.substring(targetDataUrl.indexOf(':') + 1, targetDataUrl.indexOf(';')) || 'image/jpeg';
@@ -3852,123 +3758,75 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
               ];
 
               let currentModelToUse = selectedModel;
-              let response = null;
-              let success = false;
-              let attempt = 0;
+              let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
-              while (!success && attempt < 3) {
-                attempt++;
-                try {
-                  let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-                  response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      contents: [{ parts: parts }],
-                      generationConfig: {
-                        temperature: 0.1,
-                        maxOutputTokens: 3000,
-                        responseMimeType: 'application/json'
-                      }
-                    })
-                  });
-
-                  if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
-                    console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
-                    currentModelToUse = 'gemini-2.5-flash-lite';
-                    apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-                    response = await fetch(apiUrl, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        contents: [{ parts: parts }],
-                        generationConfig: {
-                          temperature: 0.1,
-                          maxOutputTokens: 3000,
-                          responseMimeType: 'application/json'
-                        }
-                      })
-                    });
+              let response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  contents: [{ parts: parts }],
+                  generationConfig: {
+                    temperature: 0.1,
+                    maxOutputTokens: 3000,
+                    responseMimeType: 'application/json'
                   }
+                })
+              });
 
-                  // Handle Rate Limit (HTTP 429) gracefully with backoff
-                  if (response.status === 429) {
-                    console.warn(`Rate limit 429 hit on image #${currentNum}, waiting 15s backoff...`);
-                    for (let sec = 15; sec >= 1; sec--) {
-                      showProgress(
-                        `Rate Limit Detected (Backoff ${sec}s)...`,
-                        idx,
-                        totalImages,
-                        `API Rate Limit hit. Waiting ${sec}s before retrying image #${currentNum}...`
-                      );
-                      await new Promise(r => setTimeout(r, 1000));
+              if (!response.ok && (response.status === 404 || response.status === 400) && currentModelToUse !== 'gemini-2.5-flash-lite') {
+                console.warn(`Model ${currentModelToUse} returned ${response.status}. Automatically falling back to gemini-2.5-flash-lite.`);
+                currentModelToUse = 'gemini-2.5-flash-lite';
+                apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModelToUse)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+                response = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    contents: [{ parts: parts }],
+                    generationConfig: {
+                      temperature: 0.1,
+                      maxOutputTokens: 3000,
+                      responseMimeType: 'application/json'
                     }
-                    continue;
-                  }
-
-                  if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
-                    throw new Error(`Google Gemini API Error on image #${currentNum} (${currentModelToUse}): ${errMsg}`);
-                  }
-
-                  success = true;
-                } catch (err) {
-                  console.error(`Attempt ${attempt} failed for image #${currentNum}:`, err);
-                  if (attempt >= 3) {
-                    failedImages.push({ index: currentNum, error: err.message });
-                    showToast(`⚠️ ছবি #${currentNum} স্ক্যানে সমস্যা: ${err.message}`, 'warning', 4000);
-                  } else {
-                    await new Promise(r => setTimeout(r, 3000));
-                  }
-                }
+                  })
+                });
               }
 
-              if (success && response) {
-                const data = await response.json();
-                const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-                let cleanJson = textOutput.trim();
-                if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
-                if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
-                if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
-                cleanJson = cleanJson.trim();
-
-                let parsed;
-                try {
-                  parsed = JSON.parse(cleanJson);
-                } catch (jsonErr) {
-                  console.error('Failed to parse Gemini JSON output:', cleanJson);
-                }
-
-                let countThisImg = 0;
-                if (parsed && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
-                  for (const rawSlide of parsed.slides) {
-                    allDetectedSlides.push(normalizeSlideData(rawSlide));
-                    countThisImg++;
-                  }
-                }
-
-                showProgress(
-                  `Image ${currentNum}/${totalImages} Complete (${allDetectedSlides.length} slides)`,
-                  currentNum,
-                  totalImages,
-                  `Extracted ${countThisImg} slide(s) from image #${currentNum}`
-                );
+              if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                const errMsg = errData.error?.message || `HTTP ${response.status} ${response.statusText}`;
+                throw new Error(`Google Gemini API Error on image #${currentNum} (${currentModelToUse}): ${errMsg}`);
               }
 
-              // 10-Second Cooldown Delay between successive images in the loop
-              if (idx < totalImages - 1) {
-                for (let sec = 10; sec >= 1; sec--) {
-                  showProgress(
-                    `10s Cooldown (${sec}s বাকি)...`,
-                    currentNum,
-                    totalImages,
-                    `পরবর্তী ছবি #${currentNum + 1} প্রসেস শুরু হতে ${sec} সেকেন্ড অপেক্ষা করা হচ্ছে (API Rate Limit রোধে)...`
-                  );
-                  await new Promise(r => setTimeout(r, 1000));
+              const data = await response.json();
+              completedCount++;
+              showProgress(`Google Flash OCR: ${completedCount}/${totalImages}`, completedCount, totalImages, `Parsed image #${currentNum}`);
+
+              const textOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+              let cleanJson = textOutput.trim();
+              if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+              if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+              if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+              cleanJson = cleanJson.trim();
+
+              let parsed;
+              try {
+                parsed = JSON.parse(cleanJson);
+              } catch (jsonErr) {
+                console.error('Failed to parse Gemini JSON output:', cleanJson);
+                throw new Error(`Failed to parse OCR structured output for image #${currentNum}.`);
+              }
+
+              const slidesFromImage = [];
+              if (parsed && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
+                for (const rawSlide of parsed.slides) {
+                  slidesFromImage.push(normalizeSlideData(rawSlide));
                 }
               }
-            }
+              return slidesFromImage;
+            });
+
+            const results = await Promise.all(ocrTasks);
+            const allDetectedSlides = results.flat();
 
             if (allDetectedSlides.length === 0) {
               showNotification({
@@ -4069,31 +3927,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
           // Parse table if exists in raw output or embedded in question
           const tableParsed = parseTableData(raw.table, rawQ);
-          let questionText = normalizeContent(tableParsed.question || '', raw.questionEquations || []);
-
-          // Preserve and extract School / Board / Year / Source Metadata
-          let sourceText = raw.source || raw.tag || raw.school || raw.board || raw.year || '';
-          sourceText = normalizeContent(String(sourceText).trim());
-
-          // If source is extracted but not in question text, cleanly append it
-          if (sourceText && !questionText.includes(sourceText)) {
-            const formattedSource = sourceText.startsWith('[') ? sourceText : `[${sourceText}]`;
-            if (!questionText.includes('[')) {
-              questionText = questionText ? `${questionText} ${formattedSource}` : formattedSource;
-            }
-          }
-
-          // MCQ Answer Key (A, B, C, D / 1, 2, 3, 4 / ক, খ, গ, ঘ)
-          let rawKey = raw.answerKey || raw.ansKey || raw.correctOption || raw.correctAnswer || raw.ans || '';
-          let answerKey = '';
-          if (rawKey && typeof rawKey === 'string') {
-            const cleanKey = rawKey.trim().toUpperCase();
-            if (cleanKey.includes('A') || cleanKey.includes('ক') || cleanKey === '1') answerKey = 'A';
-            else if (cleanKey.includes('B') || cleanKey.includes('খ') || cleanKey === '2') answerKey = 'B';
-            else if (cleanKey.includes('C') || cleanKey.includes('গ') || cleanKey === '3') answerKey = 'C';
-            else if (cleanKey.includes('D') || cleanKey.includes('ঘ') || cleanKey === '4') answerKey = 'D';
-          }
-          const answerExplanation = raw.answerExplanation || raw.explanation || raw.reason || '';
+          const questionText = normalizeContent(tableParsed.question || '', raw.questionEquations || []);
 
           // Subtitle for theory slides
           const subtitleText = raw.subtitle ? normalizeContent(raw.subtitle) : '';
@@ -4132,9 +3966,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             id: 'slide_' + Math.random().toString(36).substring(2, 9),
             type: type,
             question: questionText,
-            source: sourceText,
-            answerKey: answerKey,
-            answerExplanation: normalizeContent(answerExplanation),
             subtitle: subtitleText,
             table: tableParsed.table,
             options: options,
@@ -4263,9 +4094,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           if (boxType === 'A' || boxType === 'B' || boxType === 'C' || boxType === 'D') {
             return layout.options[boxType];
           }
-          if (boxType === 'ansKey') {
-            return layout.ansKey || { x: 0.85, y: 0.90, w: 0.10, h: 0.06 };
-          }
           return { x: 0.1, y: 0.1, w: 0.8, h: 0.2 };
         }
         window.getMasterRect = getMasterRect;
@@ -4325,7 +4153,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           applyBoxTransform(dom.boxOptionB, getMasterRect('B', activeType));
           applyBoxTransform(dom.boxOptionC, getMasterRect('C', activeType));
           applyBoxTransform(dom.boxOptionD, getMasterRect('D', activeType));
-          if (dom.boxAnsKey) applyBoxTransform(dom.boxAnsKey, getMasterRect('ansKey', activeType));
 
           const currentSelected = state.selectedBoxKey || 'question';
           updateCoordInspector(currentSelected, getMasterRect(currentSelected, activeType));
@@ -4565,45 +4392,9 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             }
           }
 
-          // MCQ / Master Answer Key Box (Draggable & Resizable in Master Mode)
-          if (dom.boxAnsKey && dom.contentAnsKey) {
-            if (state.currentViewMode === 'master') {
-              dom.boxAnsKey.style.display = 'flex';
-              dom.boxAnsKey.style.opacity = '1';
-              dom.boxAnsKey.style.backgroundColor = 'rgba(16, 185, 129, 0.14)';
-              dom.boxAnsKey.style.border = '1.5px dashed #10B981';
-              dom.boxAnsKey.style.borderRadius = '6px';
-              dom.boxAnsKey.style.boxShadow = 'none';
-              dom.boxAnsKey.style.padding = '2px 6px';
-              dom.contentAnsKey.innerText = 'Ans: A';
-              dom.contentAnsKey.style.color = '#10B981';
-              dom.contentAnsKey.style.fontWeight = '800';
-              dom.contentAnsKey.style.fontSize = '12px';
-              dom.contentAnsKey.style.fontFamily = style.fontFamily;
-            } else {
-              if (slideType === 'mcq' && slide.answerKey && state.showAnswerKey !== false) {
-                dom.boxAnsKey.style.display = 'flex';
-                dom.boxAnsKey.style.opacity = '1';
-                dom.boxAnsKey.style.backgroundColor = 'rgba(16, 185, 129, 0.14)';
-                dom.boxAnsKey.style.border = '1.5px solid rgba(16, 185, 129, 0.55)';
-                dom.boxAnsKey.style.borderRadius = '6px';
-                dom.boxAnsKey.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.35)';
-                dom.boxAnsKey.style.padding = '2px 6px';
-                dom.contentAnsKey.innerText = `Ans: ${slide.answerKey.toUpperCase()}`;
-                dom.contentAnsKey.style.color = '#10B981';
-                dom.contentAnsKey.style.fontWeight = '800';
-                dom.contentAnsKey.style.fontSize = '12px';
-                dom.contentAnsKey.style.fontFamily = style.fontFamily;
-              } else {
-                dom.boxAnsKey.style.display = 'none';
-              }
-            }
-          }
-
           // Toggle Draggable / Master visual indicators
-          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD, dom.boxAnsKey];
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
           for (const b of boxes) {
-            if (!b) continue;
             const badge = b.querySelector('.box-label-badge');
             const handles = b.querySelectorAll('.resize-handle');
             const boxKey = b.getAttribute('data-box');
@@ -4630,7 +4421,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
         function selectMasterBox(boxKey) {
           state.selectedBoxKey = boxKey;
-          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD, dom.boxAnsKey];
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
           boxes.forEach(b => {
             if (b) {
               const isSelected = b.getAttribute('data-box') === boxKey;
@@ -4650,8 +4441,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             A: 'Box A / Points',
             B: 'Box B / Note',
             C: 'Box C',
-            D: 'Box D',
-            ansKey: 'Answer Key Box'
+            D: 'Box D'
           };
           const keyName = labelMap[boxKey] || boxKey;
           const keyEl = document.getElementById('coordBoxKey');
@@ -4910,11 +4700,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           dom.editOptionCText.value = s.options?.[2]?.text || '';
           dom.editOptionDText.value = s.options?.[3]?.text || '';
 
-          // MCQ Answer Key & Source Tag
-          if (dom.editMcqAnswerKey) dom.editMcqAnswerKey.value = s.answerKey || '';
-          if (dom.editSourceTag) dom.editSourceTag.value = s.source || '';
-          if (dom.editMcqExplanationText) dom.editMcqExplanationText.value = s.answerExplanation || '';
-
           // SAQ Fields
           if (dom.editSaqAnswerText) dom.editSaqAnswerText.value = s.answer || '';
           if (dom.editSaqPointsText) dom.editSaqPointsText.value = (s.points && Array.isArray(s.points)) ? s.points.join('\n') : '';
@@ -4949,7 +4734,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
            7. MASTER SLIDE MAGNETIC DRAG & RESIZE ENGINE (SYNCED 1:1 TO EXPORT)
            ========================================================================== */
         function initMasterDragEngine() {
-          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD, dom.boxAnsKey];
+          const boxes = [dom.boxQuestion, dom.boxOptionA, dom.boxOptionB, dom.boxOptionC, dom.boxOptionD];
 
           boxes.forEach(box => {
             if (!box) return;
@@ -5020,7 +4805,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
                   const hSnapCandidates = [0.08, 0.40, 0.50, 0.68, 0.92];
 
                   // Add other boxes' bounds to candidate list
-                  const allKeys = ['question', 'A', 'B', 'C', 'D', 'ansKey'];
+                  const allKeys = ['question', 'A', 'B', 'C', 'D'];
                   for (const otherKey of allKeys) {
                     if (otherKey === boxKey) continue;
                     const otherRect = getMasterRect(otherKey);
@@ -5699,26 +5484,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
 
                   pptSlide.addText(optText, textProps);
                 }
-
-                // 6. MCQ Answer Key Box (Synced 1:1 with Master Slide Position & Size)
-                if (slideData.answerKey && state.showAnswerKey !== false) {
-                  const ansRect = getMasterRect('ansKey', slideType);
-                  pptSlide.addText(`Ans: ${slideData.answerKey.toUpperCase()}`, {
-                    x: ansRect.x * WIDE_WIDTH_INCHES,
-                    y: ansRect.y * WIDE_HEIGHT_INCHES,
-                    w: ansRect.w * WIDE_WIDTH_INCHES,
-                    h: ansRect.h * WIDE_HEIGHT_INCHES,
-                    fontFace: chosenFontFace,
-                    fontSize: 11,
-                    bold: true,
-                    color: '10B981',
-                    fill: { color: '10B981', transparency: 85 },
-                    line: { color: '10B981', width: 1 },
-                    rectRadius: 0.08,
-                    align: 'center',
-                    valign: 'middle'
-                  });
-                }
               }
             }
 
@@ -5989,10 +5754,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             {
               id: 'sample_mcq_1',
               type: 'mcq',
-              question: 'একটি তড়িৎক্ষেত্রে 2.5×10⁻³ C আধানের উপর 7.5 N বল ক্রিয়া করলে উক্ত বিন্দুতে তড়িৎক্ষেত্রের তীব্রতা E⃗ এর মান কত? [ঢাকা বোর্ড ২০১৯]',
-              source: '[ঢাকা বোর্ড ২০১৯]',
-              answerKey: 'A',
-              answerExplanation: 'E = F/q = 7.5 / (2.5×10⁻³) = 3.0×10³ N·C⁻¹',
+              question: 'একটি তড়িৎক্ষেত্রে 2.5×10⁻³ C আধানের উপর 7.5 N বল ক্রিয়া করলে উক্ত বিন্দুতে তড়িৎক্ষেত্রের তীব্রতা E⃗ এর মান কত?',
               options: [
                 { label: 'A', text: 'A) 3.0×10³ N·C⁻¹' },
                 { label: 'B', text: 'B) 1.8×10³ N·C⁻¹' },
@@ -6003,10 +5765,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             {
               id: 'sample_diagram_mcq',
               type: 'mcq',
-              question: 'পাশের তড়িৎ বর্তনীটি লক্ষ্য করো এবং A ও B বিন্দুর মধ্যকার তুল্য রোধ (R_AB) এবং মোট বিদ্যুৎ প্রবাহ (I) নির্ণয় করো: [রাজশাহী ক্যাডেট কলেজ ২০২২]',
-              source: '[রাজশাহী ক্যাডেট কলেজ ২০২২]',
-              answerKey: 'A',
-              answerExplanation: 'R₂ ও R₃ সমান্তরাল: 1/R_p = 1/6 + 1/3 = 1/2 => R_p = 2Ω. মোট রোধ R = 2Ω, I = V/R = 1.71 A',
+              question: 'পাশের তড়িৎ বর্তনীটি লক্ষ্য করো এবং A ও B বিন্দুর মধ্যকার তুল্য রোধ (R_AB) এবং মোট বিদ্যুৎ প্রবাহ (I) নির্ণয় করো:',
               image: SAMPLE_CIRCUIT_SVG,
               imageCaption: 'চিত্র: তড়িৎ বর্তনী (Circuit Analysis)',
               imagePosition: 'right',
@@ -6020,10 +5779,7 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
             {
               id: 'sample_table_1',
               type: 'mcq',
-              question: 'নিচের উদ্দীপকের ছকটি লক্ষ্য করো এবং প্রশ্নটির উত্তর দাও: [দিনাজপুর বোর্ড ২০২২]',
-              source: '[দিনাজপুর বোর্ড ২০২২]',
-              answerKey: 'A',
-              answerExplanation: 'P বস্তুর ত্বরণ a = F/m = 50/10 = 5 m/s², যা ছকের সব বস্তুর চেয়ে সর্বাধিক।',
+              question: 'নিচের উদ্দীপকের ছকটি লক্ষ্য করো এবং প্রশ্নটির উত্তর দাও:',
               table: [
                 ['বস্তু', 'ভর (m / kg)', 'আদিবেগ (u / ms⁻¹)', 'বল (F / N)'],
                 ['P', '10', '0', '50'],
@@ -6655,51 +6411,6 @@ RETURN STRICTLY VALID JSON MATCHING THIS EXACT SCHEMA:
           setupOptionEdit(dom.editOptionBText, 1, 'B');
           setupOptionEdit(dom.editOptionCText, 2, 'C');
           setupOptionEdit(dom.editOptionDText, 3, 'D');
-
-          // MCQ Answer Key, Source Tag & Explanation Listeners
-          if (dom.editMcqAnswerKey) {
-            dom.editMcqAnswerKey.onchange = (e) => {
-              if (state.slides[state.activeSlideIndex]) {
-                state.slides[state.activeSlideIndex].answerKey = e.target.value;
-                renderActiveSlide();
-              }
-            };
-          }
-
-          if (dom.editSourceTag) {
-            dom.editSourceTag.oninput = (e) => {
-              if (state.slides[state.activeSlideIndex]) {
-                state.slides[state.activeSlideIndex].source = e.target.value;
-                renderActiveSlide();
-              }
-            };
-          }
-
-          if (dom.editMcqExplanationText) {
-            dom.editMcqExplanationText.oninput = (e) => {
-              if (state.slides[state.activeSlideIndex]) {
-                state.slides[state.activeSlideIndex].answerExplanation = e.target.value;
-                renderActiveSlide();
-              }
-            };
-          }
-
-          // Answer Key Visibility Toggle Button
-          if (dom.btnToggleAnsKey) {
-            dom.btnToggleAnsKey.onclick = () => {
-              state.showAnswerKey = !state.showAnswerKey;
-              if (dom.labelAnsKeyToggle) {
-                dom.labelAnsKeyToggle.innerText = state.showAnswerKey ? 'উত্তর কী: চালু' : 'উত্তর কী: বন্ধ';
-              }
-              if (dom.iconAnsKeyToggle) {
-                dom.iconAnsKeyToggle.innerText = state.showAnswerKey ? '🎯' : '🙈';
-              }
-              dom.btnToggleAnsKey.style.color = state.showAnswerKey ? '#10b981' : 'var(--text-muted)';
-              dom.btnToggleAnsKey.style.borderColor = state.showAnswerKey ? 'rgba(16,185,129,0.4)' : 'var(--border-color)';
-              renderActiveSlide();
-              showToast(state.showAnswerKey ? 'MCQ উত্তর কী দেখানো হচ্ছে' : 'MCQ উত্তর কী লুকানো হয়েছে', 'info');
-            };
-          }
 
           // Setup Mode Switcher Tabs
           if (dom.tabModeOcr) dom.tabModeOcr.onclick = () => switchSetupMode('ocr');
